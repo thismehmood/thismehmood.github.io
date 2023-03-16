@@ -277,6 +277,12 @@ h6 {
   }
 }
 
+@media (max-width: 400px) {
+  #hero {
+    background: url("../img/frame2.png") left right top no-repeat;
+  }
+}
+
 #hero:before {
   content: "";
   background: rgba(255, 255, 255, 0.288);
@@ -1206,34 +1212,34 @@ section {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #e4e4e4; 
+  background: #e4e4e4;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #9a9a9a; 
+  background: #9a9a9a;
 }
 
-.float{
-	position:fixed;
-	width:50px;
-	height:50px;
-	bottom:40px;
-	right:40px;
-	background-color:#167c3cae;
-	color:#FFF;
-	border-radius:50px;
-	text-align:center;
-  font-size:30px;
-	box-shadow: 2px 2px 3px #999;
-  z-index:100;
+.float {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  bottom: 40px;
+  right: 40px;
+  background-color: #167c3cae;
+  color: #FFF;
+  border-radius: 50px;
+  text-align: center;
+  font-size: 30px;
+  box-shadow: 2px 2px 3px #999;
+  z-index: 100;
 }
 
-.my-float{
-	margin-top:11px;
+.my-float {
+  margin-top: 11px;
 }
