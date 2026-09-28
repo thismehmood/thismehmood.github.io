@@ -1,617 +1,984 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="no-js">
 <head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mehmood Ul Hassan — Senior Backend Engineer</title>
+  <meta name="description" content="Mehmood Ul Hassan — Senior Backend Engineer building distributed systems with Python, FastAPI, gRPC, Kafka and Kubernetes. CKAD certified. Based in Lahore, Pakistan." />
+  <meta name="theme-color" content="#0B0C10" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Mehmood Ul Hassan — Senior Backend Engineer" />
+  <meta property="og:description" content="Distributed systems, Python & cloud-native infrastructure." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B0C10'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black,Arial,sans-serif' font-weight='900' font-size='26' fill='%23CCFF00'%3EMH%3C/text%3E%3C/svg%3E" />
 
-  <title>Mehmood Ul Hassan - SFCC Developer</title>
-  <meta content="Mehmood Ul Hassan is currently Sr. SFCC Developer" name="description" />
-  <meta content="thismehmood, salesforce, sfcc, freelancer, web developer, top seller" name="keywords" />
+  <!-- Flag JS as available as early as possible (used to gate animation-only styles) -->
+  <script>
+    document.documentElement.classList.replace('no-js', 'js');
+    // Failsafe: if main.js hasn't started within 7s (e.g. a stalled CDN), show the static page
+    window.__pf = setTimeout(function () {
+      if (window.__appStarted) return;
+      document.documentElement.classList.add('no-gsap');
+      if (document.body) document.body.classList.remove('is-loading');
+    }, 7000);
+  </script>
 
-  <!-- Favicons -->
-  <link href="assets/img/logo.ico" rel="icon" />
-  <link href="assets/img/logo.avif" rel="apple-touch-icon" />
+  <!-- Fonts: Syne (display), Space Grotesk (body), JetBrains Mono (labels) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet" />
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
-<body>
-  <!-- ======= Mobile nav toggle button ======= -->
-  <!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
-  <i class="bi bi-list mobile-nav-toggle d-lg-none"></i>
-  <!-- ======= Header ======= -->
-  <header id="header" class="d-flex flex-column justify-content-center">
-    <nav id="navbar" class="navbar nav-menu">
-      <ul>
-        <li>
-          <a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a>
-        </li>
-        <li>
-          <a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a>
-        </li>
-        <li>
-          <a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a>
-        </li>
-        <li>
-          <a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Projects</span></a>
-        </li>
-        <li>
-          <a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a>
-        </li>
-      </ul>
-    </nav>
-    <!-- .nav-menu -->
-  </header>
-  <!-- End Header -->
+<body class="is-loading">
 
-  <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex flex-column justify-content-center">
-    <div class="container" data-aos="zoom-in" data-aos-delay="100">
-      <h1>Mehmood Ul Hassan</h1>
-      <p>
-        I'm
-        <span class="typed" data-typed-items="Certified SFCC Developer, React and NodeJs Developer, Freelancer"></span>
-      </p>
-      <div class="social-links">
-        <a target="_blank" href="https://web.facebook.com/mehmood.ulhassan.75033" class="facebook"><i
-            class="bx bxl-facebook"></i></a>
-        <a target="_blank" href="https://www.instagram.com/this.mehmood/" class="instagram"><i
-            class="bx bxl-instagram"></i></a>
-        <a href="https://join.skype.com/invite/UYbZY87fdIKS" class="google-plus"><i class="bx bxl-skype"></i></a>
-        <a target="_blank" href="https://www.linkedin.com/in/mehmood-hassan" class="linkedin"><i
-            class="bx bxl-linkedin"></i></a>
-        <a target="_blank" href="https://github.com/thismehmood" class="github"><i class="bx bxl-github"></i></a>
-      </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============================================================
+       CUSTOM CURSOR (desktop / fine pointer only — enabled by JS)
+       ============================================================ -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__ring">
+      <span class="cursor__ring-inner"></span>
+      <span class="cursor__label"></span>
     </div>
-  </section>
-  <!-- End Hero -->
+    <div class="cursor__dot"></div>
+  </div>
+
+  <!-- Film grain overlay -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       PRELOADER
+       ============================================================ -->
+  <div class="preloader" aria-hidden="true">
+    <div class="preloader__layer preloader__layer--accent"></div>
+    <div class="preloader__layer preloader__layer--main">
+      <div class="preloader__inner">
+        <div class="preloader__row">
+          <span>Mehmood Ul Hassan</span>
+          <span>Portfolio &copy;2026</span>
+        </div>
+
+        <div class="preloader__words">
+          <span class="preloader__word">Design<em>.</em></span>
+          <span class="preloader__word">Build<em>.</em></span>
+          <span class="preloader__word">Scale<em>.</em></span>
+        </div>
+
+        <div class="preloader__bottom">
+          <span class="preloader__caption">Booting services<br />Lahore, PK</span>
+          <div class="preloader__count"><span class="preloader__num">0</span><span class="preloader__pct">%</span></div>
+        </div>
+      </div>
+      <span class="preloader__bar"></span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__logo" data-magnetic="0.3" aria-label="Mehmood Ul Hassan — back to top">
+      <span data-magnetic-inner>MH<span class="accent">.</span></span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#about" class="nav__link"><sup>01</sup><span class="nav__link-text">About</span></a>
+      <a href="#skills" class="nav__link"><sup>02</sup><span class="nav__link-text">Stack</span></a>
+      <a href="#experience" class="nav__link"><sup>03</sup><span class="nav__link-text">Experience</span></a>
+      <a href="#work" class="nav__link"><sup>04</sup><span class="nav__link-text">Work</span></a>
+      <a href="#credentials" class="nav__link"><sup>05</sup><span class="nav__link-text">Credentials</span></a>
+      <a href="#contact" class="nav__link"><sup>06</sup><span class="nav__link-text">Contact</span></a>
+    </nav>
+
+    <div class="nav__right">
+      <span class="nav__clock"><span class="pulse-dot" aria-hidden="true"></span>LHR <time class="js-local-time">--:--</time></span>
+      <a href="#contact" class="btn btn--ghost btn--sm" data-magnetic="0.35">
+        <span class="btn__label" data-magnetic-inner>Let's talk</span>
+      </a>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile fullscreen menu -->
+  <div class="menu" id="menu" aria-hidden="true" data-lenis-prevent>
+    <nav class="menu__nav" aria-label="Mobile">
+      <a href="#about" class="menu__link"><span><sup>01</sup>About</span></a>
+      <a href="#skills" class="menu__link"><span><sup>02</sup>Stack</span></a>
+      <a href="#experience" class="menu__link"><span><sup>03</sup>Experience</span></a>
+      <a href="#work" class="menu__link"><span><sup>04</sup>Work</span></a>
+      <a href="#credentials" class="menu__link"><span><sup>05</sup>Credentials</span></a>
+      <a href="#contact" class="menu__link"><span><sup>06</sup>Contact</span></a>
+    </nav>
+    <div class="menu__footer">
+      <a href="mailto:this.mehmood@gmail.com">this.mehmood@gmail.com</a>
+      <span>Lahore, Pakistan</span>
+    </div>
+  </div>
 
   <main id="main">
-    <!-- ======= About Section ======= -->
-    <section id="about" class="about">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title">
-          <h2>About</h2>
+
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
+    <section class="hero" id="top">
+
+      <!-- Parallax / floating decorative shapes -->
+      <div class="hero__shapes" aria-hidden="true">
+        <div class="hero__shape hero__shape--blob" data-speed="0.25">
+          <div class="hero__shape-inner" data-depth="30"><div class="fx fx--blob"></div></div>
+        </div>
+        <div class="hero__shape hero__shape--glow" data-speed="0.5">
+          <div class="hero__shape-inner" data-depth="-40"><div class="fx fx--glow"></div></div>
+        </div>
+        <div class="hero__shape hero__shape--ring" data-speed="0.6">
+          <div class="hero__shape-inner" data-depth="-25">
+            <svg class="spin-slow" viewBox="0 0 200 200" fill="none">
+              <circle cx="100" cy="100" r="98" stroke="rgba(234,234,234,0.12)" />
+              <circle cx="100" cy="100" r="74" stroke="rgba(234,234,234,0.08)" stroke-dasharray="2 6" />
+              <circle cx="100" cy="2" r="4" fill="#CCFF00" />
+              <circle cx="26" cy="100" r="2.5" fill="#EAEAEA" />
+            </svg>
+          </div>
+        </div>
+        <div class="hero__shape hero__shape--grid" data-speed="0.9">
+          <div class="hero__shape-inner" data-depth="18"><div class="fx fx--grid float"></div></div>
+        </div>
+        <div class="hero__shape hero__shape--plus" data-speed="1.2">
+          <div class="hero__shape-inner" data-depth="50">
+            <svg class="float float--delay" viewBox="0 0 40 40"><path d="M20 4v32M4 20h32" stroke="#CCFF00" stroke-width="3" stroke-linecap="round" /></svg>
+          </div>
+        </div>
+        <div class="hero__shape hero__shape--cube" data-speed="0.8">
+          <div class="hero__shape-inner" data-depth="-35">
+            <svg class="float" viewBox="0 0 60 60" fill="none">
+              <path d="M30 4 54 17v26L30 56 6 43V17L30 4Z" stroke="rgba(234,234,234,0.35)" />
+              <path d="M6 17l24 13 24-13M30 30v26" stroke="rgba(234,234,234,0.35)" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__meta" data-hero-fade>
+        <span>(Portfolio — &copy;2026)</span>
+        <span class="hero__meta-right">Senior Backend Engineer<br /><span class="muted">Distributed Systems · Python · Cloud-Native</span></span>
+      </div>
+
+      <h1 class="hero__title">
+        <span class="line"><span class="js-split-chars">Mehmood</span></span>
+        <span class="line line--right">
+          <span class="js-split-chars outline">Ul</span> <span class="js-split-chars">Hassan</span><span class="hero__star" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M50 0 C53 35 65 47 100 50 C65 53 53 65 50 100 C47 65 35 53 0 50 C35 47 47 35 50 0Z" fill="currentColor" /></svg></span>
+        </span>
+      </h1>
+
+      <div class="hero__bottom">
+        <p class="hero__lede" data-hero-fade>
+          <strong>Backend engineer</strong> with 5+ years building distributed systems in Python &amp; Node.js — services that talk over <strong>gRPC, Kafka &amp; RabbitMQ</strong>, running on Kubernetes I build and operate.
+        </p>
+
+        <div class="hero__cta" data-hero-fade>
+          <a href="#work" class="btn btn--primary" data-magnetic="0.35">
+            <span class="btn__label" data-magnetic-inner>View selected work
+              <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </span>
+          </a>
+          <a href="assets/Mehmood_Ul_Hassan_Resume.pdf" class="btn btn--ghost" data-magnetic="0.35" download>
+            <span class="btn__label" data-magnetic-inner>Download CV</span>
+          </a>
         </div>
 
-        <div class="row">
-          <div class="col-lg-4">
-            <img src="assets/img/new_photo_resume.jpg" class="img-fluid" alt="" />
-          </div>
-          <div class="col-lg-8 pt-4 pt-lg-0 content">
-            <div>
-              <h3>1x Certified Salesforce Commerce's Cloud Backend developer</h3>
-              <h3>B2C DemandWare | React & NodeJS</h3>
-            </div>
-            </br>
-            <div class="row">
-              <div class="col-lg-6">
-                <ul>
-                  <li>
-                    <i class="bi bi-chevron-right"></i>
-                    <strong>Website:</strong> <span>thismehmood.github.io</span>
-                  </li>
-                  <li>
-                    <i class="bi bi-chevron-right"></i>
-                    <strong>Phone:</strong> <span>+923 374 846627</span>
-                  </li>
-                  <li>
-                    <i class="bi bi-chevron-right"></i>
-                    <strong>City:</strong> <span>Lahore, Pakistan</span>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-lg-6">
-                <ul>
-                  <li>
-                    <i class="bi bi-chevron-right"></i>
-                    <strong>Degree:</strong> <span>BS Software Engineering</span>
-                  </li>
-                  <li>
-                    <i class="bi bi-chevron-right"></i>
-                    <strong>Email:</strong>
-                    <span>this.mehmood@gmail.com</span>
-                  </li>
-                  <li>
-                    <i class="bi bi-chevron-right"></i>
-                    <strong>Freelance:</strong> <span>Available</span>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h3>More about me</h3>
-                <p>
-                  As an experienced Salesforce Commerce Cloud (SFCC) developer and certified JavaScript expert, I am
-                  passionate about
-                  using my skills to create innovative solutions for complex e-commerce challenges. With a deep
-                  understanding
-                  of both
-                  front-end and back-end development, I excel at developing robust and scalable e-commerce platforms
-                  that
-                  deliver an
-                  exceptional customer experience. My expertise in SFCC extends to architecture design, customization,
-                  and
-                  integration,
-                  and I am skilled in using JavaScript, HTML, CSS, and other related technologies. I am committed to
-                  delivering
-                  high-quality results on time and on budget, and I am excited to work with like-minded professionals to
-                  drive
-                  successful
-                  e-commerce initiatives.
-                </p>
-              </div>
-            </div>
-          </div>
+        <!-- Rotating CKAD badge -->
+        <div class="hero__badge" data-hero-fade role="img" aria-label="CKAD certified">
+          <svg class="hero__badge-text" viewBox="0 0 200 200" aria-hidden="true">
+            <defs><path id="badgeCircle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" /></defs>
+            <text><textPath href="#badgeCircle" textLength="488" lengthAdjust="spacing">CKAD CERTIFIED ✦ KUBERNETES ✦ CLOUD-NATIVE ✦</textPath></text>
+          </svg>
+          <svg class="hero__badge-core" viewBox="0 0 60 60" aria-hidden="true">
+            <circle cx="30" cy="30" r="29" fill="#CCFF00" />
+            <g stroke="#0B0C10" stroke-width="2.5" stroke-linecap="round" fill="none">
+              <circle cx="30" cy="30" r="11" />
+              <circle cx="30" cy="30" r="3" fill="#0B0C10" />
+              <path d="M30 19V11M30 41v8M40.5 25.5l7-4M12.5 38.5l7-4M40.5 34.5l7 4M12.5 21.5l7 4" />
+            </g>
+          </svg>
         </div>
+      </div>
+
+      <div class="hero__footer" data-hero-fade>
+        <span>Based in Lahore, Pakistan</span>
+        <span class="hero__scroll"><span class="hero__scroll-line" aria-hidden="true"></span>Scroll to explore</span>
       </div>
     </section>
-    <!-- End About Section -->
 
-    <!-- ======= Skills Section ======= -->
-    <section id="skills" class="skills section-bg">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title">
-          <h2>Skills</h2>
-        </div>
-
-        <div class="row skills-content">
-          <div class="col-lg-6">
-            <div class="progress">
-              <span class="skill">JQuery, JavaScript, JSON, AJAX<i class="val">80%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-                </div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">MySQL <i class="val">60%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-                </div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">NodeJs <i class="val">50%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                </div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">ReactJs <i class="val">50%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6">
-            <div class="progress">
-              <span class="skill">Agile <i class="val">80%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-                </div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">MVC <i class="val">80%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-                </div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">OCAPI Hooks <i class="val">60%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-                </div>
-              </div>
-            </div>
-
-            <div class="progress">
-              <span class="skill">Problem-Solving <i class="val">60%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
-                </div>
-              </div>
-            </div>
+    <!-- ============================================================
+         MARQUEE (tech stack tape)
+         ============================================================ -->
+    <div class="marquee">
+      <div class="marquee__band marquee__band--lime">
+        <div class="marquee__track" data-marquee="-1">
+          <div class="marquee__group">
+            <span class="marquee__item">Python</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">FastAPI</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">asyncio</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">NestJS</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">gRPC</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">Kafka</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">RabbitMQ</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">Redis</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">PostgreSQL</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">Kubernetes</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">GKE Autopilot</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">Go</span><span class="marquee__sep" aria-hidden="true">✦</span>
           </div>
         </div>
       </div>
-    </section>
-    <!-- End Skills Section -->
-
-    <!-- ======= Resume Section ======= -->
-    <section id="resume" class="resume">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title">
-          <h2>Resume</h2>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-6">
-            <h3 class="resume-title">Certifications</h3>
-
-            <div class="resume-item" style="padding-bottom: 3rem;">
-              <h4>B2C Salesforce Developer Certified</h4>
-              <h5>Salesforce</h5>
-              </br>
-              <a target="_blank"
-                href="https://media.licdn.com/dms/image/C4D22AQGFyqi2RKolbQ/feedshare-shrink_800/0/1670170164014?e=1681948800&v=beta&t=yCRrpcqTVU41U-PmHM8XKh_OYomWvX2wLXFS9gnRyOM">View
-                Certification</a>
-            </div>
-
-            <div class="resume-item" style="padding-bottom: 3rem;">
-              <h4>SQL For Data Science</h4>
-              <h5>University Of California, UC DAVIS</h5>
-              </br>
-              <a target="_blank" href="https://www.coursera.org/account/accomplishments/certificate/YRYE7V9Y5CFC">View
-                Certification</a>
-            </div>
-
-            <div class="resume-item" style="padding-bottom: 3rem;">
-              <h4>Introduction to Structural Query language(SQL)</h4>
-              <h5>University Of Michigan</h5>
-              </br>
-              <a target="_blank" href="https://www.coursera.org/account/accomplishments/certificate/UM6XVFZMFEGA">View
-                Certification</a>
-            </div>
-
-            <div class="resume-item" style="padding-bottom: 3rem;">
-              <h4>HTML, CSS, and Javascript for Web Developers</h4>
-              <h5>Johns Hopkins University</h5>
-              </br>
-              <a target="_blank" href="https://www.coursera.org/account/accomplishments/certificate/E92X6F7WQ5AH">View
-                Certification</a>
-            </div>
-
-          </div>
-          <div class="col-lg-6">
-            <h3 class="resume-title">Professional Experience</h3>
-            <div class="resume-item">
-              <h4>Associate Software Engineer | SFCC Backend Developer | Demandware</h4>
-              <h5>Jan 2023 - Present</h5>
-              <p><em>EG Solutions Pvt Ltd, Korea</em></p>
-              <ul>
-                <li>
-                  Worked on PIP is a law in Korea that allows us to manage consent information in Korean service
-                  providers and not save customer information permanently/forever. Handle Services, Jobs and Shipping
-                  methods,Tosspay payment method create link cartridges etc.
-                </li>
-              </ul>
-            </div>
-            <div class="resume-item">
-              <h4>Software Engineer | Salesforce Developer | Demandware</h4>
-              <h5>Jan 2021 - Dec 2022</h5>
-              <p><em>Aiva Creative, Delaware, Canada</em></p>
-              <ul>
-                <li>
-                  I started my career as an SFCC Backend developer.
-                </li>
-                <li>
-                  I have worked on multiple projects and customization like Lionbridge cartridge(SFRA+Sitegensis), link
-                  cartridges, Link_ordergroove(SFRA+Pipelines),Ardene, OliverGal, L'Oréal , MudBay and manage Jobs
-                  through Impex and handle services
-                </li>
-              </ul>
-            </div>
-
-
-            <h3 class="resume-title">Education</h3>
-            <div class="resume-item">
-              <h4>BS Software Engineering</h4>
-              <h5>2016 - 2020</h5>
-              <p><em>Virtual University of Pakistan</em></p>
-              <ul>
-                <li>
-                  OOP, Data Structure, Networking, Web Programming
-                </li>
-              </ul>
-            </div>
+      <div class="marquee__band marquee__band--dark">
+        <div class="marquee__track" data-marquee="1">
+          <div class="marquee__group">
+            <span class="marquee__item">Distributed Systems</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">Horizontal Scaling</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">Reliability</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">System Design</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">Microservices</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">Performance</span><span class="marquee__sep" aria-hidden="true">✦</span>
+            <span class="marquee__item">AI Integrations</span><span class="marquee__sep" aria-hidden="true">✦</span>
           </div>
         </div>
-      </div>
-    </section>
-    <!-- End Resume Section -->
-
-    <!-- ======= Portfolio Section ======= -->
-    <section id="portfolio" class="portfolio section-bg">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title">
-          <h2>Projects</h2>
-        </div>
-
-        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-
-          <div class="col-lg-4 col-md-6 portfolio-item ">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/thumb_JgL8JT0Ifz.jpg" class="img-fluid" alt="" />
-              <div class="portfolio-info">
-                <h4>Born Group</h4>
-                <p>Ardene (Canada/US)</p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/thumb_JgL8JT0Ifz.jpg" data-gallery="portfolioGallery"
-                    class="portfolio-lightbox" title="Born Group Ardene (Canada/US)"><i class="bx bx-plus"></i></a>
-                  <a href="/projects/born-group-details.html" class="portfolio-details-lightbox"
-                    data-glightbox="type: external" title="Born Group"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item ">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/341e8ce5-6b7a-4fd0-8b3b-3d428653654f.jpg" class="img-fluid" alt="" />
-              <div class="portfolio-info">
-                <h4>Toss Payment Method</h4>
-                <p>Korea</p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/341e8ce5-6b7a-4fd0-8b3b-3d428653654f.jpg" data-gallery="portfolioGallery"
-                    class="portfolio-lightbox" title="Toss Payment Method Korea"><i class="bx bx-plus"></i></a>
-                  <a href="/projects/toss-payment-details.html" class="portfolio-details-lightbox"
-                    data-glightbox="type: external" title="Toss Payment Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item ">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/images.jpg" class="img-fluid" alt="" />
-              <div class="portfolio-info">
-                <h4>MUDBAY</h4>
-                <p>MUDBAY</p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/images.jpg" data-gallery="portfolioGallery"
-                    class="portfolio-lightbox" title="MUDBAY"><i class="bx bx-plus"></i></a>
-                  <a href="/projects/mudbay-details.html" class="portfolio-details-lightbox"
-                    data-glightbox="type: external" title="MUDBAY Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item ">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/tryzen.png" class="img-fluid" alt="" />
-              <div class="portfolio-info">
-                <h4>SiteGenesis To SFRA integration</h4>
-                <p>Tryzen(Toshi Build Project)</p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/tryzen.png" data-gallery="portfolioGallery"
-                    class="portfolio-lightbox" title="SiteGenesis To SFRA integration Tryzen(Toshi Build Project)"><i
-                      class="bx bx-plus"></i></a>
-                  <a href="/projects/site-genesis-details.html" class="portfolio-details-lightbox"
-                    data-glightbox="type: external" title="SiteGenesis Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item ">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/download12.jpg" class="img-fluid" alt="" />
-              <div class="portfolio-info">
-                <h4>Lighting New York</h4>
-                <p>(LNY)</p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/download12.jpg" data-gallery="portfolioGallery"
-                    class="portfolio-lightbox" title="Lighting New York(LNY)"><i class="bx bx-plus"></i></a>
-                  <a href="/projects/lny-details.html" class="portfolio-details-lightbox"
-                    data-glightbox="type: external" title="Lighting New York(LNY) Details"><i
-                      class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item ">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/download34.png" class="img-fluid" alt="" />
-              <div class="portfolio-info">
-                <h4>OliverGal</h4>
-                <p> </p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/download34.png" data-gallery="portfolioGallery"
-                    class="portfolio-lightbox" title="OliverGal"><i class="bx bx-plus"></i></a>
-                  <a href="/projects/oliver-gal-details.html" class="portfolio-details-lightbox"
-                    data-glightbox="type: external" title="OliverGal Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- <div class="col-lg-4 col-md-6 portfolio-item ">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/portfolio-7.jpg" class="img-fluid" alt="" />
-              <div class="portfolio-info">
-                <h4>Titan</h4>
-                <p> </p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/portfolio-7.jpg" data-gallery="portfolioGallery"
-                    class="portfolio-lightbox" title="Titan"><i class="bx bx-plus"></i></a>
-                  <a href="/projects/titan-details.html" class="portfolio-details-lightbox"
-                    data-glightbox="type: external" title="Titan Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item ">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/download890.png" class="img-fluid" alt="" />
-              <div class="portfolio-info">
-                <h4>MRM</h4>
-                <p> </p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/download890.png" data-gallery="portfolioGallery"
-                    class="portfolio-lightbox" title="MRM"><i class="bx bx-plus"></i></a>
-                  <a href="/projects/mrm-details.html" class="portfolio-details-lightbox"
-                    data-glightbox="type: external" title="MRM Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
-          <div class="col-lg-4 col-md-6 portfolio-item ">
-            <div class="portfolio-wrap">
-              <img src="assets/img/portfolio/download55555.jpg" class="img-fluid" alt="" />
-              <div class="portfolio-info">
-                <h4>Personal Information Protection (PIP) </h4>
-                <p>Korea</p>
-                <div class="portfolio-links">
-                  <a href="assets/img/portfolio/download55555.jpg" data-gallery="portfolioGallery"
-                    class="portfolio-lightbox" title="Personal Information Protection (PIP) "><i
-                      class="bx bx-plus"></i></a>
-                  <a href="/projects/pip-details.html" class="portfolio-details-lightbox"
-                    data-glightbox="type: external" title="Personal Information Protection (PIP) Details"><i
-                      class="bx bx-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-    <!-- End Portfolio Section -->
-
-    <!-- Start Whatsapp Section -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <a href="https://api.whatsapp.com/send?phone=923374846627&text=Hi!" class="float" target="_blank">
-      <i class="fa fa-whatsapp my-float"></i>
-    </a>
-    <!-- End Whatsapp Section -->
-
-    <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact">
-      <div class="container" data-aos="fade-up">
-        <div class="section-title">
-          <h2>Contact</h2>
-        </div>
-
-        <div class="row mt-1">
-          <div class="col-lg-4">
-            <div class="info">
-              <div class="address">
-                <i class="bi bi-geo-alt"></i>
-                <h4>Location:</h4>
-                <p>Johar Town, Lahore - Pakistan</p>
-              </div>
-
-              <div class="email">
-                <i class="bi bi-envelope"></i>
-                <h4>Email:</h4>
-                <p><a href="mailto: this.mehmood@gmail.com">this.mehmood@gmail.com</a></p>
-              </div>
-
-              <div class="phone">
-                <i class="bi bi-phone"></i>
-                <h4>Call:</h4>
-                <p><a href="tel: +923374846627">+923 374 846627</a></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-8 mt-5 mt-lg-0">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required />
-                </div>
-                <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required />
-                </div>
-              </div>
-              <div class="form-group mt-3">
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required />
-              </div>
-              <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-              </div>
-              <div class="my-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">
-                  Your message has been sent. Thank you!
-                </div>
-              </div>
-              <div class="text-center">
-                <button type="submit">Send Message</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- End Contact Section -->
-  </main>
-  <!-- End #main -->
-
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
-    <div class="container">
-      <h3>Mehmood Ul Hassan</h3>
-      <p>
-        1x Certified Salesforce Commerce's Cloud Backend developer | B2C DemandWare | React & NodeJS
-      </p>
-
-      <div class="social-links">
-        <a target="_blank" href="https://web.facebook.com/mehmood.ulhassan.75033" class="facebook"><i
-            class="bx bxl-facebook"></i></a>
-        <a target="_blank" href="https://www.instagram.com/this.mehmood/" class="instagram"><i
-            class="bx bxl-instagram"></i></a>
-        <a href="https://join.skype.com/invite/UYbZY87fdIKS" class="google-plus"><i class="bx bxl-skype"></i></a>
-        <a target="_blank" href="https://www.linkedin.com/in/mehmood-hassan" class="linkedin"><i
-            class="bx bxl-linkedin"></i></a>
-        <a target="_blank" href="https://github.com/thismehmood" class="github"><i class="bx bxl-github"></i></a>
-      </div>
-
-      <div class="copyright">
-        &copy; Copyright <strong><span>Mehmood Ul Hassan</span></strong>. All Rights Reserved
       </div>
     </div>
+
+    <!-- ============================================================
+         01 — ABOUT
+         ============================================================ -->
+    <section class="about section" id="about">
+      <div class="container">
+        <h2 class="section-label" data-reveal><span class="num">01</span> About</h2>
+
+        <p class="about__text js-scrub-words">
+          I build backends that stay <em>fast under pressure</em> — distributed systems in Python and Node.js, services that talk over gRPC, Kafka and RabbitMQ, running on Kubernetes infrastructure I design and operate myself.
+        </p>
+
+        <div class="about__grid">
+          <div class="about__copy">
+            <p data-reveal>
+              Over five years I've led backend teams of up to six engineers, built GKE Autopilot infrastructure from scratch on a private VPC, and cut server response times by ~40% through Redis caching and database optimization.
+            </p>
+            <p data-reveal>
+              I care about performance, horizontal scaling and reliability — clean service boundaries, per-service databases, and CI/CD that makes shipping boring. CKAD certified, with working knowledge of Go.
+            </p>
+            <a href="#experience" class="link-arrow" data-reveal>
+              <span>See where I've shipped</span>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </a>
+          </div>
+
+          <ul class="stats">
+            <li class="stat" data-reveal>
+              <span class="stat__num" aria-hidden="true"><span class="js-count" data-count="5">5</span><span class="accent">+</span></span>
+              <span class="sr-only">5+</span>
+              <span class="stat__label">Years building production backends</span>
+            </li>
+            <li class="stat" data-reveal>
+              <span class="stat__num" aria-hidden="true"><span class="accent stat__approx">~</span><span class="js-count" data-count="40">40</span><span class="accent">%</span></span>
+              <span class="sr-only">About 40%</span>
+              <span class="stat__label">Reduction in server response times via caching &amp; DB optimization</span>
+            </li>
+            <li class="stat" data-reveal>
+              <span class="stat__num" aria-hidden="true"><span class="js-count" data-count="6">6</span></span>
+              <span class="sr-only">6</span>
+              <span class="stat__label">Engineers led on backend teams</span>
+            </li>
+            <li class="stat" data-reveal>
+              <span class="stat__num" aria-hidden="true"><span class="js-count" data-count="4">4</span></span>
+              <span class="sr-only">4</span>
+              <span class="stat__label">Countries shipped for — Pakistan, USA, UAE, South Korea</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         02 — SKILLS / STACK
+         ============================================================ -->
+    <section class="skills section" id="skills">
+      <div class="container">
+        <div class="skills__head">
+          <div>
+            <p class="section-label" data-reveal><span class="num">02</span> Stack</p>
+            <h2 class="section-title js-split-words">The toolkit</h2>
+          </div>
+          <p class="skills__intro" data-reveal>Languages, frameworks and infrastructure I use to design, ship and operate systems in production.</p>
+        </div>
+
+        <div class="skills__grid">
+          <article class="skill-card">
+            <div class="skill-card__head">
+              <span class="skill-card__index">01</span>
+              <svg class="skill-card__icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M17 14 7 24l10 10M31 14l10 10-10 10M27 10l-6 28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </div>
+            <h3 class="skill-card__title">Languages</h3>
+            <ul class="chips">
+              <li class="chip">Python</li><li class="chip">Go</li><li class="chip">JavaScript</li><li class="chip">TypeScript</li>
+            </ul>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-card__head">
+              <span class="skill-card__index">02</span>
+              <svg class="skill-card__icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="7" y="8" width="34" height="12" rx="3" stroke="currentColor" stroke-width="2.5" /><rect x="7" y="28" width="34" height="12" rx="3" stroke="currentColor" stroke-width="2.5" /><circle cx="14" cy="14" r="2" fill="currentColor" /><circle cx="14" cy="34" r="2" fill="currentColor" /></svg>
+            </div>
+            <h3 class="skill-card__title">Backend</h3>
+            <ul class="chips">
+              <li class="chip">FastAPI</li><li class="chip">asyncio</li><li class="chip">Django</li><li class="chip">NestJS</li><li class="chip">Node.js</li><li class="chip">Express</li><li class="chip">Fastify</li>
+            </ul>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-card__head">
+              <span class="skill-card__index">03</span>
+              <svg class="skill-card__icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><ellipse cx="24" cy="11" rx="15" ry="5" stroke="currentColor" stroke-width="2.5" /><path d="M9 11v13c0 2.8 6.7 5 15 5s15-2.2 15-5V11M9 24v13c0 2.8 6.7 5 15 5s15-2.2 15-5V24" stroke="currentColor" stroke-width="2.5" /></svg>
+            </div>
+            <h3 class="skill-card__title">Data &amp; Caching</h3>
+            <ul class="chips">
+              <li class="chip">PostgreSQL</li><li class="chip">MySQL</li><li class="chip">MongoDB</li><li class="chip">Redis</li>
+            </ul>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-card__head">
+              <span class="skill-card__index">04</span>
+              <svg class="skill-card__icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="10" cy="24" r="4" stroke="currentColor" stroke-width="2.5" /><circle cx="38" cy="10" r="4" stroke="currentColor" stroke-width="2.5" /><circle cx="38" cy="38" r="4" stroke="currentColor" stroke-width="2.5" /><path d="M14 22 34 12M14 26l20 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" /></svg>
+            </div>
+            <h3 class="skill-card__title">APIs &amp; Messaging</h3>
+            <ul class="chips">
+              <li class="chip">gRPC / Protobuf</li><li class="chip">REST</li><li class="chip">GraphQL</li><li class="chip">Kafka</li><li class="chip">RabbitMQ</li><li class="chip">TCP</li>
+            </ul>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-card__head">
+              <span class="skill-card__index">05</span>
+              <svg class="skill-card__icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M14 36h21a8 8 0 0 0 1.4-15.9A11 11 0 0 0 15.1 18 9 9 0 0 0 14 36Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" /></svg>
+            </div>
+            <h3 class="skill-card__title">Cloud &amp; Infra</h3>
+            <ul class="chips">
+              <li class="chip">GCP · GKE Autopilot</li><li class="chip">VPC</li><li class="chip">Cloud Armor</li><li class="chip">AWS · Lambda, EKS</li><li class="chip">Azure</li><li class="chip">Kubernetes</li><li class="chip">Helm</li><li class="chip">Docker</li><li class="chip">IaC</li>
+            </ul>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-card__head">
+              <span class="skill-card__index">06</span>
+              <svg class="skill-card__icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="9" cy="24" r="4" stroke="currentColor" stroke-width="2.5" /><circle cx="24" cy="24" r="4" stroke="currentColor" stroke-width="2.5" /><circle cx="39" cy="24" r="4" stroke="currentColor" stroke-width="2.5" /><path d="M13 24h7M28 24h7" stroke="currentColor" stroke-width="2.5" /></svg>
+            </div>
+            <h3 class="skill-card__title">CI / CD</h3>
+            <ul class="chips">
+              <li class="chip">GitHub Actions</li><li class="chip">Jenkins</li><li class="chip">Azure DevOps</li>
+            </ul>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-card__head">
+              <span class="skill-card__index">07</span>
+              <svg class="skill-card__icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24 6c1.4 9.6 5 13.2 14.6 14.6C29 22 25.4 25.6 24 35.2 22.6 25.6 19 22 9.4 20.6 19 19.2 22.6 15.6 24 6Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" /><path d="M37 32c.5 3.3 1.7 4.5 5 5-3.3.5-4.5 1.7-5 5-.5-3.3-1.7-4.5-5-5 3.3-.5 4.5-1.7 5-5Z" fill="currentColor" /></svg>
+            </div>
+            <h3 class="skill-card__title">Other</h3>
+            <ul class="chips">
+              <li class="chip">System design</li><li class="chip">Microservices</li><li class="chip">AI · Kimi, Hume AI, AssemblyAI</li><li class="chip">Salesforce Commerce Cloud</li>
+            </ul>
+          </article>
+
+          <article class="skill-card skill-card--feature">
+            <div class="skill-card__head">
+              <span class="skill-card__index">✦</span>
+              <span class="skill-card__stamp">Sep 2026</span>
+            </div>
+            <h3 class="skill-card__title">CKAD Certified</h3>
+            <p class="skill-card__text">Certified Kubernetes Application Developer — The Linux Foundation / CNCF.</p>
+            <ul class="chips">
+              <li class="chip">Kubernetes</li><li class="chip">Cloud-native</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         03 — EXPERIENCE (sticky side + scroll timeline)
+         ============================================================ -->
+    <section class="experience section" id="experience">
+      <div class="container experience__grid">
+        <aside class="experience__aside">
+          <div class="experience__sticky">
+            <p class="section-label" data-reveal><span class="num">03</span> Experience</p>
+            <h2 class="section-title js-split-words">Where I've shipped</h2>
+            <p class="experience__intro" data-reveal>Six roles across four countries — from Salesforce Commerce Cloud storefronts to cloud-native microservice platforms on Kubernetes.</p>
+            <div class="experience__counter" data-reveal aria-hidden="true">
+              <span class="experience__current-wrap"><span class="experience__current">01</span></span>
+              <span class="experience__total">/ 06</span>
+            </div>
+            <div class="experience__company-wrap" aria-hidden="true"><span class="experience__company">Code Encoders</span></div>
+          </div>
+        </aside>
+
+        <div class="timeline">
+          <div class="timeline__track" aria-hidden="true"><span class="timeline__progress"></span></div>
+          <ol class="timeline__list">
+
+            <li class="entry" data-company="Code Encoders">
+              <span class="entry__dot" aria-hidden="true"></span>
+              <div class="entry__head"><span class="entry__date">Dec 2024 — Present</span><span>Lahore, Pakistan</span></div>
+              <h3 class="entry__role">Lead Full Stack Cloud Engineer</h3>
+              <p class="entry__company">Code Encoders</p>
+              <ul class="entry__points">
+                <li>Lead backend architecture for a microservices platform on FastAPI and Python async patterns — service design, PR review, engineering standards and mentoring.</li>
+                <li>Built GKE Autopilot infrastructure from scratch on a private VPC for horizontally scaled, multi-environment deployments.</li>
+                <li>Deployed services over gRPC and TCP, each with its own database in a private subnet; targeted indexing plus Redis caching and a refactor cut response times by ~40%.</li>
+                <li>Rolled out self-hosted API gateways with DNS-based ingress, Cloud Armor rate limiting &amp; DDoS policies, and CI/CD on GitHub Actions and Jenkins.</li>
+              </ul>
+              <ul class="chips chips--sm">
+                <li class="chip">Python</li><li class="chip">FastAPI</li><li class="chip">NestJS</li><li class="chip">gRPC</li><li class="chip">RabbitMQ</li><li class="chip">Redis</li><li class="chip">MongoDB</li><li class="chip">GKE Autopilot</li><li class="chip">Cloud Armor</li><li class="chip">Jenkins</li>
+              </ul>
+            </li>
+
+            <li class="entry" data-company="Upwork · Freelance">
+              <span class="entry__dot" aria-hidden="true"></span>
+              <div class="entry__head"><span class="entry__date">2026 · 2 months</span><span>Remote · Contract</span></div>
+              <h3 class="entry__role">Freelance Backend Engineer</h3>
+              <p class="entry__company">Upwork</p>
+              <ul class="entry__points">
+                <li>Delivered an end-to-end Bill of Lading platform for a logistics client in 8 weeks — from invoice intake to a bank-ready document pack.</li>
+                <li>Integrated the Kimi LLM to extract shipper, buyer, goods and weight data, with operator review in a gated 5-step wizard.</li>
+                <li>Designed a tamper-evident approval flow: write-once, checksummed, versioned artifacts plus a bank verification link.</li>
+              </ul>
+              <ul class="chips chips--sm">
+                <li class="chip">Kimi LLM</li><li class="chip">LibreOffice (headless)</li><li class="chip">Excel → PDF</li><li class="chip">Checksums</li><li class="chip">Bank pack</li>
+              </ul>
+            </li>
+
+            <li class="entry" data-company="Consforc LLC">
+              <span class="entry__dot" aria-hidden="true"></span>
+              <div class="entry__head"><span class="entry__date">Jul 2023 — Sep 2024</span><span>Boston / New York, USA · Remote</span></div>
+              <h3 class="entry__role">Lead Backend Engineer</h3>
+              <p class="entry__company">Consforc LLC</p>
+              <ul class="entry__points">
+                <li>Led backend development of a Python/FastAPI microservices platform and managed a 6-member backend team.</li>
+                <li>Designed per-service databases to isolate load; gRPC for low-latency internal calls and Kafka for high-volume async messaging.</li>
+                <li>Built a custom GraphQL gateway in NestJS; containerized with Docker, ran Kubernetes clusters and managed CI/CD in Azure DevOps.</li>
+              </ul>
+              <ul class="chips chips--sm">
+                <li class="chip">Python</li><li class="chip">FastAPI</li><li class="chip">NestJS</li><li class="chip">GraphQL</li><li class="chip">gRPC</li><li class="chip">Kafka</li><li class="chip">Redis</li><li class="chip">Docker</li><li class="chip">Kubernetes</li><li class="chip">Azure</li>
+              </ul>
+            </li>
+
+            <li class="entry" data-company="Otobucks">
+              <span class="entry__dot" aria-hidden="true"></span>
+              <div class="entry__head"><span class="entry__date">Jan 2023 — Sep 2023</span><span>UAE · Remote</span></div>
+              <h3 class="entry__role">Lead Backend Engineer</h3>
+              <p class="entry__company">Otobucks</p>
+              <ul class="entry__points">
+                <li>Led backend development with Python, FastAPI, Redis and PostgreSQL.</li>
+                <li>Designed MongoDB data models using aggregation pipelines and virtual relations.</li>
+                <li>Built and optimized the Service Provider Panel, Admin Panel and Android app backend; defined code-quality standards.</li>
+              </ul>
+              <ul class="chips chips--sm">
+                <li class="chip">Python</li><li class="chip">FastAPI</li><li class="chip">PostgreSQL</li><li class="chip">Redis</li><li class="chip">MongoDB</li><li class="chip">MySQL</li><li class="chip">Node.js</li><li class="chip">Express</li><li class="chip">AWS</li>
+              </ul>
+            </li>
+
+            <li class="entry" data-company="Eguana Commerce">
+              <span class="entry__dot" aria-hidden="true"></span>
+              <div class="entry__head"><span class="entry__date">Dec 2022 — Aug 2023</span><span>Seoul, South Korea · Remote</span></div>
+              <h3 class="entry__role">Lead Software Engineer</h3>
+              <p class="entry__company">Eguana Commerce</p>
+              <ul class="entry__points">
+                <li>Led Under Armour's transition to headless commerce on Salesforce Commerce Cloud, redesigning the product listing page for scalability and performance.</li>
+                <li>Migrated cartridges from SiteGenesis to SFRA; built Impex jobs, services and the TossPay payment integration.</li>
+                <li>Implemented Return Merchandise Authorization and Personal Information Protection compliance (consents, action logs).</li>
+              </ul>
+              <ul class="chips chips--sm">
+                <li class="chip">SFCC</li><li class="chip">SFRA</li><li class="chip">Cartridges</li><li class="chip">Jobs</li><li class="chip">Services</li><li class="chip">JS / ISML</li>
+              </ul>
+            </li>
+
+            <li class="entry" data-company="Aiva Creative">
+              <span class="entry__dot" aria-hidden="true"></span>
+              <div class="entry__head"><span class="entry__date">Jun 2021 — Dec 2022</span><span>Lahore, Pakistan · Hybrid</span></div>
+              <h3 class="entry__role">Software Engineer</h3>
+              <p class="entry__company">Aiva Creative</p>
+              <ul class="entry__points">
+                <li>Built SFCC backend features across multiple B2B/B2C brands, including OCAPI integrations.</li>
+                <li>Delivered L'Oréal Japan integrations for Braintree, PayPal, Yotpo and GTM, plus Impex jobs.</li>
+                <li>Worked across PDP, PLP, Cart and Checkout with a focus on SEO and server-side rendering performance.</li>
+              </ul>
+              <ul class="chips chips--sm">
+                <li class="chip">SFCC</li><li class="chip">Custom Cartridges</li><li class="chip">JavaScript</li><li class="chip">ISML / XML</li><li class="chip">AJAX</li>
+              </ul>
+            </li>
+
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         04 — SELECTED WORK (pinned horizontal scroll on desktop)
+         ============================================================ -->
+    <section class="work" id="work">
+      <div class="work__pin">
+        <div class="work__header">
+          <p class="section-label"><span class="num">04</span> Selected Work</p>
+          <div class="work__progress" aria-hidden="true"><span class="work__progress-bar"></span></div>
+          <p class="work__hint" aria-hidden="true">Scroll <span>→</span></p>
+        </div>
+
+        <div class="work__track">
+          <div class="work__intro">
+            <h2 class="work__title js-split-words">Selected <em>work</em></h2>
+            <p class="work__lead">Platforms I've led, architected and shipped — from LLM-powered document pipelines to cloud-native microservices and global commerce.</p>
+          </div>
+
+          <!-- Card 01 -->
+          <article class="card" data-tilt tabindex="0">
+            <div class="card__inner">
+              <span class="card__glare" aria-hidden="true"></span>
+              <div class="card__top"><span>01</span><span>2026</span></div>
+              <div class="card__visual">
+                <div class="card__art" aria-hidden="true">
+                  <svg class="art" viewBox="0 0 400 300" fill="none">
+                    <rect x="112" y="52" width="176" height="212" rx="10" fill="#161B22" stroke="rgba(234,234,234,.12)" transform="rotate(-9 200 158)" />
+                    <rect x="112" y="46" width="176" height="212" rx="10" fill="#1F2833" stroke="rgba(234,234,234,.18)" transform="rotate(5 200 152)" />
+                    <g transform="rotate(-2 200 150)">
+                      <rect x="110" y="40" width="180" height="220" rx="10" fill="#0D0E15" stroke="#CCFF00" stroke-opacity=".6" />
+                      <text x="126" y="68" class="art-mono" fill="#CCFF00" font-size="10">BILL OF LADING</text>
+                      <rect x="126" y="82" width="104" height="6" rx="3" fill="rgba(234,234,234,.28)" />
+                      <rect x="126" y="96" width="148" height="6" rx="3" fill="rgba(234,234,234,.12)" />
+                      <rect x="126" y="118" width="66" height="36" rx="4" stroke="rgba(234,234,234,.18)" />
+                      <rect x="200" y="118" width="74" height="36" rx="4" stroke="rgba(234,234,234,.18)" />
+                      <rect x="126" y="164" width="148" height="5" rx="2.5" fill="rgba(234,234,234,.1)" />
+                      <rect x="126" y="176" width="120" height="5" rx="2.5" fill="rgba(234,234,234,.1)" />
+                      <rect x="126" y="188" width="136" height="5" rx="2.5" fill="rgba(234,234,234,.1)" />
+                      <text x="138" y="200" class="art-display" font-size="40" fill="none" stroke="#FF0080" stroke-opacity=".75" stroke-width="1.5" transform="rotate(-16 200 185)">DRAFT</text>
+                      <text x="126" y="244" class="art-mono" font-size="8" fill="rgba(234,234,234,.5)">sha256 · 9f2c…e41a · v3</text>
+                    </g>
+                    <circle class="pulse" cx="296" cy="232" r="34" fill="#CCFF00" opacity=".15" />
+                    <circle cx="296" cy="232" r="24" fill="#CCFF00" />
+                    <path d="M285 232l7.5 7.5L308 224" stroke="#0B0C10" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <ul class="card__highlights">
+                  <li>Kimi LLM extraction with operator review in a gated 5-step wizard</li>
+                  <li>Excel BL templates rendered to PDF via headless LibreOffice</li>
+                  <li>Write-once, checksummed, versioned approvals + bank verification link</li>
+                </ul>
+              </div>
+              <div class="card__body">
+                <p class="card__meta">Logistics · Freelance (Upwork)</p>
+                <h3 class="card__title">Bill of Lading Platform</h3>
+                <p class="card__desc">End-to-end platform delivered in 8 weeks — from commercial-invoice intake to a zipped, bank-ready submission pack with manifest.</p>
+                <ul class="chips chips--sm"><li class="chip">Kimi LLM</li><li class="chip">LibreOffice</li><li class="chip">Excel → PDF</li><li class="chip">Tamper-evident</li></ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 02 -->
+          <article class="card" data-tilt tabindex="0">
+            <div class="card__inner">
+              <span class="card__glare" aria-hidden="true"></span>
+              <div class="card__top"><span>02</span><span>2024 — Now</span></div>
+              <div class="card__visual">
+                <div class="card__art" aria-hidden="true">
+                  <svg class="art" viewBox="0 0 400 300" fill="none">
+                    <defs><polygon id="hex" points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" /></defs>
+                    <text x="40" y="44" class="art-mono" font-size="10" fill="rgba(234,234,234,.5)">gke-autopilot · private-vpc</text>
+                    <g stroke="rgba(234,234,234,.14)" stroke-width="1">
+                      <path d="M146 108 200 108 254 108M119 155 173 155 227 155 281 155M146 202 200 202 254 202M146 108 119 155 146 202M200 108 173 155 200 202M254 108 227 155 254 202M254 108 281 155 254 202M146 108 173 155M200 108 227 155M146 202 173 155M200 202 227 155" />
+                    </g>
+                    <use href="#hex" x="146" y="108" fill="#161B22" stroke="rgba(234,234,234,.25)" />
+                    <use href="#hex" x="200" y="108" fill="#CCFF00" class="pulse" />
+                    <use href="#hex" x="254" y="108" fill="#161B22" stroke="rgba(234,234,234,.25)" />
+                    <use href="#hex" x="119" y="155" fill="#161B22" stroke="rgba(234,234,234,.25)" />
+                    <use href="#hex" x="173" y="155" fill="#1F2833" stroke="#CCFF00" stroke-opacity=".7" />
+                    <use href="#hex" x="227" y="155" fill="#CCFF00" class="pulse pulse--delay" />
+                    <use href="#hex" x="281" y="155" fill="#161B22" stroke="rgba(234,234,234,.25)" />
+                    <use href="#hex" x="146" y="202" fill="#1F2833" stroke="#7928CA" />
+                    <use href="#hex" x="200" y="202" fill="#161B22" stroke="rgba(234,234,234,.25)" />
+                    <use href="#hex" x="254" y="202" fill="#CCFF00" class="pulse pulse--delay-2" />
+                    <rect x="260" y="236" width="110" height="26" rx="13" fill="#CCFF00" />
+                    <text x="272" y="253" class="art-mono" font-size="10" fill="#0B0C10">response ↓ ~40%</text>
+                  </svg>
+                </div>
+                <ul class="card__highlights">
+                  <li>GKE Autopilot on a private VPC, built from scratch for multi-env deploys</li>
+                  <li>gRPC/TCP services, each with its own DB in a private subnet</li>
+                  <li>Self-hosted API gateways, DNS ingress &amp; Cloud Armor DDoS policies</li>
+                </ul>
+              </div>
+              <div class="card__body">
+                <p class="card__meta">Code Encoders · Lead Full Stack Cloud Engineer</p>
+                <h3 class="card__title">Cloud-Native Microservices on GKE</h3>
+                <p class="card__desc">FastAPI microservices platform with Redis caching and a refactor that cut server response times by ~40%.</p>
+                <ul class="chips chips--sm"><li class="chip">FastAPI</li><li class="chip">gRPC</li><li class="chip">GKE</li><li class="chip">Redis</li></ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 03 -->
+          <article class="card" data-tilt tabindex="0">
+            <div class="card__inner">
+              <span class="card__glare" aria-hidden="true"></span>
+              <div class="card__top"><span>03</span><span>2023 — 2024</span></div>
+              <div class="card__visual">
+                <div class="card__art" aria-hidden="true">
+                  <svg class="art" viewBox="0 0 400 300" fill="none">
+                    <g stroke="#CCFF00" stroke-opacity=".55" stroke-width="1.5" class="flow">
+                      <path d="M150 140 C210 140 220 60 280 60" />
+                      <path d="M150 140 C210 140 220 100 280 100" />
+                      <path d="M150 140 C210 140 220 140 280 140" />
+                      <path d="M150 140 C210 140 220 180 280 180" />
+                      <path d="M150 140 C210 140 220 220 280 220" />
+                    </g>
+                    <rect x="60" y="112" width="92" height="56" rx="12" fill="#CCFF00" />
+                    <text x="75" y="136" class="art-mono" font-size="10" fill="#0B0C10">GraphQL</text>
+                    <text x="75" y="152" class="art-mono" font-size="10" fill="#0B0C10">gateway</text>
+                    <g class="art-mono" font-size="9" fill="rgba(234,234,234,.75)">
+                      <rect x="280" y="48" width="70" height="24" rx="6" fill="#161B22" stroke="rgba(234,234,234,.2)" /><text x="292" y="64">svc · 01</text>
+                      <rect x="280" y="88" width="70" height="24" rx="6" fill="#161B22" stroke="rgba(234,234,234,.2)" /><text x="292" y="104">svc · 02</text>
+                      <rect x="280" y="128" width="70" height="24" rx="6" fill="#161B22" stroke="rgba(234,234,234,.2)" /><text x="292" y="144">svc · 03</text>
+                      <rect x="280" y="168" width="70" height="24" rx="6" fill="#161B22" stroke="rgba(234,234,234,.2)" /><text x="292" y="184">svc · 04</text>
+                      <rect x="280" y="208" width="70" height="24" rx="6" fill="#161B22" stroke="rgba(234,234,234,.2)" /><text x="292" y="224">svc · 05</text>
+                    </g>
+                    <rect x="60" y="250" width="290" height="18" rx="9" fill="#1F2833" />
+                    <text x="72" y="263" class="art-mono" font-size="9" fill="rgba(234,234,234,.55)">kafka · async events</text>
+                    <g fill="#7928CA" class="stream"><circle cx="236" cy="259" r="4" /><circle cx="272" cy="259" r="4" /><circle cx="308" cy="259" r="4" /><circle cx="344" cy="259" r="4" /></g>
+                  </svg>
+                </div>
+                <ul class="card__highlights">
+                  <li>Custom GraphQL gateway in NestJS routing across services</li>
+                  <li>gRPC for low-latency internal calls, Kafka for high-volume async</li>
+                  <li>Per-service databases so services scale independently</li>
+                </ul>
+              </div>
+              <div class="card__body">
+                <p class="card__meta">Consforc LLC · Lead Backend Engineer</p>
+                <h3 class="card__title">GraphQL Gateway over gRPC &amp; Kafka</h3>
+                <p class="card__desc">Python/FastAPI microservices platform, delivered with a 6-member backend team on Docker, Kubernetes and Azure DevOps.</p>
+                <ul class="chips chips--sm"><li class="chip">NestJS</li><li class="chip">GraphQL</li><li class="chip">Kafka</li><li class="chip">Kubernetes</li></ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 04 -->
+          <article class="card" data-tilt tabindex="0">
+            <div class="card__inner">
+              <span class="card__glare" aria-hidden="true"></span>
+              <div class="card__top"><span>04</span><span>2022 — 2023</span></div>
+              <div class="card__visual">
+                <div class="card__art" aria-hidden="true">
+                  <svg class="art" viewBox="0 0 400 300" fill="none">
+                    <rect x="70" y="40" width="260" height="210" rx="12" fill="#0D0E15" stroke="rgba(234,234,234,.2)" />
+                    <path d="M70 64h260" stroke="rgba(234,234,234,.14)" />
+                    <circle cx="86" cy="52" r="4" fill="#FF0080" /><circle cx="100" cy="52" r="4" fill="#CCFF00" /><circle cx="114" cy="52" r="4" fill="rgba(234,234,234,.3)" />
+                    <text x="250" y="56" class="art-mono" font-size="8" fill="rgba(234,234,234,.45)">PLP · SFRA</text>
+                    <g>
+                      <rect x="86" y="78" width="70" height="58" rx="6" fill="#1F2833" /><rect x="86" y="142" width="50" height="5" rx="2.5" fill="rgba(234,234,234,.3)" /><rect x="86" y="152" width="30" height="5" rx="2.5" fill="#CCFF00" />
+                      <rect x="165" y="78" width="70" height="58" rx="6" fill="#CCFF00" fill-opacity=".85" /><rect x="165" y="142" width="50" height="5" rx="2.5" fill="rgba(234,234,234,.3)" /><rect x="165" y="152" width="30" height="5" rx="2.5" fill="#CCFF00" />
+                      <rect x="244" y="78" width="70" height="58" rx="6" fill="#1F2833" /><rect x="244" y="142" width="50" height="5" rx="2.5" fill="rgba(234,234,234,.3)" /><rect x="244" y="152" width="30" height="5" rx="2.5" fill="#CCFF00" />
+                      <rect x="86" y="170" width="70" height="58" rx="6" fill="#1F2833" />
+                      <rect x="165" y="170" width="70" height="58" rx="6" fill="#1F2833" />
+                      <rect x="244" y="170" width="70" height="58" rx="6" fill="#7928CA" fill-opacity=".6" />
+                    </g>
+                    <path d="M330 150 C360 150 360 100 380 100" stroke="#CCFF00" stroke-dasharray="3 5" class="flow" />
+                    <rect x="340" y="84" width="48" height="22" rx="11" fill="#161B22" stroke="#CCFF00" />
+                    <text x="351" y="99" class="art-mono" font-size="9" fill="#CCFF00">API</text>
+                  </svg>
+                </div>
+                <ul class="card__highlights">
+                  <li>Product listing page redesigned for scalability &amp; performance</li>
+                  <li>SiteGenesis → SFRA cartridge migration, Impex jobs &amp; TossPay</li>
+                  <li>RMA and Personal Information Protection compliance</li>
+                </ul>
+              </div>
+              <div class="card__body">
+                <p class="card__meta">Eguana Commerce · Lead Software Engineer</p>
+                <h3 class="card__title">Headless Commerce for Under Armour</h3>
+                <p class="card__desc">Led Under Armour's transition to headless commerce on Salesforce Commerce Cloud.</p>
+                <ul class="chips chips--sm"><li class="chip">SFCC</li><li class="chip">SFRA</li><li class="chip">Headless</li><li class="chip">Payments</li></ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 05 -->
+          <article class="card" data-tilt tabindex="0">
+            <div class="card__inner">
+              <span class="card__glare" aria-hidden="true"></span>
+              <div class="card__top"><span>05</span><span>2021 — 2022</span></div>
+              <div class="card__visual">
+                <div class="card__art" aria-hidden="true">
+                  <svg class="art" viewBox="0 0 400 300" fill="none">
+                    <ellipse cx="200" cy="150" rx="150" ry="100" stroke="rgba(234,234,234,.12)" />
+                    <ellipse cx="200" cy="150" rx="104" ry="68" stroke="rgba(234,234,234,.16)" stroke-dasharray="3 6" class="spin-view" />
+                    <circle cx="200" cy="150" r="38" fill="#CCFF00" />
+                    <text x="200" y="146" text-anchor="middle" class="art-display" font-size="11" fill="#0B0C10">L'Oréal</text>
+                    <text x="200" y="162" text-anchor="middle" class="art-mono" font-size="9" fill="#0B0C10">JAPAN</text>
+                    <g class="art-mono" font-size="10">
+                      <rect x="60" y="62" width="84" height="26" rx="13" fill="#161B22" stroke="rgba(234,234,234,.25)" /><text x="102" y="79" text-anchor="middle" fill="#EAEAEA">Braintree</text>
+                      <rect x="270" y="70" width="70" height="26" rx="13" fill="#161B22" stroke="rgba(234,234,234,.25)" /><text x="305" y="87" text-anchor="middle" fill="#EAEAEA">PayPal</text>
+                      <rect x="54" y="206" width="64" height="26" rx="13" fill="#161B22" stroke="rgba(234,234,234,.25)" /><text x="86" y="223" text-anchor="middle" fill="#EAEAEA">Yotpo</text>
+                      <rect x="282" y="200" width="56" height="26" rx="13" fill="#7928CA" /><text x="310" y="217" text-anchor="middle" fill="#EAEAEA">GTM</text>
+                    </g>
+                    <g stroke="#CCFF00" stroke-opacity=".45" stroke-dasharray="2 4" class="flow"><path d="M144 80 170 125" /><path d="M270 88 232 128" /><path d="M118 214 168 170" /><path d="M282 208 234 172" /></g>
+                  </svg>
+                </div>
+                <ul class="card__highlights">
+                  <li>Braintree, PayPal, Yotpo and GTM integrations plus Impex jobs</li>
+                  <li>OCAPI integrations across multiple B2B/B2C brands</li>
+                  <li>SEO &amp; server-side rendering performance on PDP, PLP, Cart, Checkout</li>
+                </ul>
+              </div>
+              <div class="card__body">
+                <p class="card__meta">Aiva Creative · Software Engineer</p>
+                <h3 class="card__title">L'Oréal Japan Integrations</h3>
+                <p class="card__desc">Payment, reviews and analytics integrations on Salesforce Commerce Cloud for L'Oréal Japan.</p>
+                <ul class="chips chips--sm"><li class="chip">SFCC</li><li class="chip">Braintree</li><li class="chip">PayPal</li><li class="chip">OCAPI</li></ul>
+              </div>
+            </div>
+          </article>
+
+          <div class="work__outro">
+            <p class="work__outro-text">Got a system that needs to <em>scale</em>?</p>
+            <a href="#contact" class="btn btn--primary" data-magnetic="0.35">
+              <span class="btn__label" data-magnetic-inner>Start a conversation
+                <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         05 — CREDENTIALS & INTERESTS
+         ============================================================ -->
+    <section class="creds section" id="credentials">
+      <div class="container">
+        <p class="section-label" data-reveal><span class="num">05</span> Credentials</p>
+        <h2 class="section-title js-split-words">Certified &amp; always learning</h2>
+
+        <div class="creds__grid">
+          <ul class="creds__list">
+            <li data-reveal>
+              <a class="cred" href="https://www.credly.com/badges/60b7cc54-5479-4f42-9aec-fca6336c5e30" target="_blank" rel="noopener noreferrer">
+                <span class="cred__num">01</span>
+                <div class="cred__main">
+                  <h3 class="cred__title">Certified Kubernetes Application Developer (CKAD)</h3>
+                  <p class="cred__issuer">The Linux Foundation / CNCF · Sep 2026 · ID LF-sxz34xuhog</p>
+                </div>
+                <span class="cred__tag">Certification</span>
+                <svg class="cred__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <span class="sr-only">— View CKAD badge on Credly (opens in a new tab)</span>
+              </a>
+            </li>
+            <li data-reveal>
+              <a class="cred" href="https://www.linkedin.com/posts/mehmood-hassan_salesforcecertified-salesforcecommercecloud-activity-7005201402725588992-LJHg/" target="_blank" rel="noopener noreferrer">
+                <span class="cred__num">02</span>
+                <div class="cred__main">
+                  <h3 class="cred__title">Salesforce Certified B2C Commerce Developer</h3>
+                  <p class="cred__issuer">Salesforce</p>
+                </div>
+                <span class="cred__tag">Certification</span>
+                <svg class="cred__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <span class="sr-only">— View Salesforce certification (opens in a new tab)</span>
+              </a>
+            </li>
+            <li data-reveal>
+              <div class="cred">
+                <span class="cred__num">03</span>
+                <div class="cred__main">
+                  <h3 class="cred__title">BS Software Engineering</h3>
+                  <p class="cred__issuer">Virtual University of Pakistan, Lahore · 2016 — 2020</p>
+                </div>
+                <span class="cred__tag">Degree</span>
+                <span class="cred__arrow" aria-hidden="true"></span>
+              </div>
+            </li>
+            <li data-reveal>
+              <a class="cred" href="https://www.coursera.org/account/accomplishments/certificate/YRYE7V9Y5CFC" target="_blank" rel="noopener noreferrer">
+                <span class="cred__num">04</span>
+                <div class="cred__main">
+                  <h3 class="cred__title">SQL for Data Science</h3>
+                  <p class="cred__issuer">Coursera · UC Davis</p>
+                </div>
+                <span class="cred__tag">Course</span>
+                <svg class="cred__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <span class="sr-only">— View certificate (opens in a new tab)</span>
+              </a>
+            </li>
+            <li data-reveal>
+              <a class="cred" href="https://www.coursera.org/account/accomplishments/certificate/UM6XVFZMFEGA" target="_blank" rel="noopener noreferrer">
+                <span class="cred__num">05</span>
+                <div class="cred__main">
+                  <h3 class="cred__title">Introduction to Structured Query Language (SQL)</h3>
+                  <p class="cred__issuer">Coursera · University of Michigan</p>
+                </div>
+                <span class="cred__tag">Course</span>
+                <svg class="cred__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <span class="sr-only">— View certificate (opens in a new tab)</span>
+              </a>
+            </li>
+            <li data-reveal>
+              <a class="cred" href="https://www.coursera.org/account/accomplishments/certificate/E92X6F7WQ5AH" target="_blank" rel="noopener noreferrer">
+                <span class="cred__num">06</span>
+                <div class="cred__main">
+                  <h3 class="cred__title">HTML, CSS &amp; JavaScript for Web Developers</h3>
+                  <p class="cred__issuer">Coursera · Johns Hopkins University</p>
+                </div>
+                <span class="cred__tag">Course</span>
+                <svg class="cred__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <span class="sr-only">— View certificate (opens in a new tab)</span>
+              </a>
+            </li>
+          </ul>
+
+          <aside class="interest" data-reveal>
+            <svg class="interest__ball" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+              <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="3" />
+              <path d="M50 30 62 39 57.5 53h-15L38 39Z" fill="currentColor" />
+              <path d="M50 30V8M62 39l20-7M57.5 53l12 17M42.5 53l-12 17M38 39l-20-7M69.5 70 64 92M30.5 70 36 92M82 32l12 18M18 32 6 50" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+            </svg>
+            <p class="interest__label">Off the keyboard</p>
+            <h3 class="interest__title">Attacking midfielder / forward</h3>
+            <p class="interest__text">Competitive football for <strong>Real Lahore FC</strong>. Formerly with the <strong>Atlético de Madrid Academy Pakistan (U-19)</strong>. Same instincts on the pitch as in production — read the play, move fast, finish.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         06 — CONTACT
+         ============================================================ -->
+    <section class="contact section" id="contact">
+      <div class="container">
+        <p class="section-label" data-reveal><span class="num">06</span> Contact</p>
+
+        <h2 class="contact__title">
+          <span class="line"><span class="js-split-chars">Let's build</span></span>
+          <span class="line"><span class="js-split-chars">systems that</span></span>
+          <span class="line"><em class="js-split-chars">scale.</em></span>
+        </h2>
+
+        <div class="contact__grid">
+          <div class="contact__info">
+            <p class="contact__kicker" data-reveal>Have a platform to scale, a backend team to lead, or a system that needs to stay up? Let's talk.</p>
+
+            <div class="contact__email-row" data-reveal>
+              <a class="contact__email" href="mailto:this.mehmood@gmail.com">this.mehmood@gmail.com</a>
+              <button class="copy-btn" type="button" data-copy="this.mehmood@gmail.com" aria-label="Copy email address">
+                <span class="copy-btn__text">Copy</span>
+              </button>
+              <span class="sr-only js-copy-status" role="status" aria-live="polite"></span>
+            </div>
+
+            <dl class="contact__details" data-reveal>
+              <div><dt>Phone</dt><dd><a href="tel:+923374846627">+92 337 4846627</a></dd></div>
+              <div><dt>Location</dt><dd>Lahore, Pakistan</dd></div>
+              <div><dt>Local time</dt><dd><time class="js-local-time">--:--</time> PKT</dd></div>
+            </dl>
+
+            <!-- Magnetic social icons -->
+            <ul class="socials" data-reveal>
+              <li>
+                <a class="social" href="mailto:this.mehmood@gmail.com" aria-label="Email" data-magnetic="0.5">
+                  <span data-magnetic-inner><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8" /><path d="m3.5 6.5 8.5 6.5 8.5-6.5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /></svg></span>
+                </a>
+              </li>
+              <li>
+                <a class="social" href="https://www.linkedin.com/in/mehmood-ul-hassan-95346814a/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)" data-magnetic="0.5">
+                  <span data-magnetic-inner><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z" /></svg></span>
+                </a>
+              </li>
+              <li>
+                <a class="social" href="https://github.com/thismehmood" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in a new tab)" data-magnetic="0.5">
+                  <span data-magnetic-inner><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.82-.26.82-.58l-.02-2.04c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .3Z" /></svg></span>
+                </a>
+              </li>
+              <li>
+                <a class="social" href="tel:+923374846627" aria-label="Phone" data-magnetic="0.5">
+                  <span data-magnetic-inner><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /></svg></span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contact form: floating labels. Opens the visitor's mail client (no backend needed).
+               To use a form service instead (Formspree, Getform…), set data-endpoint on the form. -->
+          <form class="form" id="contactForm" action="mailto:this.mehmood@gmail.com" method="post" enctype="text/plain" novalidate data-reveal>
+            <div class="form__row">
+              <div class="field">
+                <input class="field__input" type="text" id="name" name="name" placeholder=" " autocomplete="name" required />
+                <label class="field__label" for="name">Your name</label>
+                <span class="field__line" aria-hidden="true"></span>
+                <span class="field__error" id="name-error">Please tell me your name.</span>
+              </div>
+              <div class="field">
+                <input class="field__input" type="email" id="email" name="email" placeholder=" " autocomplete="email" required />
+                <label class="field__label" for="email">Email address</label>
+                <span class="field__line" aria-hidden="true"></span>
+                <span class="field__error" id="email-error">Please enter a valid email.</span>
+              </div>
+            </div>
+            <div class="field">
+              <input class="field__input" type="text" id="subject" name="subject" placeholder=" " />
+              <label class="field__label" for="subject">Subject (optional)</label>
+              <span class="field__line" aria-hidden="true"></span>
+            </div>
+            <div class="field">
+              <textarea class="field__input" id="message" name="message" rows="4" placeholder=" " required></textarea>
+              <label class="field__label" for="message">Tell me about your project</label>
+              <span class="field__line" aria-hidden="true"></span>
+              <span class="field__error" id="message-error">A short message helps.</span>
+            </div>
+            <div class="form__footer">
+              <button class="btn btn--primary btn--lg" type="submit" data-magnetic="0.3">
+                <span class="btn__label" data-magnetic-inner>Send message
+                  <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                </span>
+              </button>
+              <p class="form__status" role="status" aria-live="polite"></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer">
+    <div class="footer__big" aria-hidden="true">
+      <span class="footer__line" data-text="Mehmood">Mehmood</span>
+      <span class="footer__line" data-text="Ul Hassan">Ul Hassan</span>
+    </div>
+    <div class="container footer__row">
+      <span>&copy; <span class="js-year">2026</span> Mehmood Ul Hassan · Lahore, Pakistan</span>
+      <span class="footer__built">Built with GSAP, ScrollTrigger &amp; Lenis</span>
+      <a href="#top" class="to-top" data-magnetic="0.4">
+        <span data-magnetic-inner>Back to top ↑</span>
+      </a>
+    </div>
   </footer>
-  <!-- End Footer -->
 
-  <div id="preloader"></div>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/typed.js/typed.min.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <!-- ============================================================
+       SCRIPTS — GSAP 3 + ScrollTrigger + Lenis (CDN), then app
+       ============================================================ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
 </body>
-
 </html>
