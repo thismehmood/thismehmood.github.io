@@ -156,9 +156,6 @@ export default function ContactForm({
     <form
       ref={formRef}
       className="form"
-      action={`mailto:${email}`}
-      method="post"
-      encType="text/plain"
       noValidate
       data-reveal
       onSubmit={onSubmit}
