@@ -1,10 +1,13 @@
 'use client';
 
 /* ==========================================================================
-   Marquee (tech-stack tape) — infinite loop whose direction & speed follow
-   scroll direction / velocity. Each track renders its group twice (the copy
-   is aria-hidden) so wrapping at -50% is seamless. Runs on gsap.ticker only
-   while the marquee is in view; nothing moves for reduced motion.
+   Marquee — a slim schematic run-log between hairlines: one mono row of
+   capability terms, uppercase, separated by ring nodes (the hero mesh's
+   agent nodes). The loop's direction & speed follow scroll direction /
+   velocity. Each track renders its group twice (the copy is aria-hidden) so
+   wrapping at -50% is seamless, and each group repeats its items so one
+   group is always wider than the viewport. Runs on gsap.ticker only while
+   the marquee is in view; nothing moves for reduced motion / static mode.
    ========================================================================== */
 
 import { Fragment, useRef } from 'react';
@@ -12,13 +15,21 @@ import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import { isStaticMode, prefersReducedMotion } from '@/lib/motion';
 import { marqueeRows } from '@/lib/data';
 
-function MarqueeGroup({ items, copy = false }: { items: string[]; copy?: boolean }) {
+/** Passes of the item list per group: small mono items need several to span wide screens. */
+const REPEAT = 3;
+
+function MarqueeGroup({ items, copy = false }: { items: readonly string[]; copy?: boolean }) {
   return (
     <div className="marquee__group" aria-hidden={copy ? 'true' : undefined}>
-      {items.map((item) => (
-        <Fragment key={item}>
-          <span className="marquee__item">{item}</span>
-          <span className="marquee__sep" aria-hidden="true">✦</span>
+      {Array.from({ length: REPEAT }, (_, pass) => (
+        <Fragment key={pass}>
+          {items.map((item) => (
+            <Fragment key={item}>
+              {/* only the first pass of the first group is read out */}
+              <span className="marquee__item" aria-hidden={pass > 0 && !copy ? 'true' : undefined}>{item}</span>
+              <span className="marquee__sep marquee__sep--node" aria-hidden="true" />
+            </Fragment>
+          ))}
         </Fragment>
       ))}
     </div>
@@ -44,7 +55,7 @@ export default function Marquee() {
     rows.forEach((r) => r.set(r.x));
 
     const wrap = gsap.utils.wrap(-50, 0);
-    const BASE = 0.03; // % of track per frame @60fps
+    const BASE = 0.022; // % of track per frame @60fps
     let boost = 0;
     let scrollDir = 1;
     let active = false;
@@ -56,7 +67,7 @@ export default function Marquee() {
       onToggle: (self) => { active = self.isActive; },
       onUpdate: (self) => {
         scrollDir = self.direction;
-        boost = Math.min(Math.abs(self.getVelocity()) / 9000, 0.45);
+        boost = Math.min(Math.abs(self.getVelocity()) / 9000, 0.4);
       },
     });
 
@@ -80,14 +91,16 @@ export default function Marquee() {
 
   return (
     <div className="marquee" ref={rootRef}>
-      {marqueeRows.map((row, i) => (
-        <div className={`marquee__band marquee__band--${row.tone}`} key={i}>
-          <div className="marquee__track" data-marquee={row.dir}>
-            <MarqueeGroup items={row.items} />
-            <MarqueeGroup items={row.items} copy />
+      <div className="marquee__frame">
+        {marqueeRows.map((row, i) => (
+          <div className="marquee__band" key={i}>
+            <div className="marquee__track" data-marquee={row.dir}>
+              <MarqueeGroup items={row.items} />
+              <MarqueeGroup items={row.items} copy />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

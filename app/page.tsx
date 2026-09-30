@@ -22,6 +22,7 @@ export default function Home() {
       <a className="skip-link" href="#main">Skip to content</a>
       <Cursor />
       <div className="grain" aria-hidden="true" />
+      <div className="gridlines" aria-hidden="true" />
       <Preloader />
       <Nav />
 

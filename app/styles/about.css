@@ -1,0 +1,170 @@
+/* ==========================================================================
+   01 — ABOUT
+   Scroll-lit statement set on the blueprint grid (its first line starts on
+   the second gridline), profile copy, and the stats as a framed readout.
+   ========================================================================== */
+
+/* --- Statement --- */
+.about__statement { position: relative; }
+
+.about__text {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 3.55vw, 3.6rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-indent: calc(100% / 6); /* first line starts on gridline 2 (.gridlines = six columns) */
+  text-wrap: pretty;
+}
+
+/* --lit (0 → 1) is tweened per word by About.tsx; it defaults to 1 (fully lit) wherever
+   nothing animates it — reduced motion, the static fallback and no-JS. */
+.about__text .word {
+  text-indent: 0; /* text-indent inherits into the inline-block words — keep it on the paragraph only */
+  color: color-mix(in oklab, var(--text) calc(var(--lit, 1) * 100%), var(--dim));
+}
+.about__text em .word { color: color-mix(in oklab, var(--accent-fg) calc(var(--lit, 1) * 100%), var(--dim)); }
+.about__text em { color: var(--accent-fg); } /* spaces / fallback */
+
+/* Lead-in in the indent: a live node and a hairline pointing into the statement */
+.about__lead {
+  position: absolute;
+  top: .56em;
+  left: 0;
+  width: calc(100% / 6 - clamp(1rem, 2vw, 2rem));
+  height: 1px;
+  font-size: clamp(1.75rem, 3.55vw, 3.6rem); /* match the statement so .56em sits on its x-height */
+  background: linear-gradient(to right, var(--accent-fg) 0 7px, var(--line-strong) 7px, var(--line-strong) calc(100% - 7px), transparent);
+  pointer-events: none;
+}
+.about__lead::before,
+.about__lead::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.about__lead::before { left: 0; width: 9px; height: 9px; background: var(--accent-fg); }
+.about__lead::after { left: 0; width: 21px; height: 21px; border: 1px solid rgba(var(--accent-fg-rgb), .35); }
+
+/* --- Copy + readout ---
+   Six columns matching .gridlines: note in column 1, copy in 2–3, readout in 4–6 */
+.about__grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: start;
+  margin-top: clamp(4.5rem, 9vw, 8rem);
+}
+
+.about__note {
+  grid-column: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  padding-top: .3rem;
+  color: var(--muted);
+}
+.about__note-node {
+  width: 5px;
+  height: 5px;
+  background: var(--accent-fg);
+}
+
+.about__copy {
+  grid-column: 2 / 4;
+  padding-right: clamp(1.5rem, 3.5vw, 3.5rem);
+}
+.about__copy p {
+  max-width: 50ch;
+  margin-bottom: 1.25rem;
+  color: var(--muted);
+}
+.about__copy p:first-child { color: var(--text); }
+
+.about__readout { grid-column: 4 / -1; }
+
+.readout__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: .85rem;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.readout__title { display: inline-flex; align-items: center; gap: .6rem; color: var(--text); }
+.readout__node {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-fg);
+  box-shadow: 0 0 0 3px rgba(var(--accent-fg-rgb), .18);
+}
+.readout__meta { color: var(--muted); }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.stat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(12rem, 17vw, 14.5rem);
+  padding: 1.15rem 1.35rem 1.35rem;
+  background: rgba(var(--text-rgb), .018);
+  transition: background-color .5s var(--ease-out);
+}
+.stat:hover { background: rgba(var(--text-rgb), .035); }
+.stat:hover .corners { --bracket-color: var(--accent); }
+
+.stat__index { color: var(--dim); }
+.stat__num {
+  display: flex;
+  align-items: baseline;
+  margin-top: clamp(2.25rem, 4.2vw, 3.75rem); /* numbers share one baseline across a row */
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(3rem, 5.4vw, 5.25rem);
+  line-height: .95;
+  letter-spacing: -0.03em; /* display XL (as the contact and footer headlines) */
+  font-variant-numeric: tabular-nums;
+}
+.stat__approx { font-weight: 500; margin-right: .04em; }
+.stat__suffix { font-size: .62em; letter-spacing: -0.02em; margin-left: .04em; }
+.stat__label {
+  margin-top: .85rem;
+  max-width: 30ch;
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* --- Responsive --- */
+@media (max-width: 1279px) {
+  /* note sits above the copy; copy spans columns 1–3 */
+  .about__note { grid-column: 1 / 4; grid-row: 1; margin-bottom: 1.25rem; }
+  .about__copy { grid-column: 1 / 4; grid-row: 2; }
+  .about__readout { grid-row: 1 / span 2; }
+}
+@media (max-width: 1023px) {
+  .about__grid { grid-template-columns: minmax(0, 1fr); }
+  .about__note,
+  .about__copy,
+  .about__readout { grid-column: 1; grid-row: auto; }
+  .about__copy { padding-right: 0; }
+  .about__readout { margin-top: 3rem; }
+}
+@media (max-width: 767px) {
+  .about__text { text-indent: 0; }
+  .about__lead { display: none; }
+  .stats { gap: 10px; }
+  .stat { min-height: 0; padding: 1rem 1rem 1.15rem; }
+  .stat__num { margin-top: 1.75rem; font-size: clamp(2.6rem, 12vw, 3.5rem); }
+  .stat__label { font-size: .8125rem; }
+}
+@media (max-width: 339px) {
+  .stats { grid-template-columns: minmax(0, 1fr); }
+}

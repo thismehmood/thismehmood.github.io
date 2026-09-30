@@ -1,8 +1,8 @@
 'use client';
 
 /* ==========================================================================
-   Contact form — floating labels, inline validation, mailto hand-off
-   (main.js §15 initForm).
+   Contact form — bracketed panel, floating labels with green focus lines,
+   inline validation (--danger), mailto hand-off.
 
    By default it opens the visitor's mail client with everything pre-filled
    (no backend needed). To POST to a form service instead (Formspree, Getform…)
@@ -13,6 +13,7 @@ import { Fragment, useRef, useState, type FormEvent, type ReactNode } from 'reac
 import { gsap, useGSAP } from '@/lib/gsap';
 import { prefersReducedMotion } from '@/lib/motion';
 import { site } from '@/lib/data';
+import Corners from '@/components/Corners';
 
 type Control = HTMLInputElement | HTMLTextAreaElement;
 type RequiredName = 'name' | 'email' | 'message';
@@ -129,7 +130,7 @@ export default function ContactForm({
           body: data,
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        setStatus({ msg: "Thanks — your message is on its way. I'll reply soon.", type: 'success' });
+        setStatus({ msg: 'Thanks — your message is on its way. I’ll reply soon.', type: 'success' });
         form.reset();
       } catch {
         setStatus({ msg: `Something went wrong. Please email me directly at ${email}.`, type: 'error' });
@@ -162,6 +163,11 @@ export default function ContactForm({
       data-reveal
       onSubmit={onSubmit}
     >
+      <Corners />
+      <p className="form__head">
+        <span className="form__head-title"><span className="pulse-dot" aria-hidden="true" />Send a message</span>{' '}
+        <span className="form__head-meta">{endpoint ? 'Delivered directly' : 'Opens your email app'}</span>
+      </p>
       <div className="form__row">
         <Field id="name" label="Your name" error="Please tell me your name." invalid={invalid.name}>
           {(aria) => (

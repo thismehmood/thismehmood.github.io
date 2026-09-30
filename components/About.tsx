@@ -2,8 +2,13 @@
 
 /* ==========================================================================
    01 — ABOUT
-   Statement words light up on scroll, copy fades up, stats count up.
-   (main.js §09 — the parts that apply to this section)
+   Scroll-lit statement (words go from --dim to --text; the emphasised phrase
+   lights up green), profile copy, and the stats as a framed readout whose
+   numbers count up.
+
+   The statement is lit through a `--lit` custom property (0 → 1) that the CSS
+   mixes between two tokens, so no colour values live in JS. Without it
+   (reduced motion, static fallback, no JS) `--lit` falls back to 1: fully lit.
    ========================================================================== */
 
 import { useRef } from 'react';
@@ -12,9 +17,9 @@ import { isStaticMode, prefersReducedMotion } from '@/lib/motion';
 import { countUp, revealOnScroll } from '@/lib/animations';
 import { about, sections, stats } from '@/lib/data';
 import SplitText from '@/components/SplitText';
+import Corners from '@/components/Corners';
 
-/** Opacity of the statement's not-yet-lit words. */
-const UNLIT_OPACITY = 0.45;
+const pad = (n: number) => String(n).padStart(2, '0');
 
 export default function About() {
   const rootRef = useRef<HTMLElement>(null);
@@ -27,14 +32,12 @@ export default function About() {
     // Fade-up for [data-reveal]
     revealOnScroll(Array.from(root.querySelectorAll('[data-reveal]')));
 
-    // Statement: words brighten as you scroll. Unlit words stay readable (≥3:1 for this
-    // large text in both themes) — at the original 0.12 they vanished on the dark background.
-    // The emphasised phrase (<em>) is always fully lit.
+    // Statement: each word is lit in reading order as you scroll. Unlit words sit at --dim
+    // (≥3:1 for this large text), lit words at --text, the <em> phrase at the accent.
     const statement = root.querySelector('.about__text');
     if (statement) {
-      const words = Array.from(statement.querySelectorAll('.word')).filter((w) => !w.closest('em'));
-      gsap.fromTo(words, { opacity: UNLIT_OPACITY }, {
-        opacity: 1,
+      gsap.fromTo(statement.querySelectorAll('.word'), { '--lit': 0 }, {
+        '--lit': 1,
         stagger: 0.05,
         ease: 'none',
         scrollTrigger: { trigger: statement, start: 'top 80%', end: 'bottom 45%', scrub: true },
@@ -55,9 +58,16 @@ export default function About() {
       <div className="container">
         <h2 className="section-label" data-reveal=""><span className="num">{sections.about.num}</span> {sections.about.label}</h2>
 
-        <SplitText as="p" type="words" parts={about.statement} className="about__text" />
+        <div className="about__statement">
+          <span className="about__lead" aria-hidden="true" />
+          <SplitText as="p" type="words" parts={about.statement} className="about__text" />
+        </div>
 
         <div className="about__grid">
+          <p className="about__note mono" data-reveal="" aria-hidden="true">
+            <span className="about__note-node" />Profile
+          </p>
+
           <div className="about__copy">
             {about.paragraphs.map((text, i) => (
               <p data-reveal="" key={i}>{text}</p>
@@ -70,19 +80,27 @@ export default function About() {
             </a>
           </div>
 
-          <ul className="stats">
-            {stats.map((stat) => (
-              <li className="stat" data-reveal="" key={stat.label}>
-                <span className="stat__num" aria-hidden="true">
-                  {stat.prefix && <span className="accent stat__approx">{stat.prefix}</span>}
-                  <span className="js-count" data-count={stat.value}>{stat.value}</span>
-                  {stat.suffix && <span className="accent">{stat.suffix}</span>}
-                </span>
-                <span className="sr-only">{stat.srText}</span>
-                <span className="stat__label">{stat.label}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="about__readout">
+            <div className="readout__head mono" data-reveal="" aria-hidden="true">
+              <span className="readout__title"><span className="readout__node" />Readout</span>
+              <span className="readout__meta">{`${pad(stats.length)} / metrics`}</span>
+            </div>
+            <ul className="stats">
+              {stats.map((stat, i) => (
+                <li className="stat" data-reveal="" key={stat.label}>
+                  <Corners />
+                  <span className="stat__index mono" aria-hidden="true">{pad(i + 1)}</span>
+                  <span className="stat__num" aria-hidden="true">
+                    {stat.prefix && <span className="accent stat__approx">{stat.prefix}</span>}
+                    <span className="js-count" data-count={stat.value}>{stat.value}</span>
+                    {stat.suffix && <span className="accent stat__suffix">{stat.suffix}</span>}
+                  </span>
+                  <span className="sr-only">{stat.srText}</span>
+                  <span className="stat__label">{stat.label}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

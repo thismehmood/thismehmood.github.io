@@ -6,6 +6,9 @@
    track is pinned + translated sideways as you scroll (progress bar, per-card
    art parallax, keyboard-focus follow). Tablet / mobile / reduced motion:
    vertical stack with simple batched reveals. Fine pointers get 3D tilt cards.
+   The featured project (Octopus) is the first, wider card with accent brackets.
+   Each card reads index → artwork → meta / title / description → highlights (the
+   highlights come last in the DOM; on desktop CSS overlays them on the artwork).
    ========================================================================== */
 
 import { useRef } from 'react';
@@ -17,6 +20,7 @@ import { useApp } from '@/components/AppProvider';
 import SplitText from '@/components/SplitText';
 import ProjectArt from '@/components/ProjectArt';
 import RichText from '@/components/RichText';
+import Corners from '@/components/Corners';
 
 const MQ_HORIZONTAL = '(min-width: 1024px) and (prefers-reduced-motion: no-preference)';
 const MQ_STACKED = '(max-width: 1023px), (prefers-reduced-motion: reduce)';
@@ -26,6 +30,13 @@ const ART_SHIFT = 9; // max xPercent of the inner-art parallax
 const TILT_MAX = 9; // degrees
 
 type Setter = (value: number) => void;
+
+const pad = (n: number) => String(n).padStart(2, '0');
+
+/** "2021 — 2026": the span of years covered by the projects (derived from lib/data). */
+const projectYears = projects.flatMap((p) => p.years.match(/\d{4}/g) ?? []).map(Number);
+const yearSpan = projectYears.length ? `${Math.min(...projectYears)} — ${Math.max(...projectYears)}` : '';
+const isExternal = (href: string) => /^https?:\/\//.test(href);
 
 export default function Work() {
   const rootRef = useRef<HTMLElement>(null);
@@ -42,10 +53,8 @@ export default function Work() {
       if (!pin || !track || !progressBar) return;
 
       const cards = Array.from(track.querySelectorAll<HTMLElement>('.card'));
-      const arts = cards.flatMap((card) => {
-        const art = card.querySelector<HTMLElement>('.card__art');
-        return art ? [{ card, art }] : [];
-      });
+      const arts = Array.from(track.querySelectorAll<HTMLElement>('.card__art'));
+      const countNow = section.querySelector<HTMLElement>('.work__count-now');
 
       const mm = gsap.matchMedia();
 
@@ -56,24 +65,32 @@ export default function Work() {
         const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
         const setProgress = gsap.quickSetter(progressBar, 'scaleX') as Setter;
 
-        // Inner-art parallax: card centres are cached and re-measured on every refresh
-        const artData = arts.map(({ card, art }) => ({
-          card,
-          set: gsap.quickSetter(art, 'xPercent') as Setter,
-          center: 0,
-        }));
+        // Inner-art parallax + the "01 / 06" readout: card centres are cached and
+        // re-measured on every refresh (no layout reads per frame)
+        const cardData = cards.map((card) => {
+          const art = card.querySelector<HTMLElement>('.card__art');
+          return { card, set: art ? (gsap.quickSetter(art, 'xPercent') as Setter) : null, center: 0 };
+        });
         const measure = () => {
-          artData.forEach((d) => { d.center = d.card.offsetLeft + d.card.offsetWidth / 2; });
+          cardData.forEach((d) => { d.center = d.card.offsetLeft + d.card.offsetWidth / 2; });
         };
         measure();
 
+        let current = 0;
         const updateArt = () => {
           const x = Number(gsap.getProperty(track, 'x')) || 0;
           const vw = window.innerWidth;
-          artData.forEach((d) => {
-            const rel = gsap.utils.clamp(-1.2, 1.2, (d.center + x - vw / 2) / vw);
-            d.set(rel * -ART_SHIFT);
+          let nearest = 0;
+          let best = Infinity;
+          cardData.forEach((d, i) => {
+            const offset = d.center + x - vw / 2;
+            if (Math.abs(offset) < best) { best = Math.abs(offset); nearest = i; }
+            d.set?.(gsap.utils.clamp(-1.2, 1.2, offset / vw) * -ART_SHIFT);
           });
+          if (countNow && nearest !== current) {
+            current = nearest;
+            countNow.textContent = pad(nearest + 1);
+          }
         };
 
         const hTween = gsap.to(track, {
@@ -146,8 +163,9 @@ export default function Work() {
           section.classList.remove('is-horizontal');
           hTween.scrollTrigger?.kill();
           // quickSetter writes aren't recorded by matchMedia — clear them by hand
-          gsap.set(arts.map((a) => a.art), { clearProps: 'transform' });
+          gsap.set(arts, { clearProps: 'transform' });
           gsap.set(progressBar, { clearProps: 'transform' });
+          if (countNow) countNow.textContent = pad(1);
         };
       });
 
@@ -164,6 +182,13 @@ export default function Work() {
           once: true,
           onEnter: contextSafe ? (contextSafe(reveal) as ScrollTrigger.BatchCallback) : reveal,
         });
+      });
+
+      /* --- Tablet / mobile: highlights are always visible, so the card tab stops do nothing.
+         (Kept at ≥1024px, where focusing a card is the keyboard way to reveal its highlights.) --- */
+      mm.add('(max-width: 1023px)', () => {
+        cards.forEach((c) => c.removeAttribute('tabindex'));
+        return () => cards.forEach((c) => { c.tabIndex = 0; });
       });
 
       /* --- 3D tilt + glare follow (fine pointer, motion OK) --- */
@@ -203,7 +228,7 @@ export default function Work() {
       /* --- Section heading: masked word slide-up --- */
       if (!prefersReducedMotion()) revealWords(section.querySelector('.work__title'));
 
-      // Only run the SVG art micro-animations while the section is on screen (CSS reads .is-inview)
+      // The section's .is-inview gates its own small loops (scroll hint, badge ping)
       ScrollTrigger.create({
         trigger: section,
         start: 'top bottom',
@@ -211,8 +236,23 @@ export default function Work() {
         toggleClass: { targets: section, className: 'is-inview' },
       });
 
+      // Each card's SVG art only animates while that card is on screen (CSS reads the card's
+      // .is-inview). An IntersectionObserver sees the track's transform and the pin's clip, so
+      // off-screen cards of the pinned gallery pause too.
+      let io: IntersectionObserver | null = null;
+      if (typeof IntersectionObserver === 'function') {
+        io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => e.target.classList.toggle('is-inview', e.isIntersecting));
+        });
+        cards.forEach((c) => io?.observe(c));
+      } else {
+        cards.forEach((c) => c.classList.add('is-inview'));
+      }
+
       // Runs after everything above has been reverted
       return () => {
+        io?.disconnect();
+        cards.forEach((c) => c.classList.remove('is-inview'));
         section.classList.remove('is-inview', 'is-horizontal');
       };
     },
@@ -224,6 +264,9 @@ export default function Work() {
       <div className="work__pin">
         <div className="work__header">
           <p className="section-label"><span className="num">{sections.work.num}</span> {sections.work.label}</p>
+          <p className="work__count" aria-hidden="true">
+            <span className="work__count-now">{pad(1)}</span> / {pad(projects.length)}
+          </p>
           <div className="work__progress" aria-hidden="true"><span className="work__progress-bar" /></div>
           <p className="work__hint" aria-hidden="true">Scroll <span>→</span></p>
         </div>
@@ -232,34 +275,74 @@ export default function Work() {
           <div className="work__intro">
             <SplitText as="h2" className="work__title" type="words" mask parts={workIntro.title} />
             <p className="work__lead">{workIntro.lead}</p>
+            <p className="work__meta mono">
+              {pad(projects.length)} projects{yearSpan && ` · ${yearSpan}`}
+            </p>
           </div>
 
           {projects.map((project) => (
-            <article className="card" tabIndex={0} key={project.num}>
+            <article
+              className={project.featured ? 'card card--featured' : 'card'}
+              tabIndex={0}
+              aria-labelledby={`work-${project.num}`}
+              key={project.num}
+            >
+              <Corners accent={project.featured} />
               <div className="card__inner">
                 <span className="card__glare" aria-hidden="true" />
-                <div className="card__top"><span>{project.num}</span><span>{project.years}</span></div>
+                <div className="card__top">
+                  <span className="card__num">{project.num}</span>
+                  <span className="card__rule" aria-hidden="true" />
+                  <span className="card__years">{project.years}</span>
+                </div>
                 <div className="card__visual">
+                  {project.badge && (
+                    <p className="status card__status"><span className="pulse-dot" aria-hidden="true" />{project.badge}</p>
+                  )}
                   <div className="card__art" aria-hidden="true">
                     <ProjectArt id={project.art} />
                   </div>
-                  <ul className="card__highlights">
-                    {project.highlights.map((point) => <li key={point}>{point}</li>)}
-                  </ul>
                 </div>
                 <div className="card__body">
-                  <p className="card__meta">{project.meta}</p>
-                  <h3 className="card__title">{project.title}</h3>
-                  <p className="card__desc">{project.desc}</p>
-                  <ul className="chips chips--sm">
-                    {project.tags.map((tag) => <li className="chip" key={tag}>{tag}</li>)}
-                  </ul>
+                  <div className="card__heading">
+                    <p className="card__meta">{project.meta}</p>
+                    <h3 className="card__title" id={`work-${project.num}`}>
+                      {project.href ? (
+                        <a
+                          className="card__link"
+                          href={project.href}
+                          {...(isExternal(project.href) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                        >
+                          {project.title}
+                          {isExternal(project.href) && <span className="sr-only"> (opens in a new tab)</span>}
+                          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </a>
+                      ) : project.title}
+                    </h3>
+                  </div>
+                  <div className="card__detail">
+                    <p className="card__desc">{project.desc}</p>
+                    <ul className="chips chips--sm">
+                      {project.tags.map((tag) => <li className="chip" key={tag}>{tag}</li>)}
+                    </ul>
+                  </div>
                 </div>
+                {/* after the body, so the title comes first; desktop CSS lays it over .card__visual */}
+                <ul className="card__highlights">
+                  {project.highlights.map((point) => <li key={point}>{point}</li>)}
+                </ul>
               </div>
             </article>
           ))}
 
           <div className="work__outro">
+            <p className="work__outro-top mono" aria-hidden="true">
+              <span>{pad(projects.length + 1)}</span>
+              <span>Next</span>
+            </p>
+            <span className="work__outro-mark" aria-hidden="true" />
             <p className="work__outro-text"><RichText parts={workIntro.outro} /></p>
             <a href="#contact" className="btn btn--primary" data-magnetic="0.35">
               <span className="btn__label" data-magnetic-inner="">

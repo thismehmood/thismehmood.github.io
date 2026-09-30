@@ -1,0 +1,74 @@
+/* ==========================================================================
+   DESIGN TOKENS
+   Palette inspired by GSAP's brand: near-black canvas, GSAP green
+   (#0AE448) as the single strong accent, GSAP dark green (#0C7A2B) for
+   depth. Neutral off-white text (no cream / yellow cast). One cool violet
+   is kept for rare secondary detail (gradients, the timeline tail).
+   ========================================================================== */
+:root {
+  /* --- Canvas & surfaces --- */
+  --bg: #0E100F;
+  --bg-rgb: 14, 16, 15;
+  --bg-2: #111412;            /* alternate section band (Work) */
+  --surface: #161917;         /* cards */
+  --surface-2: #1E221F;       /* raised / hover */
+  --screen: #0B0D0C;          /* dark "screens" behind project artwork */
+
+  /* --- Ink --- */
+  --text: #ECEEE9;
+  --text-rgb: 236, 238, 233;
+  --muted: #9CA39E;           /* secondary text — 7.4:1 on --bg, 6.9:1 on --surface */
+  --dim: #7C837E;             /* tertiary: indices, grid labels, separators — 4.9:1 on --bg, 4.6:1 on --surface (AA for small labels); not for body copy */
+  --line: rgba(var(--text-rgb), 0.09);
+  --line-strong: rgba(var(--text-rgb), 0.18);
+
+  /* --- Accent: GSAP green --- */
+  --accent: #0AE448;
+  --accent-rgb: 10, 228, 72;
+  --accent-deep: #0C7A2B;     /* GSAP dark green: fills behind text, hover depth */
+  --accent-deep-rgb: 12, 122, 43;
+  --accent-ink: #0E100F;      /* text on --accent */
+  --accent-fg: var(--accent); /* accent used as text / lines on the canvas */
+  --accent-fg-rgb: var(--accent-rgb);
+
+  /* --- Secondary (use sparingly) --- */
+  --violet: #9D95FF;
+  --violet-rgb: 157, 149, 255;
+  --timeline-end: var(--violet);
+  --danger: #FF6B5E;          /* form errors — 6.9:1 on --bg */
+
+  /* --- Effects --- */
+  --screen-text: var(--text);
+  --scrollbar-thumb: var(--surface-2);
+  --shadow-card: 0 1px 0 rgba(var(--text-rgb), .04) inset, 0 30px 60px -30px rgba(0, 0, 0, .6);
+  --grain-opacity: .035;
+  --grid-line: rgba(var(--text-rgb), 0.035); /* blueprint grid */
+  color-scheme: dark;
+
+  /* --- Type ---
+     --font-bricolage / --font-geist / --font-geist-mono are the next/font faces (app/layout.tsx) */
+  --font-display: var(--font-bricolage), var(--font-geist), system-ui, sans-serif;
+  --font-body: var(--font-geist), system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-h2: clamp(2.4rem, 6vw, 6rem);
+  --fs-h3: clamp(1.3rem, 1.8vw, 1.65rem);
+  --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --fs-small: 0.875rem;
+  --fs-label: 0.75rem;
+  --tracking-display: -0.035em;
+
+  /* --- Layout --- */
+  --gutter: clamp(16px, 4vw, 64px);
+  --maxw: 1440px;
+  /* Inline edge of the content column: the gutter, or the container's edge on wide screens.
+     The blueprint grid, the nav and the hero all line up on it. */
+  --page-inline: max(var(--gutter), calc((100vw - var(--maxw)) / 2 + var(--gutter)));
+  /* Shape language: boxes are square (hairline + corner brackets), controls are full pills. */
+  --nav-h: 76px;
+  --bracket: 12px;            /* corner-bracket arm length */
+
+  /* --- Motion --- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}

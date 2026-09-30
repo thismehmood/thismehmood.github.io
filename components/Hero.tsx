@@ -1,30 +1,43 @@
 'use client';
 
 /* ==========================================================================
-   Hero — name split into masked characters, lede, CTAs, rotating CKAD badge
-   and floating decorative shapes.
+   Hero — the name (masked character intro), role line, lede, CTAs and a mono
+   spec sheet, beside the Agent mesh canvas (components/HeroAgentMesh.tsx).
    - Intro timeline is built paused on mount, so its "from" states hide the
      hero behind the preloader; it plays when useApp().revealed flips true.
+     The mesh boots (edges grow out of the core) on the same hand-off.
      (The nav's part of the intro lives in Nav.tsx.)
    - Scroll parallax (data-speed) + title drift, skipped for reduced motion.
-   - Mouse parallax on the shapes (data-depth), fine pointer only.
+   - Static mode (the <head> failsafe fired): nothing is hidden or animated;
+     the mesh draws a single static frame.
    ========================================================================== */
 
-import { useEffect, useId, useRef } from 'react';
+import { Fragment, useEffect, useId, useRef } from 'react';
 import { gsap, useGSAP } from '@/lib/gsap';
-import { hasFinePointer, isStaticMode, prefersReducedMotion } from '@/lib/motion';
+import { isStaticMode, prefersReducedMotion } from '@/lib/motion';
 import { featuredCert, hero, site } from '@/lib/data';
 import SplitText from '@/components/SplitText';
 import RichText from '@/components/RichText';
+import Corners from '@/components/Corners';
+import HeroAgentMesh, { HeroMeshFallback } from '@/components/HeroAgentMesh';
 import { useApp } from '@/components/AppProvider';
+
+/* "AI Automations · AI Agents · Cloud-Native" → "AI Automations & AI Agents" */
+const FOCUS = site.tagline.split(' · ').slice(0, 2).join(' & ');
+
+const SPEC: { key: string; value: string }[] = [
+  { key: 'Role', value: site.title },
+  { key: 'Focus', value: site.tagline },
+  { key: 'Base', value: `${site.location} · ${site.tzLabel}` },
+  { key: 'Cert', value: `${featuredCert.title} · ${featuredCert.date}` },
+];
 
 export default function Hero() {
   const rootRef = useRef<HTMLElement>(null);
   const introRef = useRef<gsap.core.Timeline | null>(null);
   const { revealed } = useApp();
-
-  // Unique, selector/URL-safe id for the badge's <textPath> (stable across SSR + hydration)
-  const badgePathId = `badge-circle-${useId().replace(/[^A-Za-z0-9_-]/g, '')}`;
+  // Unique, URL-safe id for the no-JS figure's gradient (stable across SSR + hydration)
+  const glowId = `hero-mesh-glow-${useId().replace(/[^A-Za-z0-9_-]/g, '')}`;
 
   useGSAP(() => {
     const root = rootRef.current;
@@ -32,32 +45,36 @@ export default function Hero() {
 
     const reduced = prefersReducedMotion();
     const title = root.querySelector<HTMLElement>('.hero__title');
-    const star = root.querySelector<HTMLElement>('.hero__star');
+    const mesh = root.querySelector<HTMLElement>('.hero__mesh');
+    const dot = root.querySelector<HTMLElement>('.hero__dot');
     const chars = Array.from(root.querySelectorAll<HTMLElement>('.hero__title .char'));
     const fades = Array.from(root.querySelectorAll<HTMLElement>('[data-hero-fade]'));
-    const inners = Array.from(root.querySelectorAll<HTMLElement>('.hero__shape-inner'));
+    const rows = Array.from(root.querySelectorAll<HTMLElement>('.hero__spec-row'));
 
     /* --- 06. Hero intro (paused until the preloader hands off) --- */
     const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
 
     if (reduced) {
-      const targets: HTMLElement[] = title ? [title, ...fades] : fades;
+      const targets: HTMLElement[] = [...(title ? [title] : []), ...(mesh ? [mesh] : []), ...fades];
       tl.fromTo(targets, { opacity: 0 }, { opacity: 1, duration: 0.6, clearProps: 'opacity' });
     } else {
       tl.fromTo(chars,
         { yPercent: 120, rotate: 6 },
         { yPercent: 0, rotate: 0, duration: 1.5, stagger: 0.045 }, 0);
-      if (star) {
-        tl.fromTo(star,
-          { scale: 0, rotate: -180 },
-          { scale: 1, rotate: 0, duration: 1.4, ease: 'back.out(1.8)' }, 0.75);
+      if (dot) {
+        tl.fromTo(dot, { scale: 0 }, { scale: 1, duration: 1, ease: 'back.out(2.4)' }, 0.85);
+      }
+      if (mesh) {
+        tl.fromTo(mesh, { opacity: 0 }, { opacity: 1, duration: 1.6, ease: 'power2.out' }, 0.1);
       }
       tl.fromTo(fades,
         { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.2, stagger: 0.1 }, 0.35)
-        .fromTo(inners,
-          { scale: 0.4, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 1.8, stagger: 0.08 }, 0.1);
+        { y: 0, opacity: 1, duration: 1.2, stagger: 0.1 }, 0.35);
+      if (rows.length) {
+        tl.fromTo(rows,
+          { opacity: 0, x: -12 },
+          { opacity: 1, x: 0, duration: 0.9, stagger: 0.07 }, 0.95);
+      }
     }
     introRef.current = tl;
 
@@ -93,22 +110,6 @@ export default function Hero() {
       });
     }
 
-    /* --- Mouse parallax on the floating shapes (desktop only) --- */
-    if (hasFinePointer()) {
-      const shapes = inners.map((el) => ({
-        x: gsap.quickTo(el, 'x', { duration: 1.4, ease: 'power3' }),
-        y: gsap.quickTo(el, 'y', { duration: 1.4, ease: 'power3' }),
-        depth: parseFloat(el.dataset.depth ?? '') || 20,
-      }));
-      const onMove = (e: PointerEvent) => {
-        const nx = e.clientX / window.innerWidth - 0.5;
-        const ny = e.clientY / window.innerHeight - 0.5;
-        shapes.forEach((s) => { s.x(nx * s.depth); s.y(ny * s.depth); });
-      };
-      root.addEventListener('pointermove', onMove);
-      cleanups.push(() => root.removeEventListener('pointermove', onMove));
-    }
-
     return cleanup;
   }, { scope: rootRef });
 
@@ -119,69 +120,38 @@ export default function Hero() {
 
   return (
     <section className="hero" id="top" ref={rootRef}>
-      {/* Parallax / floating decorative shapes */}
-      <div className="hero__shapes" aria-hidden="true">
-        <div className="hero__shape hero__shape--blob" data-speed="0.25">
-          <div className="hero__shape-inner" data-depth="30"><div className="fx fx--blob" /></div>
-        </div>
-        <div className="hero__shape hero__shape--glow" data-speed="0.5">
-          <div className="hero__shape-inner" data-depth="-40"><div className="fx fx--glow" /></div>
-        </div>
-        <div className="hero__shape hero__shape--ring" data-speed="0.6">
-          <div className="hero__shape-inner" data-depth="-25">
-            <svg className="spin-slow" viewBox="0 0 200 200" fill="none">
-              <circle cx="100" cy="100" r="98" style={{ stroke: 'rgba(var(--text-rgb), 0.12)' }} />
-              <circle cx="100" cy="100" r="74" style={{ stroke: 'rgba(var(--text-rgb), 0.08)' }} strokeDasharray="2 6" />
-              <circle cx="100" cy="2" r="4" style={{ fill: 'var(--accent-fg)' }} />
-              <circle cx="26" cy="100" r="2.5" style={{ fill: 'var(--text)' }} />
-            </svg>
-          </div>
-        </div>
-        <div className="hero__shape hero__shape--grid" data-speed="0.9">
-          <div className="hero__shape-inner" data-depth="18"><div className="fx fx--grid float" /></div>
-        </div>
-        <div className="hero__shape hero__shape--plus" data-speed="1.2">
-          <div className="hero__shape-inner" data-depth="50">
-            <svg className="float float--delay" viewBox="0 0 40 40">
-              <path d="M20 4v32M4 20h32" style={{ stroke: 'var(--accent-fg)' }} strokeWidth="3" strokeLinecap="round" />
-            </svg>
-          </div>
-        </div>
-        <div className="hero__shape hero__shape--cube" data-speed="0.8">
-          <div className="hero__shape-inner" data-depth="-35">
-            <svg className="float" viewBox="0 0 60 60" fill="none">
-              <path d="M30 4 54 17v26L30 56 6 43V17L30 4Z" style={{ stroke: 'rgba(var(--text-rgb), 0.35)' }} />
-              <path d="M6 17l24 13 24-13M30 30v26" style={{ stroke: 'rgba(var(--text-rgb), 0.35)' }} />
-            </svg>
-          </div>
-        </div>
+      {/* Signature figure: orchestrator + agents (decorative) */}
+      <div className="hero__mesh" data-speed="0.16" aria-hidden="true">
+        <HeroAgentMesh active={revealed} />
+        <HeroMeshFallback gradientId={glowId} />
       </div>
 
       <div className="hero__meta" data-hero-fade="">
         <span>{hero.meta}</span>
-        <span className="hero__meta-right">
-          {site.title}
-          <br />
-          <span className="muted">{site.tagline}</span>
+        <span className="hero__fig" aria-hidden="true">
+          <span className="hero__fig-num">Fig. 01</span> Agent mesh
+          <span className="hero__fig-sub">1 orchestrator · 8 agents</span>
         </span>
       </div>
 
-      <h1 className="hero__title">
-        <span className="line">
-          <SplitText text={site.firstName} className="js-split-chars" />
-        </span>
-        <span className="line line--right">
-          <SplitText text={site.lastName[0]} className="js-split-chars outline" />{' '}
-          <SplitText text={site.lastName[1]} className="js-split-chars" />
-          <span className="hero__star" aria-hidden="true">
-            <svg viewBox="0 0 100 100">
-              <path d="M50 0 C53 35 65 47 100 50 C65 53 53 65 50 100 C47 65 35 53 0 50 C35 47 47 35 50 0Z" fill="currentColor" />
-            </svg>
+      <div className="hero__body">
+        <h1 className="hero__title">
+          <span className="line">
+            <SplitText text={site.firstName} className="js-split-chars" />
           </span>
-        </span>
-      </h1>
+          <span className="line">
+            <SplitText text={site.lastName[0]} className="js-split-chars hero__title-soft" />{' '}
+            <SplitText text={site.lastName[1]} className="js-split-chars" />
+            <span className="hero__dot" aria-hidden="true" />
+          </span>
+        </h1>
 
-      <div className="hero__bottom">
+        <p className="hero__role" data-hero-fade="">
+          <span className="hero__role-title">{site.title}</span>
+          <span className="hero__role-sep"> — </span>
+          <span className="hero__role-focus">{FOCUS}</span>
+        </p>
+
         <p className="hero__lede" data-hero-fade="">
           <RichText parts={hero.lede} />
         </p>
@@ -200,24 +170,29 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Rotating CKAD badge */}
-        <div className="hero__badge" data-hero-fade="" role="img" aria-label={featuredCert.title}>
-          <svg className="hero__badge-text" viewBox="0 0 200 200" aria-hidden="true">
-            <defs>
-              <path id={badgePathId} d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" />
-            </defs>
-            <text>
-              <textPath href={`#${badgePathId}`} textLength="488" lengthAdjust="spacing">{hero.badge}</textPath>
-            </text>
-          </svg>
-          <svg className="hero__badge-core" viewBox="0 0 60 60" aria-hidden="true">
-            <circle cx="30" cy="30" r="29" fill="#CCFF00" />
-            <g stroke="#0B0C10" strokeWidth="2.5" strokeLinecap="round" fill="none">
-              <circle cx="30" cy="30" r="11" />
-              <circle cx="30" cy="30" r="3" fill="#0B0C10" />
-              <path d="M30 19V11M30 41v8M40.5 25.5l7-4M12.5 38.5l7-4M40.5 34.5l7 4M12.5 21.5l7 4" />
-            </g>
-          </svg>
+        {/* Mono spec sheet */}
+        <div className="hero__spec" data-hero-fade="">
+          <Corners />
+          <p className="hero__spec-head" aria-hidden="true">
+            <span>Spec sheet</span>
+            <span>{site.cityCode} / {site.year}</span>
+          </p>
+          <dl className="hero__spec-list">
+            {SPEC.map((row, i) => (
+              <div className="hero__spec-row" key={row.key}>
+                <dt><span className="hero__spec-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{row.key}</dt>
+                <dd>
+                  {/* keep each "·"-separated chunk whole; a wrap can only fall after a dot */}
+                  {row.value.split(' · ').map((chunk, j) => (
+                    <Fragment key={j}>
+                      {j > 0 && '\u00A0· '}
+                      <span className="hero__spec-chunk">{chunk}</span>
+                    </Fragment>
+                  ))}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </div>
 

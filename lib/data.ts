@@ -1,5 +1,6 @@
 /* ==========================================================================
    Site content — everything on the page comes from the resume
+   (plus the positioning and the Octopus project supplied by the owner)
    (public/Mehmood_Ul_Hassan_Resume.pdf). Edit here, not in components.
    ========================================================================== */
 
@@ -17,10 +18,10 @@ export const site = {
   name: 'Mehmood Ul Hassan',
   firstName: 'Mehmood',
   lastName: ['Ul', 'Hassan'] as const,
-  title: 'Senior Backend Engineer',
-  tagline: 'Distributed Systems · Python · Cloud-Native',
+  title: 'Senior Full Stack Engineer',
+  tagline: 'AI Automations · AI Agents · Cloud-Native',
   description:
-    'Mehmood Ul Hassan — Senior Backend Engineer building distributed systems with Python, FastAPI, gRPC, Kafka and Kubernetes. CKAD certified. Based in Lahore, Pakistan.',
+    'Mehmood Ul Hassan — Senior Full Stack Engineer building AI automations and AI agents on cloud-native systems: Python, FastAPI, NestJS, gRPC, Kafka and Kubernetes. CKAD certified. Based in Lahore, Pakistan.',
   location: 'Lahore, Pakistan',
   locationShort: 'Lahore, PK',
   cityCode: 'LHR', // nav clock label
@@ -52,38 +53,37 @@ export const navLinks: NavLink[] = [
 export const hero = {
   meta: `(Portfolio — ©${site.year})`,
   lede: [
-    { text: 'Backend engineer', strong: true },
-    { text: ' with 5+ years building distributed systems in Python & Node.js — services that talk over ' },
-    { text: 'gRPC, Kafka & RabbitMQ', strong: true },
-    { text: ', running on Kubernetes I build and operate.' },
+    { text: 'I build ' },
+    { text: 'AI automations & AI agents', strong: true },
+    { text: ' that do real work — on 5+\u00A0years of distributed systems in Python & Node.js, ' },
+    { text: 'gRPC & Kafka', strong: true },
+    { text: ' services and Kubernetes infrastructure I build and operate.' },
   ] satisfies RichText,
-  badge: 'CKAD CERTIFIED ✦ KUBERNETES ✦ CLOUD-NATIVE ✦',
 };
 
 /* ---------- Marquee ---------- */
-export const marqueeRows: { dir: 1 | -1; tone: 'lime' | 'dark'; items: string[] }[] = [
+/**
+ * One slim schematic "run log" row of capability terms (not a tool list — the Stack
+ * section covers the tools). Every row renders in the small mono annotation style with
+ * ring-node separators; `dir` is the loop direction (-1 = leftwards).
+ */
+export const marqueeRows: { dir: 1 | -1; items: string[] }[] = [
   {
     dir: -1,
-    tone: 'lime',
-    items: ['Python', 'FastAPI', 'asyncio', 'NestJS', 'gRPC', 'Kafka', 'RabbitMQ', 'Redis', 'PostgreSQL', 'Kubernetes', 'GKE Autopilot', 'Go'],
-  },
-  {
-    dir: 1,
-    tone: 'dark',
-    items: ['Distributed Systems', 'Horizontal Scaling', 'Reliability', 'System Design', 'Microservices', 'Performance', 'AI Integrations'],
+    items: ['AI Agents', 'AI Automation', 'Full Stack', 'LLMs', 'Distributed Systems', 'Kubernetes', 'System Design', 'Microservices', 'Cloud-Native'],
   },
 ];
 
 /* ---------- About ---------- */
 export const about = {
   statement: [
-    { text: 'I build backends that stay ' },
-    { text: 'fast under pressure', em: true },
-    { text: ' — distributed systems in Python and Node.js, services that talk over gRPC, Kafka and RabbitMQ, running on Kubernetes infrastructure I design and operate myself.' },
+    { text: 'I build ' },
+    { text: 'AI automations and agents', em: true },
+    { text: ' that take real work off people’s plates — and the fast, reliable systems underneath them: Python and Node.js services talking over gRPC, Kafka and RabbitMQ, on Kubernetes I design and operate myself.' },
   ] satisfies RichText,
   paragraphs: [
-    "Over five years I've led backend teams of up to six engineers, built GKE Autopilot infrastructure from scratch on a private VPC, and cut server response times by ~40% through Redis caching and database optimization.",
-    'I care about performance, horizontal scaling and reliability — clean service boundaries, per-service databases, and CI/CD that makes shipping boring. CKAD certified, with working knowledge of Go.',
+    'Full stack engineer with 5+ years in production. I’ve led backend teams of up to six engineers, built GKE Autopilot infrastructure from scratch on a private VPC, and cut server response times by ~40% through Redis caching and database optimization.',
+    'Today my focus is AI: agents and automation pipelines wired into real business workflows, LLM-powered document extraction, and integrations with Kimi, Hume AI and AssemblyAI. CKAD certified, with working knowledge of Go.',
   ],
 };
 
@@ -93,24 +93,26 @@ const COUNTRIES = ['Pakistan', 'USA', 'UAE', 'South Korea'];
 export type Stat = { value: number; prefix?: string; suffix?: string; srText: string; label: string };
 
 export const stats: Stat[] = [
-  { value: 5, suffix: '+', srText: '5+', label: 'Years building production backends' },
+  { value: 5, suffix: '+', srText: '5+', label: 'Years shipping production systems' },
   { value: 40, prefix: '~', suffix: '%', srText: 'About 40%', label: 'Reduction in server response times via caching & DB optimization' },
   { value: 6, srText: '6', label: 'Engineers led on backend teams' },
   { value: COUNTRIES.length, srText: String(COUNTRIES.length), label: `Countries shipped for — ${COUNTRIES.join(', ')}` },
 ];
 
 /* ---------- Skills ---------- */
-export type SkillIcon = 'code' | 'server' | 'database' | 'network' | 'cloud' | 'pipeline' | 'sparkle';
+export type SkillIcon = 'code' | 'server' | 'agent' | 'database' | 'network' | 'cloud' | 'pipeline' | 'blueprint' | 'frontend';
 export type SkillGroup = { title: string; icon: SkillIcon; items: string[] };
 
+/* Eight groups + the featured CKAD card fill a 3 × 3 grid on desktop */
 export const skillGroups: SkillGroup[] = [
+  { title: 'AI & Automation', icon: 'agent', items: ['AI agents', 'AI automations', 'LLM document extraction', 'Kimi', 'Hume AI', 'AssemblyAI'] },
   { title: 'Languages', icon: 'code', items: ['Python', 'Go', 'JavaScript', 'TypeScript'] },
   { title: 'Backend', icon: 'server', items: ['FastAPI', 'asyncio', 'Django', 'NestJS', 'Node.js', 'Express', 'Fastify'] },
   { title: 'Data & Caching', icon: 'database', items: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis'] },
   { title: 'APIs & Messaging', icon: 'network', items: ['gRPC / Protobuf', 'REST', 'GraphQL', 'Kafka', 'RabbitMQ', 'TCP'] },
-  { title: 'Cloud & Infra', icon: 'cloud', items: ['GCP · GKE Autopilot', 'VPC', 'Cloud Armor', 'AWS · Lambda, EKS', 'Azure', 'Kubernetes', 'Helm', 'Docker', 'IaC'] },
-  { title: 'CI / CD', icon: 'pipeline', items: ['GitHub Actions', 'Jenkins', 'Azure DevOps'] },
-  { title: 'Other', icon: 'sparkle', items: ['System design', 'Microservices', 'AI · Kimi, Hume AI, AssemblyAI', 'Salesforce Commerce Cloud'] },
+  { title: 'Cloud & CI/CD', icon: 'cloud', items: ['GCP · GKE Autopilot', 'VPC', 'Cloud Armor', 'AWS · Lambda, EKS', 'Azure', 'Kubernetes', 'Helm', 'Docker', 'IaC', 'GitHub Actions', 'Jenkins', 'Azure DevOps'] },
+  { title: 'Frontend', icon: 'frontend', items: ['React', 'TypeScript', 'Tailwind CSS', 'React Query', 'SFCC storefronts · ISML / SSR'] },
+  { title: 'Architecture', icon: 'blueprint', items: ['System design', 'Microservices', 'Salesforce Commerce Cloud'] },
 ];
 
 export const featuredCert = {
@@ -153,7 +155,7 @@ export const experience: Role[] = [
     dates: '2026 · 2 months',
     location: 'Remote · Contract',
     points: [
-      'Delivered an end-to-end Bill of Lading platform for a logistics client in 8 weeks — from invoice intake to a bank-ready document pack.',
+      'Delivered an end-to-end Bill of Lading platform for a logistics client in 8 weeks — from invoice intake to a bank-ready document pack.',
       'Integrated the Kimi LLM to extract shipper, buyer, goods and weight data, with operator review in a gated 5-step wizard.',
       'Designed a tamper-evident approval flow: write-once, checksummed, versioned artifacts plus a bank verification link.',
     ],
@@ -192,7 +194,7 @@ export const experience: Role[] = [
     dates: 'Dec 2022 — Aug 2023',
     location: 'Seoul, South Korea · Remote',
     points: [
-      "Led Under Armour's transition to headless commerce on Salesforce Commerce Cloud, redesigning the product listing page for scalability and performance.",
+      'Led Under Armour’s transition to headless commerce on Salesforce Commerce Cloud, redesigning the product listing page for scalability and performance.',
       'Migrated cartridges from SiteGenesis to SFRA; built Impex jobs, services and the TossPay payment integration.',
       'Implemented Return Merchandise Authorization and Personal Information Protection compliance (consents, action logs).',
     ],
@@ -206,15 +208,15 @@ export const experience: Role[] = [
     location: 'Lahore, Pakistan · Hybrid',
     points: [
       'Built SFCC backend features across multiple B2B/B2C brands, including OCAPI integrations.',
-      "Delivered L'Oréal Japan integrations for Braintree, PayPal, Yotpo and GTM, plus Impex jobs.",
+      'Delivered L’Oréal Japan integrations for Braintree, PayPal, Yotpo and GTM, plus Impex jobs.',
       'Worked across PDP, PLP, Cart and Checkout with a focus on SEO and server-side rendering performance.',
     ],
     stack: ['SFCC', 'Custom Cartridges', 'JavaScript', 'ISML / XML', 'AJAX'],
   },
 ];
 
-/* ---------- Work (project cards derived from experience) ---------- */
-export type ProjectArtId = 'bill-of-lading' | 'gke' | 'gateway' | 'headless' | 'payments';
+/* ---------- Work (Octopus + project cards derived from experience) ---------- */
+export type ProjectArtId = 'octopus' | 'bill-of-lading' | 'gke' | 'gateway' | 'headless' | 'payments';
 export type Project = {
   num: string;
   years: string;
@@ -224,22 +226,47 @@ export type Project = {
   desc: string;
   highlights: string[];
   tags: string[];
+  /** Featured card: wider, with accent brackets. */
+  featured?: boolean;
+  /** Optional status chip over the artwork (e.g. on the featured card). */
+  badge?: string;
+  /** Optional public link (a card with a link renders as one). */
+  href?: string;
 };
 
 export const workIntro = {
   title: [{ text: 'Selected ' }, { text: 'work', em: true }] satisfies RichText,
-  lead: "Platforms I've led, architected and shipped — from LLM-powered document pipelines to cloud-native microservices and global commerce.",
+  lead: 'Platforms and AI automation I’ve built and contributed to, from the AI layer of a trade payment platform and LLM document pipelines to cloud-native microservices and global commerce.',
   outro: [{ text: 'Got a system that needs to ' }, { text: 'scale', em: true }, { text: '?' }] satisfies RichText,
 };
 
 export const projects: Project[] = [
   {
+    // Octopus — a team project; the card is scoped to Mehmood's own modules (AI document
+    // layer, Bill of Lading).
     num: '01',
     years: '2026',
+    art: 'octopus',
+    featured: true,
+    badge: 'Featured · AI platform',
+    meta: 'Team project · AI document layer & Bill\u00A0of\u00A0Lading module',
+    title: 'Octopus',
+    desc: 'Trade payment platform with multi-stage approvals, compliance checks and bank execution, built by a small team. I built its AI document layer and the Bill of Lading automation.',
+    highlights: [
+      'Built the OCR / vision document extraction behind the AI compliance checks, and their first Kimi-based version',
+      'Built the Bill of Lading module end to end (see\u00A002)',
+      'Contributed across the compliance → QA → bank\u2011execution workflow',
+    ],
+    tags: ['React', 'NestJS', 'PostgreSQL', 'LLMs'],
+  },
+  {
+    // The same engagement as Octopus's Bill of Lading module (card 01), delivered as an Upwork contract
+    num: '02',
+    years: '2026',
     art: 'bill-of-lading',
-    meta: 'Logistics · Freelance (Upwork)',
+    meta: 'Octopus · Bill of Lading module · Upwork contract',
     title: 'Bill of Lading Platform',
-    desc: 'End-to-end platform delivered in 8 weeks — from commercial-invoice intake to a zipped, bank-ready submission pack with manifest.',
+    desc: 'The Bill of Lading module of Octopus (01), delivered in 8\u00A0weeks — from commercial\u2011invoice intake to a zipped, bank-ready submission pack with manifest.',
     highlights: [
       'Kimi LLM extraction with operator review in a gated 5-step wizard',
       'Excel BL templates rendered to PDF via headless LibreOffice',
@@ -248,7 +275,7 @@ export const projects: Project[] = [
     tags: ['Kimi LLM', 'LibreOffice', 'Excel → PDF', 'Tamper-evident'],
   },
   {
-    num: '02',
+    num: '03',
     years: '2024 — Now',
     art: 'gke',
     meta: 'Code Encoders · Lead Full Stack Cloud Engineer',
@@ -262,7 +289,7 @@ export const projects: Project[] = [
     tags: ['FastAPI', 'gRPC', 'GKE', 'Redis'],
   },
   {
-    num: '03',
+    num: '04',
     years: '2023 — 2024',
     art: 'gateway',
     meta: 'Consforc LLC · Lead Backend Engineer',
@@ -276,12 +303,12 @@ export const projects: Project[] = [
     tags: ['NestJS', 'GraphQL', 'Kafka', 'Kubernetes'],
   },
   {
-    num: '04',
+    num: '05',
     years: '2022 — 2023',
     art: 'headless',
     meta: 'Eguana Commerce · Lead Software Engineer',
     title: 'Headless Commerce for Under Armour',
-    desc: "Led Under Armour's transition to headless commerce on Salesforce Commerce Cloud.",
+    desc: 'Led Under Armour’s transition to headless commerce on Salesforce Commerce Cloud.',
     highlights: [
       'Product listing page redesigned for scalability & performance',
       'SiteGenesis → SFRA cartridge migration, Impex jobs & TossPay',
@@ -290,12 +317,12 @@ export const projects: Project[] = [
     tags: ['SFCC', 'SFRA', 'Headless', 'Payments'],
   },
   {
-    num: '05',
+    num: '06',
     years: '2021 — 2022',
     art: 'payments',
     meta: 'Aiva Creative · Software Engineer',
-    title: "L'Oréal Japan Integrations",
-    desc: "Payment, reviews and analytics integrations on Salesforce Commerce Cloud for L'Oréal Japan.",
+    title: 'L’Oréal Japan Integrations',
+    desc: 'Payment, reviews and analytics integrations on Salesforce Commerce Cloud for L’Oréal Japan.',
     highlights: [
       'Braintree, PayPal, Yotpo and GTM integrations plus Impex jobs',
       'OCAPI integrations across multiple B2B/B2C brands',
@@ -317,7 +344,7 @@ export type Credential = {
 export const credentials: Credential[] = [
   {
     title: 'Certified Kubernetes Application Developer (CKAD)',
-    issuer: 'The Linux Foundation / CNCF · Sep 2026 · ID LF-sxz34xuhog',
+    issuer: 'The Linux Foundation / CNCF · Sep\u00A02026 · ID LF-sxz34xuhog',
     tag: 'Certification',
     href: 'https://www.credly.com/badges/60b7cc54-5479-4f42-9aec-fca6336c5e30',
     linkLabel: 'View CKAD badge on Credly',
@@ -364,33 +391,33 @@ export const interest = {
     { text: 'Competitive football for ' },
     { text: 'Real Lahore FC', strong: true },
     { text: '. Formerly with the ' },
-    { text: 'Atlético de Madrid Academy Pakistan (U-19)', strong: true },
+    { text: 'Atlético de Madrid Academy Pakistan (U\u201119)', strong: true },
     { text: '. Same instincts on the pitch as in production — read the play, move fast, finish.' },
   ] satisfies RichText,
 };
 
 /* ---------- Contact ---------- */
 export const contact = {
-  titleLines: ["Let's build", 'systems that', 'scale.'] as const, // last line is emphasised
-  kicker: "Have a platform to scale, a backend team to lead, or a system that needs to stay up? Let's talk.",
+  titleLines: ['Let’s build', 'AI that', 'ships.'] as const, // last line is emphasised
+  kicker: 'Need an AI agent, an automation pipeline, or a platform that has to stay up? Let’s talk.',
 };
 
 /* ---------- Section labels, titles & intros ---------- */
 
 export const sections = {
-  about: { num: '01', label: 'About', link: "See where I've shipped" },
+  about: { num: '01', label: 'About', link: 'See where I’ve shipped' },
   skills: {
     num: '02',
     label: 'Stack',
     title: 'The toolkit',
-    intro: 'Languages, frameworks and infrastructure I use to design, ship and operate systems in production.',
+    intro: 'AI tooling, languages, frameworks and infrastructure I use to design, ship and operate systems in production.',
   },
   experience: {
     num: '03',
     label: 'Experience',
-    title: "Where I've shipped",
+    title: 'Where I’ve shipped',
     // Counts derive from the data, so adding a role keeps the sentence true
-    intro: `${numberWord(experience.length)} roles across ${numberWord(COUNTRIES.length).toLowerCase()} countries — from Salesforce Commerce Cloud storefronts to cloud-native microservice platforms on Kubernetes.`,
+    intro: `${numberWord(experience.length)} roles across ${numberWord(COUNTRIES.length).toLowerCase()} countries — from commerce platforms to cloud-native microservices and AI automation.`,
   },
   work: { num: '04', label: 'Selected Work' },
   credentials: { num: '05', label: 'Credentials', title: 'Certified & always learning' },

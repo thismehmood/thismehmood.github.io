@@ -1,0 +1,235 @@
+/* ==========================================================================
+   PRELOADER — terminal boot sequence
+   ========================================================================== */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+}
+html.no-js .preloader,
+html.no-gsap .preloader { display: none; }
+
+.preloader__layer { position: absolute; inset: 0; }
+
+/* Trail layer revealed by the wipe: deep green fading to near-black at its
+   trailing (bottom) edge — reads as a band of light, never a bright flash */
+.preloader__layer--accent {
+  background:
+    linear-gradient(to bottom,
+      rgba(var(--accent-deep-rgb), .9) 0%,
+      rgba(var(--accent-deep-rgb), .5) 55%,
+      rgba(var(--accent-deep-rgb), .14) 85%,
+      rgba(var(--accent-deep-rgb), 0) 100%),
+    var(--bg);
+}
+.preloader__layer--main {
+  display: flex;
+  background: var(--bg);
+}
+/* The shared blueprint grid (position: fixed) rides the layer once it is transformed */
+.preloader__layer--main > .gridlines { z-index: 0; }
+
+.preloader__inner {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: clamp(1.25rem, 3vh, 2rem) var(--gutter) clamp(1.5rem, 4vh, 2.5rem);
+}
+
+/* --- Top row --- */
+.preloader__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* --- Boot block: monogram + log --- */
+.preloader__boot {
+  width: min(34rem, 100%);
+  /* start on the second blueprint-grid line (same geometry as .gridlines) */
+  margin-left: calc(max(0px, (100vw - var(--maxw)) / 2) + (min(100vw, var(--maxw)) - 2 * var(--gutter)) / 6);
+}
+
+.preloader__mark {
+  height: clamp(2.25rem, 4.2vw, 3.5rem);
+  margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  color: var(--text);
+}
+html.js .preloader__mark { visibility: hidden; } /* JS shows it in its draw-in start state */
+.preloader__mark .monogram__edge { stroke-width: 1.6; }
+.preloader__mark .monogram__node { stroke-width: 1.2; }
+
+.preloader__log {
+  font-family: var(--font-mono);
+  font-size: clamp(.75rem, .7rem + .2vw, .875rem);
+  line-height: 2.1;
+  letter-spacing: .02em;
+  color: var(--muted);
+}
+
+.preloader__line {
+  display: flex;
+  align-items: baseline;
+  gap: .9em;
+  white-space: nowrap;
+  opacity: 0; /* JS ticks each line in */
+}
+
+.preloader__ts {
+  flex: none;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.preloader__cmd {
+  flex: none;
+  color: var(--text);
+}
+.preloader__caret { margin-right: .6em; color: var(--dim); }
+.preloader__n { font-variant-numeric: tabular-nums; }
+
+/* Dotted leader that fills while the step runs */
+.preloader__leader {
+  flex: 1;
+  min-width: 1.5rem;
+  height: 1px;
+  align-self: center;
+  background: radial-gradient(circle, var(--line-strong) .6px, transparent .9px) 0 50% / 5px 1px repeat-x;
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+.preloader__ok {
+  flex: none;
+  color: var(--accent-fg);
+  opacity: 0;
+}
+.preloader__ok::before { content: '['; color: var(--dim); margin-right: .15em; }
+.preloader__ok::after { content: ']'; color: var(--dim); margin-left: .15em; }
+
+.preloader__line--ready .preloader__cmd { color: var(--accent-fg); }
+.preloader__cursor {
+  flex: none;
+  width: .55em;
+  height: 1.05em;
+  align-self: center;
+  background: var(--accent-fg);
+  animation: preloader-blink 1s steps(1) infinite;
+}
+@keyframes preloader-blink { 50% { opacity: 0; } }
+
+/* --- Bottom: caption + big counter --- */
+.preloader__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.preloader__caption {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.9;
+}
+.preloader__caption-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: .6rem;
+  border-radius: 50%;
+  background: var(--accent-fg);
+  vertical-align: .08em;
+  animation: breathe 1.6s ease-in-out infinite;
+}
+
+.preloader__count {
+  display: flex;
+  align-items: flex-start;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(4.5rem, 15vw, 13rem);
+  line-height: .78;
+  letter-spacing: -.045em;
+  font-variant-numeric: tabular-nums;
+  font-optical-sizing: auto;
+  color: var(--text);
+}
+.preloader__pad { color: rgba(var(--text-rgb), .16); }
+.preloader__pct {
+  margin-left: .08em;
+  font-size: .28em;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--accent-fg);
+}
+
+/* --- Progress hairline under the counter (gutter to gutter, schematic end caps) --- */
+.preloader__bar {
+  position: relative;
+  display: block;
+  flex: none;
+  height: 1px;
+  margin-top: clamp(.9rem, 2.2vh, 1.4rem);
+  background: var(--line-strong);
+}
+.preloader__bar::before,
+.preloader__bar::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  width: 1px;
+  height: 7px;
+  background: var(--line-strong);
+}
+.preloader__bar::before { left: 0; }
+.preloader__bar::after { right: 0; }
+.preloader__fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(var(--accent-deep-rgb), .6), var(--accent-fg) 70%);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), .45);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* Leading edge of the exit wipe: a green hairline on the dark layer's bottom edge */
+.preloader__edge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  height: 1px;
+  background: linear-gradient(to right, rgba(var(--accent-rgb), .35), var(--accent-fg) 50%, rgba(var(--accent-rgb), .35));
+  box-shadow: 0 0 18px 1px rgba(var(--accent-rgb), .5);
+  opacity: 0; /* JS fades it in as the wipe starts */
+}
+
+@media (max-width: 767px) {
+  .preloader__row span:last-child { text-align: right; }
+  .preloader__boot { margin-left: 0; }
+}
+@media (max-width: 350px) {
+  .preloader__ts { display: none; } /* keep every log line on one row at 320px */
+}
+/* Landscape phones / very short windows: cap the counter by height and drop the mark
+   so the log, counter and caption all fit above the fold */
+@media (max-height: 500px) {
+  .preloader__count { font-size: min(15vw, 22vh); }
+  .preloader__mark { display: none; }
+  .preloader__inner { gap: 1rem; }
+}

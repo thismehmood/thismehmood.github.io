@@ -1,7 +1,7 @@
 'use client';
 
 /* ==========================================================================
-   Copy-to-clipboard button + polite live region (main.js §15 initCopy).
+   Copy-to-clipboard button (mono pill) + polite live region.
    Renders the button and its sr-only status as siblings, matching the markup.
    ========================================================================== */
 
@@ -81,11 +81,21 @@ export default function CopyButton({
   return (
     <>
       <button
-        className={state === 'copied' ? 'copy-btn is-copied' : 'copy-btn'}
+        className={state === 'copied' ? 'copy-btn is-copied' : state === 'failed' ? 'copy-btn is-failed' : 'copy-btn'}
         type="button"
         aria-label={ariaLabel}
         onClick={onClick}
       >
+        <svg className="copy-btn__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          {state === 'copied' ? (
+            <path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          ) : (
+            <>
+              <rect x="8.5" y="8.5" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="1.8" />
+              <path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5" stroke="currentColor" strokeWidth="1.8" />
+            </>
+          )}
+        </svg>
         <span className="copy-btn__text">{label}</span>
       </button>
       <span className="sr-only" role="status" aria-live="polite">

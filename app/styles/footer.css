@@ -1,0 +1,250 @@
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.footer {
+  --big: clamp(2.5rem, 15vw, 13.5rem);
+  position: relative;
+  padding: clamp(3.5rem, 7vw, 6rem) 0 2rem;
+  border-top: 1px solid var(--line);
+  overflow: clip;
+}
+
+/* Name lockup: "Mehmood" top-left, "Ul Hassan" bottom-right, meta in the space beside it */
+.footer__lockup {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'l1 l1'
+    'meta l2';
+  align-items: end;
+  column-gap: 2rem;
+}
+
+/* Outline text with a green fill that wipes in on scroll (--clip driven by GSAP).
+   paint-order draws the stroke under a --bg fill, so only the outer half of the
+   stroke shows and overlapping glyph contours never draw inner lines. */
+.footer__line {
+  position: relative;
+  display: inline-block;
+  width: max-content;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--big);
+  line-height: 1;
+  letter-spacing: -.03em; /* display XL: tighter tracking fuses the outlined glyphs */
+  white-space: nowrap;
+  color: var(--bg);
+  -webkit-text-stroke: 1px rgba(var(--text-rgb), .26);
+  paint-order: stroke fill;
+}
+/* the right padding holds the last glyph's overhang from the negative tracking */
+.footer__line--1 { grid-area: l1; justify-self: start; margin-left: -.04em; padding-right: .06em; }
+.footer__line--2 { grid-area: l2; justify-self: end; margin-top: -.06em; padding-right: .06em; }
+/* Fill layer: a green stroke of the same width covers the grey outline where filled */
+.footer__line::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: var(--accent-fg);
+  -webkit-text-stroke: 1px var(--accent-fg);
+  clip-path: inset(-.15em var(--clip, 100%) -.15em 0);
+}
+html.no-js .footer__line::after,
+html.no-gsap .footer__line::after { --clip: 0%; }
+
+/* Monogram beside Lahore's coordinates (stacked below the name under 1024px) */
+.footer__meta {
+  grid-area: meta;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding-bottom: calc(var(--big) * .2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.footer__mark { flex: none; height: 2.1rem; color: var(--text); }
+.footer__meta-text {
+  display: grid;
+  gap: .4rem;
+  padding-left: 1.1rem;
+  border-left: 1px solid var(--line-strong);
+}
+.footer__coords {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  gap: .6rem;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+/* Crosshair marker */
+.footer__coords::before {
+  content: '';
+  flex: none;
+  width: 11px; height: 11px;
+  background:
+    linear-gradient(var(--accent), var(--accent)) center / 100% 1px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) center / 1px 100% no-repeat;
+}
+.footer__role { color: var(--muted); }
+
+/* Tick ruler aligned to the six blueprint columns (major) with eighth ticks (minor) */
+.footer__ruler {
+  height: 12px;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  background:
+    linear-gradient(var(--line-strong), var(--line-strong)) left bottom / 100% 1px no-repeat,
+    linear-gradient(var(--line-strong), var(--line-strong)) right bottom / 1px 12px no-repeat,
+    repeating-linear-gradient(to right, var(--line-strong) 0 1px, transparent 1px calc(100% / 6)) left bottom / 100% 12px no-repeat,
+    repeating-linear-gradient(to right, var(--line) 0 1px, transparent 1px calc(100% / 48)) left bottom / 100% 5px no-repeat;
+}
+
+.footer__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  margin-top: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.to-top {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 1rem 0 1.1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--text);
+  isolation: isolate;
+  overflow: hidden;
+  transition: color .45s var(--ease-out), border-color .45s var(--ease-out);
+}
+.to-top::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform .5s var(--ease-out);
+}
+.to-top:hover::before,
+.to-top:focus-visible::before { transform: translateY(0); }
+.to-top:hover,
+.to-top:focus-visible { color: var(--accent-ink); border-color: var(--accent); }
+.to-top__inner { display: inline-flex; align-items: center; gap: .5rem; }
+.to-top svg { width: 14px; height: 14px; transition: transform .45s var(--ease-out); }
+.to-top:hover svg { transform: translateY(-2px); }
+
+/* 1024–1099: a touch smaller so the role line beside "Ul Hassan" stays on one line */
+@media (min-width: 1024px) and (max-width: 1099px) {
+  .footer { --big: 14vw; }
+}
+@media (max-width: 1023px) {
+  .footer__lockup {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'l1' 'l2' 'meta';
+  }
+  .footer__meta { padding-bottom: 0; margin-top: 2.25rem; }
+  .footer__built { order: 3; flex-basis: 100%; }
+}
+@media (max-width: 479px) {
+  .footer__meta { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
+  .footer__meta-text { padding-left: 0; border-left: 0; }
+}
+@media (max-width: 767px) {
+  .footer { --big: 19.5vw; }
+  .footer__row { flex-direction: column; align-items: flex-start; }
+  .footer__built { order: 0; flex-basis: auto; }
+}
+
+
+/* ==========================================================================
+   404 PAGE (app/not-found.tsx) — extends .not-found in base.css
+   ========================================================================== */
+
+.nf { position: relative; z-index: 2; }
+.nf__brand {
+  position: absolute;
+  top: clamp(1.25rem, 3vw, 2rem);
+  left: 0; right: 0;
+}
+.nf__brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .75rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.nf__brand-link .monogram { height: 1.5rem; }
+
+.nf__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  align-items: center;
+  gap: clamp(3rem, 7vw, 7rem);
+}
+.nf .section-title { font-size: clamp(2.5rem, 6vw, 5.5rem); line-height: 1.02; }
+
+/* Request trace panel */
+.nf__panel {
+  position: relative;
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: .8125rem;
+  letter-spacing: .02em;
+}
+.nf__panel > .corners { inset: -1px; --bracket-color: var(--accent); }
+.nf__bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 .25rem 1rem;
+  border-bottom: 1px solid var(--line);
+  font-size: .6875rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.nf__status { color: var(--danger); display: inline-flex; align-items: center; gap: .5rem; }
+.nf__status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--danger); }
+.nf__code {
+  display: block;
+  margin: 1.5rem .25rem .75rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(5rem, 11vw, 9.5rem);
+  line-height: .9;
+  letter-spacing: -.06em;
+  color: var(--surface);
+  -webkit-text-stroke: 2px var(--line-strong);
+  paint-order: stroke fill;
+}
+.nf__log { display: grid; gap: .55rem; padding: .75rem .25rem .25rem; color: var(--muted); }
+.nf__log li { display: flex; justify-content: space-between; gap: 1rem; }
+.nf__log li span:last-child { color: var(--dim); }
+.nf__log .is-ok span:last-child { color: var(--accent-fg); }
+.nf__log .is-err { color: var(--text); }
+.nf__log .is-err span:last-child { color: var(--danger); }
+
+@media (max-width: 899px) {
+  .nf__grid { grid-template-columns: minmax(0, 1fr); }
+  .nf { padding-top: 7rem; }
+}

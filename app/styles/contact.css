@@ -1,0 +1,300 @@
+/* ==========================================================================
+   06 — CONTACT & FORM
+   ========================================================================== */
+
+/* --- Head: display title + kicker --- */
+.contact__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr); /* six columns ≥1100 (below) */
+  align-items: end;
+  gap: 2rem 4rem;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.contact__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: min(16vw, 8.75rem);
+  line-height: .86;
+  letter-spacing: -.03em; /* display XL: looser than --tracking-display so large glyphs never touch */
+}
+/* Each line masks its own char reveal; the extra bottom padding keeps descenders ("p") visible */
+.contact__title .line { display: block; overflow: hidden; padding: .03em .02em .13em 0; margin-bottom: -.13em; }
+.contact__title em { color: var(--accent-fg); }
+
+.contact__aside {
+  display: grid;
+  justify-items: start;
+  gap: 1.75rem;
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--line-strong);
+  padding-bottom: .35rem;
+}
+.contact__kicker {
+  max-width: 34ch;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.contact__cv-icon { width: 1rem; height: 1rem; transition: transform .45s var(--ease-out); }
+.contact__cv:hover .contact__cv-icon { transform: translateY(2px); }
+
+/* --- Grid: info · form --- */
+.contact__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(3rem, 6vw, 6rem);
+  align-items: start;
+}
+/* Six blueprint columns, like About: info in 1–3, the form from gridline 4 */
+@media (min-width: 1024px) {
+  .contact__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: 0; }
+  .contact__info { grid-column: 1 / 4; padding-right: clamp(2rem, 5vw, 5rem); }
+  .form { grid-column: 4 / 7; }
+}
+/* The head stacks below 1100px; above it the aside starts on gridline 5 */
+@media (min-width: 1100px) {
+  .contact__head { grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: 0; }
+  .contact__title { grid-column: 1 / 5; }
+  .contact__aside { grid-column: 5 / 7; }
+}
+
+/* Email + copy pill */
+.contact__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.contact__eyebrow::before {
+  content: '';
+  width: 1.25rem; height: 1px;
+  background: var(--accent);
+}
+.contact__email-row { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem 1rem; }
+.contact__email {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 2.5vw, 2.3rem);
+  line-height: 1.2;
+  letter-spacing: -.02em;
+  overflow-wrap: anywhere;
+  padding-bottom: .12em;
+  background: linear-gradient(var(--accent), var(--accent)) left bottom / 100% 1px no-repeat;
+  transition: color .3s, background-size .45s var(--ease-out);
+}
+.contact__email:hover { color: var(--accent-fg); background-size: 100% 2px; }
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  height: 2.25rem;
+  padding: 0 .95rem 0 .8rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(var(--text-rgb), .02);
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text);
+  white-space: nowrap;
+  transition: background-color .3s, color .3s, border-color .3s;
+}
+.copy-btn__icon { width: 14px; height: 14px; flex: none; }
+.copy-btn:hover { border-color: var(--accent); color: var(--accent-fg); }
+.copy-btn.is-copied { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.copy-btn.is-failed { border-color: var(--danger); color: var(--danger); }
+
+/* Spec table */
+.contact__details {
+  margin-top: 2.75rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+}
+.contact__details > div {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 1rem;
+  padding: .95rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.contact__details dt {
+  font-size: .6875rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.contact__details dd {
+  font-size: .875rem;
+  letter-spacing: .02em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.contact__details a { transition: color .3s; }
+.contact__details a:hover { color: var(--accent-fg); }
+
+/* Magnetic hairline social pills — green fill rises on hover */
+.socials { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2.5rem; }
+.social {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 46px;
+  padding: 0 1.15rem 0 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  isolation: isolate;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text);
+  transition: color .45s var(--ease-out), border-color .45s var(--ease-out);
+}
+.social::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform .5s var(--ease-out);
+}
+.social:hover::before,
+.social:focus-visible::before { transform: translateY(0); }
+.social:hover,
+.social:focus-visible { color: var(--accent-ink); border-color: var(--accent); }
+.social__inner { display: inline-flex; align-items: center; gap: .6rem; }
+.social svg { width: 16px; height: 16px; flex: none; }
+
+/* --- Form panel --- */
+.form {
+  position: relative;
+  display: grid;
+  gap: 2.1rem;
+  align-content: start;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+/* brackets sit on the border's corners */
+.form > .corners { inset: -1px; }
+.form:focus-within > .corners { --bracket-color: var(--accent); }
+
+.form__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .5rem 1rem;
+  padding-bottom: 1.25rem;
+  margin-bottom: -.35rem;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.form__head-title { display: inline-flex; align-items: center; color: var(--text); }
+
+.form__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+
+/* Floating-label fields */
+.field { position: relative; }
+.field__input {
+  display: block;
+  width: 100%;
+  padding: 1.4rem 0 .65rem;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(var(--text-rgb), .38); /* the field's only edge: ≥3:1 (WCAG 1.4.11) */
+  border-radius: 0;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  caret-color: var(--accent);
+  outline: none;
+  transition: border-color .3s;
+}
+textarea.field__input { min-height: 140px; resize: vertical; }
+.field__input:hover { border-bottom-color: rgba(var(--text-rgb), .55); }
+/* Keep browser autofill on-palette */
+.field__input:-webkit-autofill {
+  -webkit-text-fill-color: var(--text);
+  box-shadow: 0 0 0 100px var(--surface) inset;
+  caret-color: var(--accent);
+}
+
+.field__label {
+  position: absolute;
+  left: 0; top: 1.4rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.4;
+  pointer-events: none;
+  transform-origin: left top;
+  transition: transform .5s var(--ease-out), color .3s;
+}
+.field__input:focus + .field__label,
+.field__input:not(:placeholder-shown) + .field__label {
+  transform: translateY(-1.35rem) scale(.74);
+}
+.field__input:focus + .field__label { color: var(--accent-fg); }
+
+.field__line {
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .6s var(--ease-out), background-color .3s;
+}
+textarea.field__input ~ .field__line { bottom: 6px; } /* sit above the textarea resize gap */
+.field__input:focus ~ .field__line { transform: scaleX(1); transform-origin: left; }
+
+.field__error {
+  position: absolute;
+  left: 0; top: calc(100% + .4rem);
+  font-size: .78rem;
+  color: var(--danger);
+  opacity: 0;
+  visibility: hidden; /* keep hidden errors out of the accessibility tree */
+  transform: translateY(-4px);
+  transition: opacity .3s, transform .3s, visibility 0s linear .3s;
+  pointer-events: none;
+}
+.field.is-invalid .field__input { border-bottom-color: color-mix(in srgb, var(--danger) 45%, transparent); }
+.field.is-invalid .field__line { transform: scaleX(1); background: var(--danger); }
+.field.is-invalid .field__label { color: var(--danger); }
+.field.is-invalid .field__error { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+
+.form__footer { display: flex; align-items: center; flex-wrap: wrap; gap: 1.25rem 1.5rem; margin-top: .25rem; }
+.form__footer .btn[disabled] { opacity: .6; cursor: progress; }
+.form__status { font-size: .9rem; color: var(--muted); max-width: 36ch; }
+.form__status.is-success { color: var(--accent-fg); }
+.form__status.is-error { color: var(--danger); }
+
+/* --- Responsive --- */
+@media (max-width: 1099px) {
+  .contact__kicker { max-width: 44ch; }
+}
+@media (max-width: 767px) {
+  .form__row { grid-template-columns: minmax(0, 1fr); gap: 2.1rem; }
+  .contact__details > div { grid-template-columns: 7rem minmax(0, 1fr); }
+  .form__footer .btn { width: 100%; }
+  .contact__kicker { font-size: 1rem; }
+}

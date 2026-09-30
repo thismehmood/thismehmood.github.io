@@ -25,7 +25,6 @@ import Lenis from 'lenis';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { hasFinePointer, isStaticMode, prefersReducedMotion } from '@/lib/motion';
 import { initButtonFills, initMagnetic } from '@/lib/interactions';
-import { syncThemeColor } from '@/lib/theme';
 
 export type ScrollTarget = number | string | HTMLElement;
 
@@ -108,9 +107,6 @@ export default function AppProvider({ children }: { children: ReactNode }) {
     window.__appStarted = true;
     clearTimeout(window.__pf);
 
-    // Browser UI colour for the current theme (also fixes the copy React re-adds on hydration)
-    syncThemeColor();
-
     // Keep keyboard focus out of the page while the preloader covers it
     // (JS-only, so no-JS visitors and the static fallback are never inert)
     if (!isStaticMode() && document.body.classList.contains('is-loading')) setLoadingInert(true);
@@ -142,6 +138,71 @@ export default function AppProvider({ children }: { children: ReactNode }) {
       removeRaf = () => gsap.ticker.remove(raf);
     }
 
+    // Keep the reader's place in the content across width changes. Crossing the 1024px
+    // breakpoint (window resize, tablet rotation) adds or removes the Work pin spacer, and
+    // ScrollTrigger.refresh() restores the old raw scrollY — which then points at a
+    // different section. So record a content anchor while the reader scrolls (the first
+    // block whose bottom is below the viewport top + how far through it they are) and,
+    // after a refresh at a new width, scroll back to it.
+    const blocks = Array.from(document.querySelectorAll<HTMLElement>('#main > *, .footer'));
+    /** `w`: width it was recorded at; `restored`: re-applied since (reader hasn't scrolled). */
+    type Anchor = { i: number; frac: number; w: number; restored: boolean };
+    let anchor: Anchor | null = null;
+    let measuredW = window.innerWidth; // width of the layout ScrollTrigger last measured
+    let jumpY = NaN; // where our own restore scrolled to (its scroll event isn't the reader's)
+    let recRaf = 0;
+    let settleRaf = 0;
+    const isRefreshing = () => (ScrollTrigger as unknown as { isRefreshing?: boolean }).isRefreshing === true;
+    const recordAnchor = () => {
+      recRaf = 0;
+      // Skip mid-refresh, between a resize and its refresh (stale layout), and the scroll
+      // our own restore (or ScrollTrigger re-applying it) caused
+      if (isRefreshing() || window.innerWidth !== measuredW || Math.abs(window.scrollY - jumpY) < 2) return;
+      jumpY = NaN;
+      for (let i = 0; i < blocks.length; i++) {
+        const r = blocks[i].getBoundingClientRect();
+        if (r.bottom > 0) {
+          anchor = { i, frac: -r.top / Math.max(1, r.height), w: measuredW, restored: false };
+          break;
+        }
+      }
+    };
+    const onAnchorScroll = () => { if (!recRaf) recRaf = requestAnimationFrame(recordAnchor); };
+    const jumpToAnchor = (a: Anchor) => {
+      const block = blocks[a.i];
+      if (!block?.isConnected) return;
+      const r = block.getBoundingClientRect();
+      const y = Math.round(r.top + window.scrollY + a.frac * r.height);
+      if (Math.abs(y - window.scrollY) < 1) return;
+      jumpY = y;
+      window.scrollTo(0, y);
+      const l = lenisRef.current;
+      if (l) {
+        l.resize();
+        l.scrollTo(y, { immediate: true, force: true });
+      }
+    };
+    const onAnchorRefresh = () => {
+      measuredW = window.innerWidth;
+      // Restore after a width change — and keep restoring on every later refresh (the
+      // breakpoint's, the debounced resize's, a round trip back) until the reader scrolls
+      if (!anchor || (anchor.w === measuredW && !anchor.restored)) return;
+      const a = anchor;
+      a.restored = true;
+      jumpToAnchor(a);
+      // Late layout (pin re-wrap, scrub) can settle a frame or two after the refresh
+      cancelAnimationFrame(settleRaf);
+      settleRaf = requestAnimationFrame(() => { settleRaf = requestAnimationFrame(() => jumpToAnchor(a)); });
+    };
+    // Layout can still settle after the last refresh of a resize (reflow, fonts): keep the
+    // anchor applied until the reader scrolls. No-op otherwise.
+    const anchorRO = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(() => {
+      if (anchor?.restored && window.innerWidth === measuredW && !isRefreshing()) jumpToAnchor(anchor);
+    });
+    anchorRO?.observe(document.body);
+    window.addEventListener('scroll', onAnchorScroll, { passive: true });
+    ScrollTrigger.addEventListener('refresh', onAnchorRefresh);
+
     // Magnetic hover + direction-aware button fills (desktop only)
     const cleanupMagnetic = hasFinePointer() && !prefersReducedMotion() ? initMagnetic() : () => {};
     const cleanupFills = initButtonFills();
@@ -152,6 +213,11 @@ export default function AppProvider({ children }: { children: ReactNode }) {
     window.addEventListener('load', refresh);
 
     return () => {
+      anchorRO?.disconnect();
+      window.removeEventListener('scroll', onAnchorScroll);
+      ScrollTrigger.removeEventListener('refresh', onAnchorRefresh);
+      cancelAnimationFrame(recRaf);
+      cancelAnimationFrame(settleRaf);
       window.removeEventListener('load', refresh);
       cleanupMagnetic();
       cleanupFills();

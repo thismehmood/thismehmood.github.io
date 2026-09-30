@@ -1,15 +1,23 @@
 import type { CSSProperties } from 'react';
 import type { Metadata, Viewport } from 'next';
-import { JetBrains_Mono, Space_Grotesk, Syne } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import AppProvider from '@/components/AppProvider';
 import { site } from '@/lib/data';
-import { DEFAULT_THEME, themeBootScript } from '@/lib/theme';
 import './globals.css';
 
-/* Self-hosted Google fonts (variable) */
-const syne = Syne({ subsets: ['latin'], display: 'swap' });
-const grotesk = Space_Grotesk({ subsets: ['latin'], display: 'swap' });
-const jetbrains = JetBrains_Mono({ subsets: ['latin'], display: 'swap' });
+/* Self-hosted variable fonts.
+ * Display: Bricolage Grotesque's latin subset, instanced to the weights the site uses
+ * (wght 500–600; optical sizing kept — the hero, marquee, menu and preloader use
+ * font-optical-sizing: auto). 62 KB instead of the 77 KB full-axis file the preloader
+ * waits for. The weight descriptor must match the file, or browsers fake the bold.
+ * Regenerated with fontTools from the Google Fonts latin woff2:
+ *   font = instancer.instantiateVariableFont(TTFont(src), {'wght': (500, 600)})
+ *   font.flavor = 'woff2'; font.save('app/fonts/bricolage-500-600.woff2')
+ */
+const bricolage = localFont({ src: './fonts/bricolage-500-600.woff2', weight: '500 600', style: 'normal', display: 'swap' }); // display
+const geist = Geist({ subsets: ['latin'], display: 'swap' }); // body
+const geistMono = Geist_Mono({ subsets: ['latin'], display: 'swap' }); // labels / annotations
 
 /*
  * Font CSS variables used by globals.css (--font-display / --font-body / --font-mono).
@@ -21,9 +29,9 @@ const jetbrains = JetBrains_Mono({ subsets: ['latin'], display: 'swap' });
  */
 const face = (font: { style: { fontFamily: string } }) => font.style.fontFamily.split(',')[0].trim();
 const fontVars = {
-  '--font-syne': face(syne),
-  '--font-grotesk': face(grotesk),
-  '--font-jetbrains': face(jetbrains),
+  '--font-bricolage': face(bricolage),
+  '--font-geist': face(geist),
+  '--font-geist-mono': face(geistMono),
 } as CSSProperties;
 
 export const metadata: Metadata = {
@@ -32,14 +40,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     title: `${site.name} — ${site.title}`,
-    description: 'Distributed systems, Python & cloud-native infrastructure.',
+    description: 'AI automations, AI agents and the cloud-native systems that run them.',
   },
   // The site ships its own dark theme: ask Dark Reader not to recolour it
   other: { 'darkreader-lock': 'true' },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0B0C10',
+  themeColor: '#0E100F',
 };
 
 /*
@@ -47,13 +55,11 @@ export const viewport: Viewport = {
  * 1. flags JS as available ('no-js' → 'js') to gate animation-only styles;
  *    and turns off scroll restoration so a reload can't pre-fire the scroll reveals
  *    behind the preloader (the app starts every visit at the top);
- * 2. applies the saved light/dark theme (lib/theme.ts) so there's no flash;
- * 3. failsafe — if the app hasn't started within 7s, drop the preloader and show the static page.
+ * 2. failsafe — if the app hasn't started within 7s, drop the preloader and show the static page.
  */
 const bootScript = `
 document.documentElement.classList.replace('no-js','js');
 try{history.scrollRestoration='manual'}catch(e){}
-${themeBootScript}
 window.__pf=setTimeout(function(){
   if(window.__appStarted)return;
   document.documentElement.classList.add('no-gsap');
@@ -62,7 +68,7 @@ window.__pf=setTimeout(function(){
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="no-js" data-theme={DEFAULT_THEME} style={fontVars} suppressHydrationWarning>
+    <html lang="en" className="no-js" style={fontVars} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>

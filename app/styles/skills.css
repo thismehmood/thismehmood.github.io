@@ -1,0 +1,194 @@
+/* ==========================================================================
+   02 — SKILLS / STACK
+   3 × 3 grid of bracketed cards (3 cols ≥1200, 2 cols 768–1199, 1 col below).
+   AI & Automation is first and is the single lit card (current focus): a
+   deep-green wash, lit top edge, green brackets and icon. The CKAD card closes
+   the grid as a quiet surface card with a faint green wash and brackets.
+   ========================================================================== */
+
+.skills__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 2rem 3rem;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+}
+.skills__heading { flex: 1 1 22rem; min-width: 0; } /* lets the label's hairline run out to the intro */
+.skills__intro {
+  text-wrap: pretty; /* no orphaned single words */ max-width: 40ch; color: var(--muted); }
+/* ≥1024: the six blueprint columns — the intro starts on gridline 5, like the hero spec sheet */
+@media (min-width: 1024px) {
+  .skills__head { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: end; gap: 2rem 0; }
+  .skills__heading { grid-column: 1 / 5; padding-right: clamp(2rem, 4vw, 4rem); }
+  .skills__intro { grid-column: 5 / 7; max-width: none; }
+}
+
+.skills__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  perspective: 1400px;
+}
+
+/* --- Card --- */
+.skill-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  padding: 1.5rem 1.6rem 1.75rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  isolation: isolate;
+  transition: border-color .5s var(--ease-out), background-color .5s var(--ease-out);
+}
+/* brackets sit on the border's corners */
+.skill-card > .corners { inset: -1px; }
+.skill-card:hover > .corners,
+.skill-card:focus-within > .corners { --bracket-color: var(--accent); }
+.skill-card:hover { border-color: rgba(var(--accent-fg-rgb), .22); }
+
+/* Cursor spotlight (position from JS via --mx/--my) */
+.skill-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--accent-fg-rgb), .1), transparent 45%);
+  opacity: 0;
+  transition: opacity .4s;
+  pointer-events: none;
+}
+.skill-card:hover::before { opacity: 1; }
+.skill-card:hover .chip { border-color: rgba(var(--accent-fg-rgb), .28); }
+.skill-card .chip:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+.skill-card__head {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  min-height: 44px;
+}
+.skill-card__index {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: .08em;
+  color: var(--muted);
+}
+/* hairline from the index to the icon — a wire in the schematic */
+.skill-card__rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--line-strong), var(--line) 70%, transparent);
+}
+.skill-card__status { margin-right: auto; font-size: .66rem; padding: .3rem .65rem; }
+
+/* Icons idle in the ink colour with one live (green) node — green is the signal colour, so
+   the whole icon only lights up on the current-focus card and under the cursor / focus */
+.skill-card__icon {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  color: rgba(var(--text-rgb), .62);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  overflow: visible;
+  transition: color .5s var(--ease-out);
+}
+.skill-card__icon .icon-hot,
+.skill-card__icon .icon-fill { fill: currentColor; stroke: none; }
+.skill-card__icon .icon-hot { fill: var(--accent-fg); }
+.skill-card__icon .icon-fill,
+.skill-card__icon .icon-dim { opacity: .45; }
+.skill-card:is(:hover, :focus-within) .skill-card__icon,
+.skill-card--primary .skill-card__icon { color: var(--accent-fg); }
+
+.skill-card__title {
+  margin: 3.25rem 0 1.1rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+.skill-card__text { margin-bottom: 1.25rem; font-size: .95rem; line-height: 1.55; }
+
+/* --- AI & Automation: first card, the current focus — the one lit card in the grid.
+   Text contrast on the wash: --text 10.9:1, --muted 5.0:1 at the darkest (top) point --- */
+.skill-card--primary {
+  background:
+    linear-gradient(to bottom, rgba(var(--accent-deep-rgb), .34), transparent 70%),
+    var(--surface);
+  border-color: rgba(var(--accent-fg-rgb), .3);
+}
+.skill-card--primary:hover { border-color: rgba(var(--accent-fg-rgb), .42); }
+.skill-card--primary::after {
+  /* a lit edge along the top */
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--accent-fg), transparent);
+  opacity: .9;
+  pointer-events: none;
+}
+.skill-card--primary .skill-card__index { color: var(--accent-fg); }
+.skill-card--primary .skill-card__status { border-color: rgba(var(--accent-fg-rgb), .4); }
+.skill-card--primary .chip { border-color: rgba(var(--accent-fg-rgb), .24); }
+
+/* --- CKAD: the certification closes the grid as a quiet card — surface, a faint green
+   wash from the top-left, dim green brackets; it lights like any card on hover / focus --- */
+.skill-card__stamp {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .3rem .7rem;
+  border: 1px solid rgba(var(--accent-fg-rgb), .3);
+  border-radius: 999px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.skill-card--feature {
+  background:
+    linear-gradient(160deg, rgba(var(--accent-deep-rgb), .14), transparent 55%),
+    var(--surface);
+}
+/* blueprint paper: faint grid fading in from the bottom-right */
+.skill-card--feature::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(to right, rgba(var(--text-rgb), .05) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(to bottom, rgba(var(--text-rgb), .05) 1px, transparent 1px) 0 0 / 28px 28px;
+  -webkit-mask-image: radial-gradient(120% 90% at 100% 100%, #000, transparent 70%);
+  mask-image: radial-gradient(120% 90% at 100% 100%, #000, transparent 70%);
+  pointer-events: none;
+}
+.skill-card--feature > .corners { --bracket-color: rgba(var(--accent-fg-rgb), .4); } /* full green on hover / focus (above) */
+.skill-card--feature .skill-card__stamp { margin-right: auto; }
+.skill-card--feature .skill-card__text { color: var(--muted); }
+
+/* --- Responsive --- */
+@media (max-width: 1199px) {
+  .skills__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* 8 groups fill four rows; the CKAD card closes the grid full-width */
+  .skill-card--feature { grid-column: 1 / -1; min-height: 0; }
+  .skill-card--feature .skill-card__title { margin-top: 2.25rem; }
+  .skill-card--feature .skill-card__text { max-width: 46ch; }
+}
+@media (max-width: 767px) {
+  .skills__grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .skill-card { min-height: 0; padding: 1.25rem 1.25rem 1.5rem; }
+  .skill-card__title { margin-top: 2.25rem; }
+}

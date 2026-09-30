@@ -1,0 +1,60 @@
+/* ==========================================================================
+   MARQUEE
+   A slim schematic run-log between hairlines: one mono row (uppercase
+   capability terms) with ring-node separators that echo the hero mesh's
+   agent nodes. The band fades out at the viewport edges.
+   ========================================================================== */
+
+.marquee {
+  position: relative;
+  padding-block: clamp(1.5rem, 3vw, 2.5rem);
+  overflow: clip;
+}
+.marquee__frame {
+  position: relative;
+  border-block: 1px solid var(--line-strong);
+}
+.marquee__band {
+  display: flex; /* no inline line box: the band is exactly the row's height */
+  overflow: hidden;
+  white-space: nowrap;
+  padding-block: .45rem;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+}
+.marquee__track { display: flex; flex: none; will-change: transform; }
+.marquee__group { display: inline-flex; align-items: center; flex-shrink: 0; }
+
+.marquee__item {
+  padding-inline: clamp(.9rem, 1.6vw, 1.4rem);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  line-height: 1.4;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Node separator: a hollow ring with a centre dot (the mesh's agent node, at label size) */
+.marquee__sep--node {
+  position: relative;
+  flex-shrink: 0;
+  width: 9px;
+  aspect-ratio: 1;
+  border: 1px solid var(--dim);
+  border-radius: 50%;
+}
+.marquee__sep--node::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+@media (max-width: 767px) {
+  .marquee__band { -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent); }
+}
