@@ -192,3 +192,7 @@
   .skill-card { min-height: 0; padding: 1.25rem 1.25rem 1.5rem; }
   .skill-card__title { margin-top: 2.25rem; }
 }
+
+/* Unrevealed cards sit at a 3D tilt (rotateX) before their scroll-in; the perspective
+   projection can poke ~1px past the viewport on phones — clip it at the section edge. */
+.skills { overflow-x: clip; }

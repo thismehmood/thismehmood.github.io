@@ -23,7 +23,11 @@ import HeroAgentMesh, { HeroMeshFallback } from '@/components/HeroAgentMesh';
 import { useApp } from '@/components/AppProvider';
 
 /* "AI Automations · AI Agents · Cloud-Native" → "AI Automations & AI Agents" */
-const FOCUS = site.tagline.split(' · ').slice(0, 2).join(' & ');
+// "AI Agents · Automation · DevOps" → "AI Agents, Automation & DevOps"
+const FOCUS_ITEMS = site.tagline.split(' · ');
+const FOCUS = FOCUS_ITEMS.length > 1
+  ? `${FOCUS_ITEMS.slice(0, -1).join(', ')} & ${FOCUS_ITEMS[FOCUS_ITEMS.length - 1]}`
+  : site.tagline;
 
 const SPEC: { key: string; value: string }[] = [
   { key: 'Role', value: site.title },

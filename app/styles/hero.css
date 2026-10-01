@@ -328,3 +328,6 @@ html:is(.no-js, .no-gsap) .hero-mesh-fallback {
   .hero__mesh { --mesh-labels: 0; }
   .hmf-label, .hmf-plate { display: none; }
 }
+
+/* Keep "AI Agents, Automation & DevOps" together — it wraps as a unit, never after "AI" */
+.hero__role-focus { white-space: nowrap; }
