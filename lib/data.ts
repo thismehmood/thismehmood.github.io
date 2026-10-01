@@ -19,9 +19,9 @@ export const site = {
   firstName: 'Mehmood',
   lastName: ['Ul', 'Hassan'] as const,
   title: 'Senior Full Stack Engineer',
-  tagline: 'AI Automations · AI Agents · Cloud-Native',
+  tagline: 'AI Agents · Automation · DevOps',
   description:
-    'Mehmood Ul Hassan — Senior Full Stack Engineer building AI automations and AI agents on cloud-native systems: Python, FastAPI, NestJS, gRPC, Kafka and Kubernetes. CKAD certified. Based in Lahore, Pakistan.',
+    'Mehmood Ul Hassan — Senior Full Stack Engineer building AI agents, automation and the cloud-native systems behind them: microservices in NestJS and Python, React / Next.js / Vue front ends, Terraform-managed Kubernetes on GCP, AWS and Azure. HealthTech, e-commerce and marketplace platforms. CKAD certified. Lahore, Pakistan.',
   location: 'Lahore, Pakistan',
   locationShort: 'Lahore, PK',
   cityCode: 'LHR', // nav clock label
@@ -55,9 +55,9 @@ export const hero = {
   lede: [
     { text: 'I build ' },
     { text: 'AI automations & AI agents', strong: true },
-    { text: ' that do real work — on 5+\u00A0years of distributed systems in Python & Node.js, ' },
-    { text: 'gRPC & Kafka', strong: true },
-    { text: ' services and Kubernetes infrastructure I build and operate.' },
+    { text: ' that do real work — backed by 5+\u00A0years of full stack and DevOps: microservices in NestJS & Python, React / Next.js front ends, and ' },
+    { text: 'Terraform-managed Kubernetes', strong: true },
+    { text: ' I build and operate.' },
   ] satisfies RichText,
 };
 
@@ -70,7 +70,7 @@ export const hero = {
 export const marqueeRows: { dir: 1 | -1; items: string[] }[] = [
   {
     dir: -1,
-    items: ['AI Agents', 'AI Automation', 'Full Stack', 'LLMs', 'Distributed Systems', 'Kubernetes', 'System Design', 'Microservices', 'Cloud-Native'],
+    items: ['AI Agents', 'AI Automation', 'Full Stack', 'DevOps', 'Microservices', 'Micro-frontends', 'Kubernetes', 'Terraform · IaC', 'HealthTech', 'E-commerce', 'System Design', 'Cloud-Native'],
   },
 ];
 
@@ -82,8 +82,8 @@ export const about = {
     { text: ' that take real work off people’s plates — and the fast, reliable systems underneath them: Python and Node.js services talking over gRPC, Kafka and RabbitMQ, on Kubernetes I design and operate myself.' },
   ] satisfies RichText,
   paragraphs: [
-    'Full stack engineer with 5+ years in production. I’ve led backend teams of up to six engineers, built GKE Autopilot infrastructure from scratch on a private VPC, and cut server response times by ~40% through Redis caching and database optimization.',
-    'Today my focus is AI: agents and automation pipelines wired into real business workflows, LLM-powered document extraction, and integrations with Kimi, Hume AI and AssemblyAI. CKAD certified, with working knowledge of Go.',
+    'Full stack engineer with 5+ years in production across healthcare, e-commerce, automotive and consumer apps. I’ve led a 20+ microservice healthcare platform from requirements to Terraform-managed GKE environments, led backend teams of up to six engineers, and cut server response times by ~40% through Redis caching and database optimization.',
+    'Today my focus is AI and DevOps: agents and automation pipelines wired into real business workflows, LLM-powered document extraction, and integrations with Kimi, Hume AI and AssemblyAI — shipped through infrastructure as code and CI/CD. CKAD certified, with working knowledge of Go.',
   ],
 };
 
@@ -96,7 +96,7 @@ export const stats: Stat[] = [
   { value: 5, suffix: '+', srText: '5+', label: 'Years shipping production systems' },
   { value: 40, prefix: '~', suffix: '%', srText: 'About 40%', label: 'Reduction in server response times via caching & DB optimization' },
   { value: 6, srText: '6', label: 'Engineers led on backend teams' },
-  { value: COUNTRIES.length, srText: String(COUNTRIES.length), label: `Countries shipped for — ${COUNTRIES.join(', ')}` },
+  { value: 20, suffix: '+', srText: '20+', label: 'Microservices on BlockMed Pro, the healthcare platform I led' },
 ];
 
 /* ---------- Skills ---------- */
@@ -106,13 +106,13 @@ export type SkillGroup = { title: string; icon: SkillIcon; items: string[] };
 /* Eight groups + the featured CKAD card fill a 3 × 3 grid on desktop */
 export const skillGroups: SkillGroup[] = [
   { title: 'AI & Automation', icon: 'agent', items: ['AI agents', 'AI automations', 'LLM document extraction', 'Kimi', 'Hume AI', 'AssemblyAI'] },
-  { title: 'Languages', icon: 'code', items: ['Python', 'Go', 'JavaScript', 'TypeScript'] },
-  { title: 'Backend', icon: 'server', items: ['FastAPI', 'asyncio', 'Django', 'NestJS', 'Node.js', 'Express', 'Fastify'] },
-  { title: 'Data & Caching', icon: 'database', items: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis'] },
-  { title: 'APIs & Messaging', icon: 'network', items: ['gRPC / Protobuf', 'REST', 'GraphQL', 'Kafka', 'RabbitMQ', 'TCP'] },
-  { title: 'Cloud & CI/CD', icon: 'cloud', items: ['GCP · GKE Autopilot', 'VPC', 'Cloud Armor', 'AWS · Lambda, EKS', 'Azure', 'Kubernetes', 'Helm', 'Docker', 'IaC', 'GitHub Actions', 'Jenkins', 'Azure DevOps'] },
-  { title: 'Frontend', icon: 'frontend', items: ['React', 'TypeScript', 'Tailwind CSS', 'React Query', 'SFCC storefronts · ISML / SSR'] },
-  { title: 'Architecture', icon: 'blueprint', items: ['System design', 'Microservices', 'Salesforce Commerce Cloud'] },
+  { title: 'Frontend', icon: 'frontend', items: ['React', 'Next.js', 'Vue.js', 'TypeScript', 'Micro-frontends', 'Tailwind CSS', 'React Query', 'jQuery', 'SFCC storefronts · ISML / SSR'] },
+  { title: 'Backend', icon: 'server', items: ['NestJS', 'Node.js', 'Express', 'Fastify', 'FastAPI', 'asyncio', 'Django', 'Laravel'] },
+  { title: 'Languages', icon: 'code', items: ['TypeScript', 'JavaScript', 'Python', 'Go'] },
+  { title: 'Data & Caching', icon: 'database', items: ['PostgreSQL', 'MySQL', 'MongoDB · CSFLE', 'Redis', 'TypeORM', 'Prisma'] },
+  { title: 'APIs & Messaging', icon: 'network', items: ['REST', 'GraphQL', 'gRPC / Protobuf', 'Kafka', 'RabbitMQ', 'TCP', 'Swagger / OpenAPI', 'Ambassador API gateway'] },
+  { title: 'DevOps & Cloud', icon: 'cloud', items: ['Terraform · IaC', 'Kubernetes', 'Helm', 'Docker', 'GCP · GKE Autopilot', 'VPC peering', 'Cloud Armor', 'AWS · Lambda, EKS', 'Azure · Kubernetes', 'GitHub Actions', 'Jenkins', 'Azure DevOps'] },
+  { title: 'Architecture', icon: 'blueprint', items: ['System design', 'Microservices', 'Database per service', 'Read / write API gateways', 'Monorepos', 'Design patterns', 'Salesforce Commerce Cloud'] },
 ];
 
 export const featuredCert = {
@@ -141,12 +141,14 @@ export const experience: Role[] = [
     dates: 'Dec 2024 — Present',
     location: 'Lahore, Pakistan',
     points: [
-      'Lead backend architecture for a microservices platform on FastAPI and Python async patterns — service design, PR review, engineering standards and mentoring.',
-      'Built GKE Autopilot infrastructure from scratch on a private VPC for horizontally scaled, multi-environment deployments.',
-      'Deployed services over gRPC and TCP, each with its own database in a private subnet; targeted indexing plus Redis caching and a refactor cut response times by ~40%.',
-      'Rolled out self-hosted API gateways with DNS-based ingress, Cloud Armor rate limiting & DDoS policies, and CI/CD on GitHub Actions and Jenkins.',
+      'Lead engineer on BlockMed Pro, a healthcare platform of 20+ microservices (patient, pharmacy, pharmaceutical, clinic and super-admin modules) — working directly with the business on requirements and running delivery in Jira.',
+      'Each service owns its database and RabbitMQ carries inter-service events; patient and medical-report data live in separate MongoDB databases protected with client-side field-level encryption (CSFLE).',
+      'Separate API gateways for read and write traffic; micro-frontends in Next.js.',
+      'Infrastructure as code with Terraform: GKE Autopilot on a private VPC with dev, QA, UAT, staging and production environments, and VPC peering between two clusters.',
+      'Led backend architecture on FastAPI and Python async patterns; Redis caching and a refactor cut server response times by ~40%; Cloud Armor rate limiting & DDoS policies; CI/CD on GitHub Actions and Jenkins.',
+      'Review PRs, mentor developers and set engineering standards.',
     ],
-    stack: ['Python', 'FastAPI', 'NestJS', 'gRPC', 'RabbitMQ', 'Redis', 'MongoDB', 'GKE Autopilot', 'Cloud Armor', 'Jenkins'],
+    stack: ['NestJS', 'Python', 'FastAPI', 'Next.js', 'RabbitMQ', 'MongoDB · CSFLE', 'Redis', 'Terraform', 'GKE Autopilot', 'Cloud Armor', 'GitHub Actions', 'Jenkins'],
   },
   {
     company: 'Upwork',
@@ -155,7 +157,7 @@ export const experience: Role[] = [
     dates: '2026 · 2 months',
     location: 'Remote · Contract',
     points: [
-      'Delivered an end-to-end Bill of Lading platform for a logistics client in 8 weeks — from invoice intake to a bank-ready document pack.',
+      'Delivered the Bill of Lading module of Octopus, a trade payment platform, end to end in 8 weeks — from invoice intake to a bank-ready document pack.',
       'Integrated the Kimi LLM to extract shipper, buyer, goods and weight data, with operator review in a gated 5-step wizard.',
       'Designed a tamper-evident approval flow: write-once, checksummed, versioned artifacts plus a bank verification link.',
     ],
@@ -168,11 +170,11 @@ export const experience: Role[] = [
     dates: 'Jul 2023 — Sep 2024',
     location: 'Boston / New York, USA · Remote',
     points: [
-      'Led backend development of a Python/FastAPI microservices platform and managed a 6-member backend team.',
-      'Designed per-service databases to isolate load; gRPC for low-latency internal calls and Kafka for high-volume async messaging.',
-      'Built a custom GraphQL gateway in NestJS; containerized with Docker, ran Kubernetes clusters and managed CI/CD in Azure DevOps.',
+      'Built the backend of Charmy, a dating app on the App Store, from scratch: a NestJS monorepo of microservices — auth, account, profile, chat, order, charities and notification — each with its own PostgreSQL database (TypeORM).',
+      'Kafka for inter-service events; an Ambassador API gateway exposing GraphQL plus public Swagger APIs; deployed on Kubernetes in Azure.',
+      'Led backend development of Python/FastAPI microservices and managed a 6-member backend team; gRPC for low-latency internal calls, Redis caching, CI/CD in Azure DevOps.',
     ],
-    stack: ['Python', 'FastAPI', 'NestJS', 'GraphQL', 'gRPC', 'Kafka', 'Redis', 'Docker', 'Kubernetes', 'Azure'],
+    stack: ['NestJS', 'TypeORM', 'PostgreSQL', 'Kafka', 'GraphQL', 'Python', 'FastAPI', 'gRPC', 'Redis', 'Docker', 'Kubernetes', 'Azure'],
   },
   {
     company: 'Otobucks',
@@ -181,11 +183,11 @@ export const experience: Role[] = [
     dates: 'Jan 2023 — Sep 2023',
     location: 'UAE · Remote',
     points: [
-      'Led backend development with Python, FastAPI, Redis and PostgreSQL.',
-      'Designed MongoDB data models using aggregation pipelines and virtual relations.',
-      'Built and optimized the Service Provider Panel, Admin Panel and Android app backend; defined code-quality standards.',
+      'Led the backend of Otobucks, an automotive services platform launched in Dubai with web and mobile apps — similar to PakWheels in Pakistan.',
+      'Built on Python, FastAPI, Redis and PostgreSQL; designed MongoDB data models using aggregation pipelines and virtual relations.',
+      'Built and optimized the Service Provider Panel, Admin Panel and Android app; guided developers, ran code reviews and defined quality standards.',
     ],
-    stack: ['Python', 'FastAPI', 'PostgreSQL', 'Redis', 'MongoDB', 'MySQL', 'Node.js', 'Express', 'AWS'],
+    stack: ['Python', 'FastAPI', 'Node.js', 'Express', 'React', 'PostgreSQL', 'Redis', 'MongoDB', 'MySQL', 'AWS'],
   },
   {
     company: 'Eguana Commerce',
@@ -207,16 +209,16 @@ export const experience: Role[] = [
     dates: 'Jun 2021 — Dec 2022',
     location: 'Lahore, Pakistan · Hybrid',
     points: [
-      'Built SFCC backend features across multiple B2B/B2C brands, including OCAPI integrations.',
-      'Delivered L’Oréal Japan integrations for Braintree, PayPal, Yotpo and GTM, plus Impex jobs.',
-      'Worked across PDP, PLP, Cart and Checkout with a focus on SEO and server-side rendering performance.',
+      'Built SFCC features across multiple B2B/B2C brands — including L’Oréal Paris (Japan region) and the Lightning New York e-commerce platform — with OCAPI integrations.',
+      'Delivered L’Oréal Japan integrations for PayPal, Braintree, Yotpo and GTM, plus Impex jobs.',
+      'Client-side integrations with AJAX and server-side rendering in core JavaScript across PDP, PLP, Cart and Checkout, with a focus on SEO.',
     ],
     stack: ['SFCC', 'Custom Cartridges', 'JavaScript', 'ISML / XML', 'AJAX'],
   },
 ];
 
 /* ---------- Work (Octopus + project cards derived from experience) ---------- */
-export type ProjectArtId = 'octopus' | 'bill-of-lading' | 'gke' | 'gateway' | 'headless' | 'payments';
+export type ProjectArtId = 'octopus' | 'bill-of-lading' | 'blockmed' | 'charmy' | 'otobucks' | 'headless' | 'payments';
 export type Project = {
   num: string;
   years: string;
@@ -236,7 +238,7 @@ export type Project = {
 
 export const workIntro = {
   title: [{ text: 'Selected ' }, { text: 'work', em: true }] satisfies RichText,
-  lead: 'Platforms and AI automation I’ve built and contributed to, from the AI layer of a trade payment platform and LLM document pipelines to cloud-native microservices and global commerce.',
+  lead: 'Platforms I’ve built and led — from the AI layer of a trade payment platform and a 20+ microservice healthcare platform to a dating-app backend, an automotive marketplace and global e-commerce.',
   outro: [{ text: 'Got a system that needs to ' }, { text: 'scale', em: true }, { text: '?' }] satisfies RichText,
 };
 
@@ -249,6 +251,7 @@ export const projects: Project[] = [
     art: 'octopus',
     featured: true,
     badge: 'Featured · AI platform',
+    href: 'https://octopus.multilines-group.com',
     meta: 'Team project · AI document layer & Bill\u00A0of\u00A0Lading module',
     title: 'Octopus',
     desc: 'Trade payment platform with multi-stage approvals, compliance checks and bank execution, built by a small team. I built its AI document layer and the Bill of Lading automation.',
@@ -277,33 +280,50 @@ export const projects: Project[] = [
   {
     num: '03',
     years: '2024 — Now',
-    art: 'gke',
-    meta: 'Code Encoders · Lead Full Stack Cloud Engineer',
-    title: 'Cloud-Native Microservices on GKE',
-    desc: 'FastAPI microservices platform with Redis caching and a refactor that cut server response times by ~40%.',
+    art: 'blockmed',
+    badge: 'HealthTech · 20+ services',
+    meta: 'Code Encoders · Lead engineer · Healthcare',
+    title: 'BlockMed Pro',
+    desc: 'Healthcare platform of 20+ microservices — patient, pharmacy, pharmaceutical, clinic and super-admin modules — led directly with the business from requirements to production.',
     highlights: [
-      'GKE Autopilot on a private VPC, built from scratch for multi-env deploys',
-      'gRPC/TCP services, each with its own DB in a private subnet',
-      'Self-hosted API gateways, DNS ingress & Cloud Armor DDoS policies',
+      'Database per service and RabbitMQ events; patient records in separate MongoDB databases with CSFLE',
+      'Separate read and write API gateways; micro-frontends in Next.js',
+      'Terraform-managed GKE — dev, QA, UAT, staging, prod — with VPC peering between two clusters',
     ],
-    tags: ['FastAPI', 'gRPC', 'GKE', 'Redis'],
+    tags: ['Microservices', 'Next.js', 'RabbitMQ', 'MongoDB · CSFLE', 'Terraform', 'GKE'],
   },
   {
     num: '04',
     years: '2023 — 2024',
-    art: 'gateway',
-    meta: 'Consforc LLC · Lead Backend Engineer',
-    title: 'GraphQL Gateway over gRPC & Kafka',
-    desc: 'Python/FastAPI microservices platform, delivered with a 6-member backend team on Docker, Kubernetes and Azure DevOps.',
+    art: 'charmy',
+    badge: 'On the App Store',
+    meta: 'Consforc LLC · Lead Backend Engineer · Dating app',
+    title: 'Charmy',
+    desc: 'The backend of Charmy, a dating app on the App Store — built from scratch as a NestJS monorepo of microservices.',
     highlights: [
-      'Custom GraphQL gateway in NestJS routing across services',
-      'gRPC for low-latency internal calls, Kafka for high-volume async',
-      'Per-service databases so services scale independently',
+      'Auth, account, profile, chat, order, charities and notification services, each with its own PostgreSQL database',
+      'Kafka for inter-service events; TypeORM data layer',
+      'Ambassador API gateway with GraphQL and public Swagger APIs; Kubernetes on Azure',
     ],
-    tags: ['NestJS', 'GraphQL', 'Kafka', 'Kubernetes'],
+    tags: ['NestJS', 'Kafka', 'PostgreSQL', 'GraphQL', 'Azure'],
   },
   {
     num: '05',
+    years: '2023',
+    art: 'otobucks',
+    badge: 'Launched in Dubai',
+    meta: 'Otobucks · Lead Backend Engineer · Automotive',
+    title: 'Otobucks',
+    desc: 'Automotive services platform launched in Dubai, with web and mobile apps — similar to PakWheels in Pakistan.',
+    highlights: [
+      'Python / FastAPI backend with Redis and PostgreSQL',
+      'MongoDB models with aggregation pipelines and virtual relations',
+      'Service Provider Panel, Admin Panel and Android app',
+    ],
+    tags: ['FastAPI', 'Node.js', 'MongoDB', 'React', 'AWS'],
+  },
+  {
+    num: '06',
     years: '2022 — 2023',
     art: 'headless',
     meta: 'Eguana Commerce · Lead Software Engineer',
@@ -317,18 +337,18 @@ export const projects: Project[] = [
     tags: ['SFCC', 'SFRA', 'Headless', 'Payments'],
   },
   {
-    num: '06',
+    num: '07',
     years: '2021 — 2022',
     art: 'payments',
-    meta: 'Aiva Creative · Software Engineer',
-    title: 'L’Oréal Japan Integrations',
-    desc: 'Payment, reviews and analytics integrations on Salesforce Commerce Cloud for L’Oréal Japan.',
+    meta: 'Aiva Creative · Software Engineer · E-commerce',
+    title: 'L’Oréal Paris Japan & Lightning New York',
+    desc: 'Salesforce Commerce Cloud storefront work for L’Oréal Paris (Japan region) and the Lightning New York e-commerce platform.',
     highlights: [
-      'Braintree, PayPal, Yotpo and GTM integrations plus Impex jobs',
+      'PayPal, Braintree, Yotpo and GTM integrations plus Impex jobs',
       'OCAPI integrations across multiple B2B/B2C brands',
-      'SEO & server-side rendering performance on PDP, PLP, Cart, Checkout',
+      'AJAX + server-side rendering on PDP, PLP, Cart and Checkout, with an SEO focus',
     ],
-    tags: ['SFCC', 'Braintree', 'PayPal', 'OCAPI'],
+    tags: ['SFCC', 'PayPal', 'Braintree', 'OCAPI'],
   },
 ];
 
@@ -392,7 +412,7 @@ export const interest = {
     { text: 'Real Lahore FC', strong: true },
     { text: '. Formerly with the ' },
     { text: 'Atlético de Madrid Academy Pakistan (U\u201119)', strong: true },
-    { text: '. Same instincts on the pitch as in production — read the play, move fast, finish.' },
+    { text: ' in PFFF tournaments, and Punjab University Sports Complex teams indoors and out (2016–2020). Same instincts on the pitch as in production — read the play, move fast, finish.' },
   ] satisfies RichText,
 };
 
@@ -410,7 +430,7 @@ export const sections = {
     num: '02',
     label: 'Stack',
     title: 'The toolkit',
-    intro: 'AI tooling, languages, frameworks and infrastructure I use to design, ship and operate systems in production.',
+    intro: 'Full stack, AI and DevOps tooling I use to design, ship and operate systems in production.',
   },
   experience: {
     num: '03',

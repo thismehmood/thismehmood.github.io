@@ -37,7 +37,7 @@ Source: GitHub Actions**. `out/` is plain static HTML, so any static host works 
 | What | Where |
 |---|---|
 | All text content (bio, skills, experience, projects, credentials, section titles, marquee terms) | `lib/data.ts` (see **Content notes** below) |
-| Résumé PDF behind "Download CV" | replace `public/Mehmood_Ul_Hassan_Resume.pdf` (path in `site.resume`) |
+| Résumé PDF behind "Download CV" | Edit `docs/resume/resume.html`, print it to PDF (Chrome → Save as PDF, A4, no headers), and replace `public/Mehmood_Ul_Hassan_Resume.pdf` (+ the `public/assets/` copy kept for old links) |
 | Colours, spacing, type scale | Design tokens in `app/styles/tokens.css` (see **Design** below) |
 | A section's look | Its partial in `app/styles/` (e.g. `hero.css`, `work.css`) |
 | Hero Agent mesh layout | `--mesh-*` knobs on `.hero__mesh` in `app/styles/hero.css` (per breakpoint) |
@@ -52,9 +52,12 @@ Source: GitHub Actions**. `out/` is plain static HTML, so any static host works 
 - **Bill of Lading (card 02) is the Octopus Bill of Lading module**, delivered as an Upwork
   contract. The two cards cross-reference ("see 02" / "Octopus (01)"), so the same work is never
   shown as two separate projects. The Upwork role in Experience stays as the résumé has it.
+- **Project ↔ employer:** BlockMed Pro (healthcare, 20+ microservices) is the Code Encoders
+  project; Charmy (dating app) is the Consforc project; Otobucks is its own role; Lightning New
+  York sits with L’Oréal Paris Japan under Aiva Creative. Each card's meta names the employer.
 - **Stack:** eight groups plus the CKAD card fill the 3 × 3 grid: AI & Automation (the single lit
-  "Current focus" card), Languages, Backend, Data & Caching, APIs & Messaging, Cloud & CI/CD,
-  Frontend, Architecture. To add a group, merge two existing ones, or the grid gets a ragged row.
+  "Current focus" card), Frontend, Backend, Languages, Data & Caching, APIs & Messaging, DevOps &
+  Cloud, Architecture. To add a group, merge two existing ones, or the grid gets a ragged row.
 - **Marquee:** one mono run-log row of capability terms (`marqueeRows`), not a tool list; the
   Stack grid lists the tools.
 - **Typography in strings:** use ’ (not `'`) for apostrophes, and `\u00A0` / `\u2011` escapes

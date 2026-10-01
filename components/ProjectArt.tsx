@@ -1,4 +1,4 @@
-import { useId, type CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 import type { ProjectArtId } from '@/lib/data';
 
 /*
@@ -264,69 +264,165 @@ function BillOfLading() {
 }
 
 /* ---------------------------------------------------------------------------
-   03 — Cloud-native microservices on GKE
+   03 — BlockMed Pro: read / write gateways over the healthcare modules, a database per
+   service (the patient store carries the CSFLE lock), RabbitMQ events underneath and the
+   Terraform-managed environments along the bottom.
    --------------------------------------------------------------------------- */
-function Gke({ hexId }: { hexId: string }) {
-  const hex = `#${hexId}`;
-  const idle = 'fill-surface stroke-text';
+function BlockMed() {
+  const modules = [
+    { x: 18, label: 'patient', hot: true },
+    { x: 94, label: 'pharmacy' },
+    { x: 170, label: 'pharma' },
+    { x: 246, label: 'clinic' },
+    { x: 322, label: 'admin' },
+  ];
+  const envs = ['dev', 'qa', 'uat', 'stage', 'prod'];
   return (
     <svg className="art" viewBox="0 0 400 300" {...svgProps}>
-      <defs><polygon id={hexId} points="0,-30 26,-15 26,15 0,30 -26,15 -26,-15" /></defs>
-      <text x="40" y="44" className="art-mono fill-text" fontSize="10" fillOpacity=".5">gke-autopilot · private-vpc</text>
-      <g className="stroke-text" strokeOpacity=".14" strokeWidth="1">
-        <path d="M146 108 200 108 254 108M119 155 173 155 227 155 281 155M146 202 200 202 254 202M146 108 119 155 146 202M200 108 173 155 200 202M254 108 227 155 254 202M254 108 281 155 254 202M146 108 173 155M200 108 227 155M146 202 173 155M200 202 227 155" />
+      {/* drawn 20 units down so the card's status chip never covers the gateways */}
+      <g transform="translate(0 20)">
+      {/* gateways */}
+      <rect x="56" y="22" width="128" height="26" rx="13" className="fill-surface stroke-accent" strokeOpacity=".7" />
+      <text x="120" y="39" textAnchor="middle" className="art-mono fill-accent" fontSize="9">GET · read gateway</text>
+      <rect x="216" y="22" width="128" height="26" rx="13" className="fill-surface stroke-violet" strokeOpacity=".8" />
+      <text x="280" y="39" textAnchor="middle" className="art-mono fill-text" fontSize="9" fillOpacity=".8">POST · write gateway</text>
+      {/* gateway → module links */}
+      <g className="flow stroke-accent" strokeOpacity=".4">
+        {modules.map((m) => <path key={`r-${m.label}`} d={`M120 48 C120 70 ${m.x + 30} 70 ${m.x + 30} 92`} />)}
       </g>
-      <use href={hex} x="146" y="108" className={idle} strokeOpacity=".25" />
-      <use href={hex} x="200" y="108" className="fill-accent pulse" />
-      <use href={hex} x="254" y="108" className={idle} strokeOpacity=".25" />
-      <use href={hex} x="119" y="155" className={idle} strokeOpacity=".25" />
-      <use href={hex} x="173" y="155" className="fill-raised stroke-accent" strokeOpacity=".7" />
-      <use href={hex} x="227" y="155" className="fill-accent pulse pulse--delay" />
-      <use href={hex} x="281" y="155" className={idle} strokeOpacity=".25" />
-      <use href={hex} x="146" y="202" className="fill-raised stroke-violet" strokeOpacity=".8" />
-      <use href={hex} x="200" y="202" className={idle} strokeOpacity=".25" />
-      <use href={hex} x="254" y="202" className="fill-deep pulse pulse--delay-2" />
-      <rect x="256" y="236" width="118" height="26" rx="13" className="fill-accent" />
-      <text x="315" y="253" textAnchor="middle" className="art-mono fill-ink" fontSize="10">response ↓ ~40%</text>
+      <g className="stroke-violet" strokeOpacity=".3" strokeDasharray="2 4">
+        {modules.map((m) => <path key={`w-${m.label}`} d={`M280 48 C280 70 ${m.x + 30} 70 ${m.x + 30} 92`} />)}
+      </g>
+      {/* modules + their own databases */}
+      {modules.map((m) => (
+        <g key={m.label}>
+          <rect x={m.x} y="92" width="60" height="26" rx="6" className={m.hot ? 'fill-deep stroke-accent' : 'fill-raised stroke-text'} strokeOpacity={m.hot ? 0.9 : 0.18} />
+          <text x={m.x + 30} y="109" textAnchor="middle" className="art-mono fill-text" fontSize="8.5">{m.label}</text>
+          <path d={`M${m.x + 30} 118v14`} className="stroke-text" strokeOpacity=".2" />
+          <ellipse cx={m.x + 30} cy="138" rx="16" ry="5" className={m.hot ? 'fill-screen stroke-accent' : 'fill-screen stroke-text'} strokeOpacity={m.hot ? 0.9 : 0.3} />
+          <path d={`M${m.x + 14} 138v18c0 2.8 7.2 5 16 5s16-2.2 16-5v-18`} className={m.hot ? 'stroke-accent' : 'stroke-text'} strokeOpacity={m.hot ? 0.9 : 0.3} />
+          <path d={`M${m.x + 30} 161v29`} className="stroke-text" strokeOpacity=".16" />
+        </g>
+      ))}
+      {/* CSFLE lock on the patient store */}
+      <g className="pulse">
+        <rect x="56" y="140" width="14" height="11" rx="2" className="fill-accent" />
+        <path d="M59 140v-3a4 4 0 0 1 8 0v3" className="stroke-accent" strokeWidth="1.6" />
+      </g>
+      <text x="74" y="150" className="art-mono fill-accent" fontSize="7.5">CSFLE</text>
+      {/* RabbitMQ event bus */}
+      <rect x="18" y="190" width="364" height="18" rx="9" className="fill-raised" />
+      <text x="30" y="203" className="art-mono fill-text" fontSize="8.5" fillOpacity=".55">rabbitmq · events</text>
+      <line className="stream stroke-violet" x1="160" y1="199" x2="372" y2="199" strokeWidth="7" strokeLinecap="round" strokeDasharray="0 36" />
+      {/* Terraform-managed environments */}
+      <text x="18" y="236" className="art-mono fill-text" fontSize="8" fillOpacity=".5">terraform · gke · vpc peering</text>
+      {envs.map((e, i) => (
+        <g key={e}>
+          <rect x={18 + i * 58} y="246" width="50" height="22" rx="11" className={e === 'prod' ? 'fill-accent' : 'fill-surface stroke-text'} strokeOpacity={e === 'prod' ? undefined : 0.22} />
+          <text x={43 + i * 58} y="261" textAnchor="middle" className={`art-mono ${e === 'prod' ? 'fill-ink' : 'fill-text'}`} fontSize="8.5">{e}</text>
+        </g>
+      ))}
+      <rect x="312" y="246" width="70" height="22" rx="11" className="fill-deep" />
+      <text x="347" y="261" textAnchor="middle" className="art-mono fill-text" fontSize="8.5">20+ svc</text>
+      </g>
     </svg>
   );
 }
 
 /* ---------------------------------------------------------------------------
-   04 — GraphQL gateway over gRPC & Kafka
+   04 — Charmy: the app talks to an Ambassador / GraphQL gateway that fans out to the
+   NestJS microservices, each with its own Postgres; Kafka carries events between them.
    --------------------------------------------------------------------------- */
-function Gateway() {
+function Charmy() {
+  const services = ['auth', 'account', 'profile', 'chat', 'order', 'charities', 'notify'];
   return (
     <svg className="art" viewBox="0 0 400 300" {...svgProps}>
-      <g className="flow stroke-accent" strokeOpacity=".55" strokeWidth="1.5">
-        <path d="M150 140 C210 140 220 60 280 60" />
-        <path d="M150 140 C210 140 220 100 280 100" />
-        <path d="M150 140 C210 140 220 140 280 140" />
-        <path d="M150 140 C210 140 220 180 280 180" />
-        <path d="M150 140 C210 140 220 220 280 220" />
+      {/* phone */}
+      <rect x="28" y="52" width="92" height="176" rx="16" className="fill-screen stroke-text" strokeOpacity=".3" />
+      <rect x="60" y="60" width="28" height="5" rx="2.5" className="fill-text" fillOpacity=".2" />
+      <path d="M74 94c-6-8-17-3-13 6 2 4 13 12 13 12s11-8 13-12c4-9-7-14-13-6Z" className="fill-accent pulse" />
+      <rect x="40" y="128" width="54" height="18" rx="9" className="fill-raised" />
+      <rect x="56" y="152" width="54" height="18" rx="9" className="fill-deep" />
+      <rect x="40" y="176" width="44" height="18" rx="9" className="fill-raised" />
+      {/* app → gateway */}
+      <path d="M120 140 H164" className="flow stroke-accent" strokeOpacity=".6" strokeWidth="1.5" />
+      <rect x="164" y="112" width="92" height="56" rx="12" className="fill-accent" />
+      <text x="210" y="136" textAnchor="middle" className="art-mono fill-ink" fontSize="9">ambassador</text>
+      <text x="210" y="152" textAnchor="middle" className="art-mono fill-ink" fontSize="9">graphql gw</text>
+      {/* services */}
+      <g className="flow stroke-accent" strokeOpacity=".4">
+        {services.map((sv, i) => <path key={`l-${sv}`} d={`M256 140 C276 140 276 ${46 + i * 30} 294 ${46 + i * 30}`} />)}
       </g>
-      <rect x="60" y="112" width="92" height="56" rx="12" className="fill-accent" />
-      <text x="75" y="136" className="art-mono fill-ink" fontSize="10">GraphQL</text>
-      <text x="75" y="152" className="art-mono fill-ink" fontSize="10">gateway</text>
-      <g className="art-mono" fontSize="9">
-        {[48, 88, 128, 168, 208].map((y, i) => (
-          <g key={y}>
-            <rect x="280" y={y} width="70" height="24" rx="6" className="fill-surface stroke-text" strokeOpacity=".2" />
-            <text x="292" y={y + 16} className="fill-text" fillOpacity=".75">{`svc · 0${i + 1}`}</text>
-          </g>
-        ))}
-      </g>
-      <rect x="60" y="250" width="290" height="18" rx="9" className="fill-raised" />
-      <text x="72" y="263" className="art-mono fill-text" fontSize="9" fillOpacity=".55">kafka · async events</text>
-      {/* event dots: zero-length round-capped dashes, one every 36 units, flowing left
-          (stroke-dashoffset is paint-only; a transform here would re-lay out the SVG each frame) */}
-      <line className="stream stroke-violet" x1="200" y1="259" x2="344" y2="259" strokeWidth="8" strokeLinecap="round" strokeDasharray="0 36" />
+      {services.map((sv, i) => (
+        <g key={sv}>
+          <rect x="294" y={34 + i * 30} width="84" height="24" rx="6" className={sv === 'chat' ? 'fill-deep stroke-accent' : 'fill-surface stroke-text'} strokeOpacity={sv === 'chat' ? 0.8 : 0.2} />
+          <text x="306" y={50 + i * 30} className="art-mono fill-text" fontSize="8.5" fillOpacity=".8">{sv}</text>
+          <circle cx="366" cy={46 + i * 30} r="4" className="stroke-text" strokeOpacity=".35" />
+        </g>
+      ))}
+      {/* Kafka bus */}
+      <rect x="164" y="252" width="214" height="18" rx="9" className="fill-raised" />
+      <text x="176" y="265" className="art-mono fill-text" fontSize="8.5" fillOpacity=".55">kafka · events</text>
+      <line className="stream stroke-violet" x1="252" y1="261" x2="370" y2="261" strokeWidth="7" strokeLinecap="round" strokeDasharray="0 36" />
+      <path d="M210 168v84" className="stroke-text" strokeOpacity=".16" strokeDasharray="2 4" />
+      <text x="28" y="252" className="art-mono fill-text" fontSize="8.5" fillOpacity=".5">nestjs monorepo</text>
+      <text x="28" y="266" className="art-mono fill-text" fontSize="8.5" fillOpacity=".5">azure kubernetes</text>
     </svg>
   );
 }
 
 /* ---------------------------------------------------------------------------
-   05 — Headless commerce
+   05 — Otobucks: web + mobile apps and the provider / admin panels on one API,
+   serving car services in Dubai.
+   --------------------------------------------------------------------------- */
+function Otobucks() {
+  const clients = [
+    { x: 24, w: 78, label: 'web app' },
+    { x: 112, w: 86, label: 'android app' },
+    { x: 208, w: 92, label: 'provider panel' },
+    { x: 310, w: 70, label: 'admin' },
+  ];
+  return (
+    <svg className="art" viewBox="0 0 400 300" {...svgProps}>
+      {/* drawn 18 units down so the card's status chip never covers the client row */}
+      <g transform="translate(0 18)">
+      {clients.map((c) => (
+        <g key={c.label}>
+          <rect x={c.x} y="28" width={c.w} height="24" rx="12" className="fill-surface stroke-text" strokeOpacity=".22" />
+          <text x={c.x + c.w / 2} y="44" textAnchor="middle" className="art-mono fill-text" fontSize="8.5" fillOpacity=".8">{c.label}</text>
+        </g>
+      ))}
+      <g className="flow stroke-accent" strokeOpacity=".45">
+        {clients.map((c) => <path key={`f-${c.label}`} d={`M${c.x + c.w / 2} 52 C${c.x + c.w / 2} 74 200 70 200 92`} />)}
+      </g>
+      <rect x="138" y="92" width="124" height="30" rx="15" className="fill-accent" />
+      <text x="200" y="111" textAnchor="middle" className="art-mono fill-ink" fontSize="9">fastapi · node api</text>
+      <path d="M200 122v22" className="stroke-text" strokeOpacity=".2" />
+      {/* car */}
+      <path
+        d="M96 226 L104 206 Q112 192 130 190 L160 188 L188 168 Q197 162 210 162 L250 162 Q264 162 273 173 L288 190 Q302 192 305 206 L307 226 Z"
+        className="fill-raised stroke-text" strokeOpacity=".3"
+      />
+      <path d="M170 188 L192 172 Q198 168 206 168 L226 168 L226 188 Z M234 188 L234 168 L248 168 Q258 168 265 176 L276 188 Z" className="fill-screen stroke-accent" strokeOpacity=".5" />
+      <circle cx="140" cy="228" r="17" className="fill-screen stroke-accent" strokeWidth="2" />
+      <circle cx="140" cy="228" r="6" className="fill-accent" />
+      <circle cx="264" cy="228" r="17" className="fill-screen stroke-accent" strokeWidth="2" />
+      <circle cx="264" cy="228" r="6" className="fill-accent" />
+      <path d="M60 246 H344" className="stroke-text" strokeOpacity=".14" />
+      {/* Dubai pin */}
+      <g className="pulse">
+        <path d="M336 158 C324 143 322 136 322 129 A14 14 0 1 1 350 129 C350 136 348 143 336 158Z" className="fill-deep stroke-accent" strokeOpacity=".8" />
+        <circle cx="336" cy="129" r="5" className="fill-accent" />
+      </g>
+      <text x="336" y="176" textAnchor="middle" className="art-mono fill-accent" fontSize="8.5">DUBAI</text>
+      <text x="24" y="276" className="art-mono fill-text" fontSize="8.5" fillOpacity=".5">car services · web + mobile</text>
+      </g>
+    </svg>
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   06 — Headless commerce
    --------------------------------------------------------------------------- */
 function Headless() {
   const tiles = [
@@ -364,7 +460,7 @@ function Headless() {
 }
 
 /* ---------------------------------------------------------------------------
-   06 — Payments & integrations
+   07 — Payments & integrations
    --------------------------------------------------------------------------- */
 function Payments() {
   const pills = [
@@ -409,14 +505,12 @@ function Payments() {
 }
 
 export default function ProjectArt({ id }: { id: ProjectArtId }) {
-  // Unique, selector/URL-safe id for the hex <defs> (stable across SSR + hydration)
-  const hexId = `art-hex-${useId().replace(/[^A-Za-z0-9_-]/g, '')}`;
-
   switch (id) {
     case 'octopus': return <Octopus />;
     case 'bill-of-lading': return <BillOfLading />;
-    case 'gke': return <Gke hexId={hexId} />;
-    case 'gateway': return <Gateway />;
+    case 'blockmed': return <BlockMed />;
+    case 'charmy': return <Charmy />;
+    case 'otobucks': return <Otobucks />;
     case 'headless': return <Headless />;
     case 'payments': return <Payments />;
   }
