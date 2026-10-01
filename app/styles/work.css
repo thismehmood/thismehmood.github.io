@@ -435,9 +435,9 @@
   .work__outro-mark { display: block; }
   .work__outro-mark ~ .work__outro-text { margin-top: 0; }
 }
-/* Narrower galleries (cards under ~410px): the longest meta ('Octopus · Bill of Lading module ·
-   Upwork contract') wraps to two lines. Every regular card reserves two meta lines, set at the
-   foot so the meta sits on its title, and the body row grows by one line, so titles,
+/* Gallery, 1024–1365px: the longest metas (e.g. 'Consforc LLC · Lead Backend Engineer · Dating app')
+   wrap to two lines on the narrower cards. Every regular card reserves two meta lines there, set at
+   the foot so the meta sits on its title, and the body row grows by one line, so titles,
    descriptions and chips stay on shared lines across the track. */
 @media (min-width: 1024px) and (max-width: 1365px) {
   .work.is-horizontal .card:not(.card--featured) { --card-meta-extra: calc(.7rem * 1.6); }
@@ -503,6 +503,37 @@
   animation: oct-out var(--dur, 3s) linear var(--delay, 0s) infinite;
 }
 .art .oct-packet--back { animation-name: oct-back; }
+/* Bill of Lading (02): vessels sail their lanes round the globe (the octopus packets' dash trick,
+   pathLength = 100, one period per voyage); the B/L engine writes one bill per 8s cycle: fields
+   write on, DRAFT turns ISSUED, the sheet clears for the next carrier's template (A → B → C) */
+@keyframes bl-sail { 0% { stroke-dashoffset: 0; } 88%, 100% { stroke-dashoffset: -100; } } /* port → port */
+@keyframes bl-sail-fade { 0% { opacity: 0; } 6%, 80% { opacity: 1; } 88%, 100% { opacity: 0; } }
+@keyframes bl-feed { 0% { stroke-dashoffset: 8; } 20%, 100% { stroke-dashoffset: -102; } } /* invoice → AI → B/L in 1.6s */
+@keyframes bl-ink { from { stroke-dashoffset: 2000; } to { stroke-dashoffset: 0; } } /* see blInk() in ProjectArt.tsx */
+@keyframes bl-clear { 0% { opacity: 0; } 3%, 91% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes bl-reveal { 0%, 19% { opacity: 0; } 22%, 100% { opacity: 1; } }
+@keyframes bl-issue { 0%, 44% { opacity: 0; } 46% { opacity: 1; } 48% { opacity: .5; } 51%, 100% { opacity: 1; } }
+@keyframes bl-draft { 0%, 44% { opacity: 1; } 46%, 95% { opacity: 0; } 99%, 100% { opacity: 1; } }
+@keyframes bl-carrier { 0%, 33.3% { opacity: 1; } 33.4%, 100% { opacity: 0; } }
+/* vessels: capsule dashes (hull + wake) sailing the lane, easing out of and into port, under a
+   group that fades in at departure and out on arrival; --rest is the still frame */
+.art .bl-vessel { animation: bl-sail-fade var(--dur, 12s) linear var(--delay, 0s) infinite; }
+.art .bl-sail {
+  stroke-dashoffset: var(--rest, -40);
+  animation: bl-sail var(--dur, 12s) cubic-bezier(.45, 0, .55, 1) var(--delay, 0s) infinite;
+}
+.art .bl-vessel--horizon .bl-sail { animation-timing-function: linear; } /* sails on over the horizon */
+/* the invoice's data reaches the bill as its first field starts writing (0.3s into the cycle);
+   the still frame leaves it at the B/L end */
+.art .bl-feed { stroke-dashoffset: -95; animation: bl-feed 8s linear -1.3s infinite; }
+.art .bl-write { animation: bl-ink 8s linear infinite; }
+.art .bl-doc { animation: bl-clear 8s linear infinite; }
+.art .bl-reveal { animation: bl-reveal 8s linear infinite; }
+.art .bl-issue { animation: bl-issue 8s linear infinite; }
+.art .bl-draft { opacity: 0; animation: bl-draft 8s linear infinite; } /* DRAFT until ISSUED (hidden in the still frame) */
+.art .bl-carrier { animation: bl-carrier 24s linear infinite; } /* the active carrier pill: A, then B, then C */
+.art .bl-carrier--b { opacity: 0; animation-delay: -16s; }
+.art .bl-carrier--c { opacity: 0; animation-delay: -8s; }
 /* Pause the micro-animations while off-screen: per card for the artwork (an IntersectionObserver
    toggles each card's .is-inview), per section for the scroll hint and badge ping */
 html.js:not(.no-gsap) .work:not(.is-inview) .art *,
@@ -512,8 +543,10 @@ html.js:not(.no-gsap) .card:not(.is-inview) .pulse-dot::after,
 html.js:not(.no-gsap) .work:not(.is-inview) .work__hint span { animation-play-state: paused !important; }
 
 @media (prefers-reduced-motion: reduce) {
-  /* a still frame: packets rest part-way along their tentacles */
-  .art .oct-packet { animation: none; }
+  /* a still frame: packets rest part-way along their tentacles; vessels part-way along their
+     lanes, and the bill stands written and issued on carrier A's template */
+  .art .oct-packet,
+  .art :is(.bl-vessel, .bl-sail, .bl-feed, .bl-write, .bl-doc, .bl-reveal, .bl-issue, .bl-draft, .bl-carrier) { animation: none; }
 }
 
 /* --- Tablet & phone --- */

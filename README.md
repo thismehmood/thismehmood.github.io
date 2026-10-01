@@ -49,9 +49,11 @@ Source: GitHub Actions**. `out/` is plain static HTML, so any static host works 
 - **Octopus is a team project.** Its card credits only Mehmood's part (meta "Team project · AI
   document layer & Bill of Lading module"; *built* for his modules, *contributed* for the shared
   workflow). Keep that scoping when editing it.
-- **Bill of Lading (card 02) is the Octopus Bill of Lading module**, delivered as an Upwork
-  contract. The two cards cross-reference ("see 02" / "Octopus (01)"), so the same work is never
-  shown as two separate projects. The Upwork role in Experience stays as the résumé has it.
+- **Bill of Lading Generator (card 02) is the Octopus Bill of Lading module**, delivered as an
+  Upwork contract and presented as a carrier-agnostic BL generation engine (meta "Logistics · BL
+  generation · Octopus (Upwork)"). The two cards cross-reference ("see 02" /
+  "Octopus (01)"), so the same work is never shown as two separate projects. The Upwork role in
+  Experience stays as the résumé has it.
 - **Project ↔ employer:** BlockMed Pro (healthcare, 20+ microservices) is the Code Encoders
   project; Charmy (dating app) is the Consforc project; Otobucks is its own role; Lightning New
   York sits with L’Oréal Paris Japan under Aiva Creative. Each card's meta names the employer.
@@ -112,6 +114,7 @@ components/
                     global magnetic hover / button fills
   Preloader, Cursor, Nav, Hero (+ HeroAgentMesh), Marquee, About, Skills, Experience,
   Work (+ ProjectArt), Credentials, Contact (+ ContactForm, CopyButton), Footer
+  blGlobeGeometry.ts  generated geometry of the Bill of Lading globe artwork (do not edit)
   Corners, Monogram  shared schematic primitives (corner brackets, MH mark)
   SplitText.tsx     server-rendered word/char splitting for text reveals
 lib/
@@ -120,6 +123,8 @@ lib/
   animations.ts     shared scroll reveals (fade-up, word/char reveals, count-up)
   interactions.ts   magnetic hover + button fills
   motion.ts         reduced-motion / fine-pointer / static-mode checks
+scripts/
+  gen-bl-globe.mjs  bakes components/blGlobeGeometry.ts (node scripts/gen-bl-globe.mjs)
 ```
 
 - Each section owns its animations inside `useGSAP`, so everything is reverted on unmount

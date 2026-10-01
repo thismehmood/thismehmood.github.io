@@ -94,9 +94,19 @@ tokens (`fill: var(--accent)`), or `currentColor`.
   accent brackets, its own workflow artwork with the platform's modules, the two Mehmood built
   lit). Octopus is a **team project**, so the card credits only his part: meta "Team project · AI
   document layer & Bill of Lading module", and highlights that say *built* for his modules and
-  *contributed* for the shared workflow. Card 02 (Bill of Lading) is the same engagement,
-  delivered as an Upwork contract: its meta reads "Octopus · Bill of Lading module · Upwork
-  contract" and the two cards cross-reference ("see 02" / "Octopus (01)"), so the feature is
-  never presented as two separate projects. All artwork uses the palette tokens.
+  *contributed* for the shared workflow. Card 02 (**Bill of Lading Generator**) is the same
+  engagement, delivered as an Upwork contract, and is presented as the carrier-agnostic engine it
+  is: chip "Logistics · Global shipping", meta "Logistics · BL generation · Octopus (Upwork)", and the two cards cross-reference ("see 02" / "Octopus (01)"), so the feature
+  is never presented as two separate projects. Its artwork is a **dot-matrix globe with live sea
+  lanes** (orthographic, centred on the Arabian Sea; stylised hand-drawn coastlines, illustrative
+  port codes): vessels are short dashes sailing their routes, some on over the horizon, and the lit
+  green KHI → RTM lane is the shipment on the bill, with a hull sailing each way. Beside it, a
+  generic **invoice → ✦ AI → any-carrier B/L engine**: a carrier's template (A / B / C, the active
+  one a violet pill) is filled in field by field, DRAFT turns ISSUED (the one green seal) and the
+  sheet clears for the next carrier. Green stays on the lit lane, its two ports, the hero vessel
+  and the seal. The globe geometry is baked by `scripts/gen-bl-globe.mjs` into
+  `components/blGlobeGeometry.ts` (nothing is projected in the browser); motion is paint-only
+  (stroke-dashoffset, opacity) and collapses to an issued, mid-voyage still frame under reduced
+  motion. All artwork uses the palette tokens.
 - **Credentials / Contact / Footer** — hairline rows, mono spec tables, green focus states; the
   footer name fills green on scroll above Lahore's coordinates.

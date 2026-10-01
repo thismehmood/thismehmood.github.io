@@ -263,19 +263,21 @@ export const projects: Project[] = [
     tags: ['React', 'NestJS', 'PostgreSQL', 'LLMs'],
   },
   {
-    // The same engagement as Octopus's Bill of Lading module (card 01), delivered as an Upwork contract
+    // The same engagement as Octopus's Bill of Lading module (card 01), delivered as an Upwork
+    // contract: the meta and description say so, so it isn't presented as a separate project.
     num: '02',
     years: '2026',
     art: 'bill-of-lading',
-    meta: 'Octopus · Bill of Lading module · Upwork contract',
-    title: 'Bill of Lading Platform',
-    desc: 'The Bill of Lading module of Octopus (01), delivered in 8\u00A0weeks — from commercial\u2011invoice intake to a zipped, bank-ready submission pack with manifest.',
+    badge: 'Logistics · Global shipping',
+    meta: 'Logistics · BL generation · Octopus (Upwork)',
+    title: 'Bill of Lading Generator',
+    desc: 'Carrier-agnostic engine that turns a commercial invoice into a ready-to-issue Bill of Lading on each shipping line’s own template. Octopus BL module (01), 8\u00A0weeks.',
     highlights: [
-      'Kimi LLM extraction with operator review in a gated 5-step wizard',
-      'Excel BL templates rendered to PDF via headless LibreOffice',
-      'Write-once, checksummed, versioned approvals + bank verification link',
+      'Invoice in, BL out: the Kimi LLM extracts shipper, buyer, goods and weights for operator review',
+      'Per-shipping-line Excel templates rendered to PDF, plus AI packing, container and HS-code estimates',
+      'Write-once, checksummed approvals, a bank verification link and zipped bank packs',
     ],
-    tags: ['Kimi LLM', 'LibreOffice', 'Excel → PDF', 'Tamper-evident'],
+    tags: ['Kimi LLM', 'Carrier templates', 'Excel → PDF'],
   },
   {
     num: '03',
@@ -284,13 +286,13 @@ export const projects: Project[] = [
     badge: 'HealthTech · 20+ services',
     meta: 'Code Encoders · Lead engineer · Healthcare',
     title: 'BlockMed Pro',
-    desc: 'Healthcare platform of 20+ microservices — patient, pharmacy, pharmaceutical, clinic and super-admin modules — led directly with the business from requirements to production.',
+    desc: 'Healthcare platform of 20+ microservices — patient, pharmacy, pharma, clinic and admin modules — led with the business from requirements to production.',
     highlights: [
       'Database per service and RabbitMQ events; patient records in separate MongoDB databases with CSFLE',
       'Separate read and write API gateways; micro-frontends in Next.js',
       'Terraform-managed GKE — dev, QA, UAT, staging, prod — with VPC peering between two clusters',
     ],
-    tags: ['Microservices', 'Next.js', 'RabbitMQ', 'MongoDB · CSFLE', 'Terraform', 'GKE'],
+    tags: ['Microservices', 'Next.js', 'MongoDB · CSFLE', 'Terraform'],
   },
   {
     num: '04',

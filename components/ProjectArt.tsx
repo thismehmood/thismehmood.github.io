@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import type { ProjectArtId } from '@/lib/data';
+import { BL_AT, BL_DOTS, BL_GLOBE, BL_LANES, BL_MERIDIANS, BL_PARALLELS, BL_RIM, type BlLaneGeo } from '@/components/blGlobeGeometry';
 
 /*
  * Decorative SVG illustrations for the Work cards (one per project).
@@ -9,9 +10,12 @@ import type { ProjectArtId } from '@/lib/data';
  * Transparency is expressed with fill-/stroke-opacity, never with hard-coded colours.
  *
  * Motion classes (also in work.css): .flow (dash), .stream (dots), .pulse / .pulse--delay /
- * .pulse--delay-2 (breathe), .spin-view (orbit), .oct-packet (travelling packets). They animate
- * paint-only properties (stroke-dashoffset, opacity), never transforms, so they don't force SVG
- * layout. Each card's art is paused while that card is off-screen (the card's `.is-inview`
+ * .pulse--delay-2 (breathe), .spin-view (orbit), .oct-packet (travelling packets), and the Bill of
+ * Lading set: .bl-vessel / .bl-vessel--horizon / .bl-sail (vessels sailing their lanes), .bl-feed (the
+ * invoice's data running into the bill), .bl-write (fields written on), .bl-doc (the sheet clearing
+ * between bills), .bl-reveal, .bl-issue / .bl-draft (DRAFT → ISSUED) and .bl-carrier /
+ * .bl-carrier--b / .bl-carrier--c (the active carrier template). They animate paint-only
+ * properties (stroke-dashoffset, opacity), never transforms, so they don't force SVG layout. Each card's art is paused while that card is off-screen (the card's `.is-inview`
  * class, set by an IntersectionObserver in Work.tsx) and collapses to a static frame under
  * reduced motion.
  *
@@ -236,29 +240,262 @@ function Octopus() {
 }
 
 /* ---------------------------------------------------------------------------
-   02 — Bill of Lading
+   02 — Bill of Lading: shipments moving round the world, and a generic engine that turns a
+   commercial invoice into any carrier's B/L.
+   Left, a dot-matrix globe (centred on the Arabian Sea) under live sea lanes: vessels are short
+   dashes sailing their routes. The lit KHI → RTM lane is the shipment on the bill, with a hull
+   sailing each way; the other lanes run on over the horizon.
+   Right, the engine: invoice → AI extraction → B/L, written field by field into one shipping
+   line's template (carrier A → B → C, one bill per 8s cycle) and issued as a checksummed PDF.
+   The geography is hand-drawn and stylised; it is baked into plain path data by
+   scripts/gen-bl-globe.mjs (components/blGlobeGeometry.ts), so nothing is projected in the
+   browser. Motion is paint-only: the .bl-* rules in work.css animate stroke-dashoffset and
+   opacity.
    --------------------------------------------------------------------------- */
-function BillOfLading() {
+
+/** Vessel timing: `--rest` is where it sits when motion is reduced (a stroke-dashoffset on pathLength 100). */
+const blVoyage = (dur: number, delay: number, rest: number) =>
+  ({ '--dur': `${dur}s`, '--delay': `${delay}s`, '--rest': -rest } as CSSProperties);
+
+type BlVesselProps = {
+  lane: BlLaneGeo;
+  tone: 'accent' | 'violet' | 'text';
+  dur: number;
+  delay: number;
+  rest: number;
+  /** sails on over the horizon (no easing into port) */
+  horizon?: boolean;
+  /** the shipment on the bill: a bigger hull with a soft glow and a long wake */
+  hero?: boolean;
+};
+
+/**
+ * A vessel: a round-capped hull with a short wake behind it, both dashes sailing its lane
+ * (.bl-sail, pathLength 100). The group carries the timing and fades the vessel in at departure
+ * and out on arrival (.bl-vessel), so each vessel runs one opacity animation, not one per path.
+ * The hero is longer, set off the lit lane by a dark casing, with a soft glow and a long wake.
+ */
+function BlVessel({ lane, tone, dur, delay, rest, horizon, hero }: BlVesselProps) {
+  const u = (n: number) => r1((n * 1000) / lane.len) / 10; // viewBox units → path units
+  const hull = `${u(hero ? 4.4 : 3)} ${r1(200 - u(hero ? 4.4 : 3))}`;
+  // wakes: butt-capped dashes that end right behind the hull ("0 gap length 0": the zero-length dash draws nothing)
+  const wake = (n: number) => `0 ${r1(200 - u(n))} ${u(n)} 0`;
+  const props = { d: lane.d, pathLength: 100, className: `bl-sail stroke-${tone}` };
   return (
-    <svg className="art" viewBox="0 0 400 300" {...svgProps}>
-      <rect x="112" y="52" width="176" height="212" rx="10" className="fill-surface stroke-text" strokeOpacity=".12" transform="rotate(-9 200 158)" />
-      <rect x="112" y="46" width="176" height="212" rx="10" className="fill-raised stroke-text" strokeOpacity=".18" transform="rotate(5 200 152)" />
-      <g transform="rotate(-2 200 150)">
-        <rect x="110" y="40" width="180" height="220" rx="10" className="fill-screen stroke-accent" strokeOpacity=".55" />
-        <text x="126" y="68" className="art-mono fill-accent" fontSize="10" letterSpacing=".6">BILL OF LADING</text>
-        <rect x="126" y="82" width="104" height="6" rx="3" className="fill-text" fillOpacity=".28" />
-        <rect x="126" y="96" width="148" height="6" rx="3" className="fill-text" fillOpacity=".12" />
-        <rect x="126" y="118" width="66" height="36" rx="4" className="stroke-text" strokeOpacity=".18" />
-        <rect x="200" y="118" width="74" height="36" rx="4" className="stroke-text" strokeOpacity=".18" />
-        <rect x="126" y="164" width="148" height="5" rx="2.5" className="fill-text" fillOpacity=".1" />
-        <rect x="126" y="176" width="120" height="5" rx="2.5" className="fill-text" fillOpacity=".1" />
-        <rect x="126" y="188" width="136" height="5" rx="2.5" className="fill-text" fillOpacity=".1" />
-        <text x="138" y="200" className="art-display stroke-danger" fontSize="40" strokeOpacity=".8" strokeWidth="1.5" transform="rotate(-16 200 185)">DRAFT</text>
-        <text x="126" y="244" className="art-mono fill-text" fontSize="8" fillOpacity=".5">sha256 · 9f2c…e41a · v3</text>
+    <g className={`bl-vessel${horizon ? ' bl-vessel--horizon' : ''}`} style={blVoyage(dur, delay, rest)}>
+      {hero && <path {...props} strokeOpacity=".13" strokeWidth="1.3" strokeDasharray={wake(44)} />}
+      <path {...props} strokeOpacity=".4" strokeWidth="2.2" strokeDasharray={wake(14)} />
+      {hero && <path {...props} strokeOpacity=".16" strokeWidth="11" strokeLinecap="round" strokeDasharray={hull} />}
+      {hero && <path {...props} className="bl-sail stroke-ink" strokeWidth="7" strokeLinecap="round" strokeDasharray={hull} />}
+      <path {...props} strokeWidth={hero ? 4.6 : 3.8} strokeLinecap="round" strokeDasharray={hull} />
+    </g>
+  );
+}
+
+/* The B/L document */
+const BL_DOC = { x: 258, y: 66, w: 128, h: 190 } as const;
+const BL_CYCLE = 8; // seconds per generated document (the 8s .bl-* rules in work.css)
+const BL_INK = 2000; // dash length of the write-on trick (see blInk)
+
+/**
+ * Dash pattern for a value written into the B/L. Every field shares one keyframe (bl-ink:
+ * stroke-dashoffset 2000 → 0 over the cycle); each pattern is rotated so its field starts
+ * drawing `at` seconds into the cycle and stays drawn until the sheet clears. With no animation
+ * (reduced motion) the offset rests at 0 and every field stands fully written.
+ */
+function blInk(at: number) {
+  const k = r1((at / BL_CYCLE) * BL_INK);
+  return `${r1(BL_INK - k)} ${BL_INK} ${k} 0`;
+}
+
+/**
+ * The engine's caption under the sheet, INVOICE → [✦ AI] → B/L · ANY CARRIER, set right to left
+ * from the sheet's right edge in Geist Mono (8 units, letter-spacing .3). It sits below the sheet,
+ * not above it: the card's status chip covers the top of the artwork on short desktop cards.
+ */
+const BL_PIPE = (() => {
+  const adv = 8 * MONO_ADVANCE + 0.3;
+  const out = r1(BL_DOC.x + BL_DOC.w - 'B/L · ANY CARRIER'.length * adv); // output label starts
+  const tip2 = r1(out - 2.5); // arrow into the B/L
+  const chipR = r1(tip2 - 7);
+  const ai = r1(chipR - 3); // "AI" ends
+  const star = r1(ai - 2 * adv - 5.6); // sparkle centre
+  const chipL = r1(star - 6.6);
+  const tip1 = r1(chipL - 1); // arrow into the AI step
+  const inv = r1(tip1 - 9.5); // "INVOICE" ends
+  return { y: 276, mid: 273.3, tip1, tip2, chipL, chipR, ai, star, inv, from: r1(inv + 2.5) };
+})();
+
+function BillOfLading() {
+  const { cx, cy, r } = BL_GLOBE;
+  const { x, y, w, h } = BL_DOC;
+  const pipe = BL_PIPE;
+  const mid = x + w / 2;
+  const c1 = x + 8; // cell insets
+  const c2 = mid + 6;
+  const rows = [y + 32, y + 58, y + 84, y + 114, y + 140]; // the form's rules
+  const label = (lx: number, ly: number, text: string) => <text x={lx} y={ly} className="fill-text" fillOpacity=".45">{text}</text>;
+  const value = (vx: number, vy: number, vw: number, at: number, faint?: boolean) => (
+    <path d={`M${vx + 2} ${vy}h${vw}`} pathLength={100} className="bl-write stroke-text" strokeOpacity={faint ? 0.2 : 0.5} strokeWidth={faint ? 2.6 : 3.6} strokeLinecap="round" strokeDasharray={blInk(at)} />
+  );
+  const arrowHead = (tx: number, ty: number) => `M${r1(tx - 2.5)} ${r1(ty - 2.5)}l2.5 2.5-2.5 2.5`;
+
+  return (
+    <svg className="art art--bl" viewBox="0 0 400 300" {...svgProps}>
+      {/* ---- globe ---- */}
+      <circle cx={cx} cy={cy} r={r + 18} className="fill-deep" fillOpacity=".08" />
+      <circle cx={cx} cy={cy} r={r} className="fill-screen" />
+      <circle cx={cx} cy={cy} r={r} className="fill-deep" fillOpacity=".12" />
+      {/* graticule */}
+      <g className="stroke-text" strokeOpacity=".07" strokeWidth=".7">
+        {BL_MERIDIANS.map((d, i) => <path key={i} d={d} />)}
       </g>
-      <circle className="pulse fill-accent" cx="296" cy="232" r="34" opacity=".15" />
-      <circle cx="296" cy="232" r="24" className="fill-accent" />
-      <path d="M285 232l7.5 7.5L308 224" className="stroke-ink" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      <g className="stroke-text" strokeOpacity=".16" strokeWidth=".8" strokeDasharray="1.2 1.8">
+        {BL_PARALLELS.map((d, i) => <path key={i} d={d} pathLength={100} />)}
+      </g>
+      {/* land, in four depth bands that fade towards the limb */}
+      <g className="stroke-text" strokeLinecap="round">
+        <path d={BL_DOTS[0]} strokeOpacity=".4" strokeWidth="1.8" />
+        <path d={BL_DOTS[1]} strokeOpacity=".3" strokeWidth="1.7" />
+        <path d={BL_DOTS[2]} strokeOpacity=".19" strokeWidth="1.5" />
+        <path d={BL_DOTS[3]} strokeOpacity=".09" strokeWidth="1.3" />
+      </g>
+      {/* night side, rim light, atmosphere, outline */}
+      <path d={`M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx} ${cy + r}A${r * 0.42} ${r} 0 0 0 ${cx} ${cy - r}Z`} className="fill-screen" fillOpacity=".5" transform={`rotate(34 ${cx} ${cy})`} />
+      <path d={BL_RIM} className="stroke-text" strokeOpacity=".14" strokeWidth="2.4" strokeLinecap="round" />
+      <circle cx={cx} cy={cy} r={r + 1.5} className="stroke-deep" strokeOpacity=".45" strokeWidth="3" />
+      <circle cx={cx} cy={cy} r={r} className="stroke-text" strokeOpacity=".26" />
+      {/* bezel: a tick every 10° */}
+      <path d={`M${cx + r + 7} ${cy}a${r + 7} ${r + 7} 0 0 1 ${-2 * (r + 7)} 0a${r + 7} ${r + 7} 0 0 1 ${2 * (r + 7)} 0`} pathLength={360} className="stroke-text" strokeOpacity=".22" strokeWidth="3" strokeDasharray=".35 9.65" />
+
+      {/* sea lanes: the shipment's lane lit, the rest dotted */}
+      <g strokeLinecap="round" strokeLinejoin="round">
+        <g className="stroke-text" strokeOpacity=".28" strokeDasharray="1.5 3">
+          <path d={BL_LANES.shaJea.d} />
+          <path d={BL_LANES.rtmNyc.d} />
+          <path d={BL_LANES.sinCape.d} />
+          <path d={BL_LANES.shaPac.d} />
+        </g>
+        <path d={BL_LANES.khiRtm.d} className="stroke-deep" strokeOpacity=".6" strokeWidth="4" />
+        <path d={BL_LANES.khiRtm.d} className="stroke-accent" strokeOpacity=".4" strokeWidth="1.1" />
+      </g>
+      {/* vessels under way */}
+      <BlVessel lane={BL_LANES.khiRtmBack} tone="text" dur={14} delay={-10.5} rest={42} />
+      <BlVessel lane={BL_LANES.shaJea} tone="violet" dur={13} delay={-6.5} rest={46} />
+      <BlVessel lane={BL_LANES.shaJea} tone="text" dur={13} delay={-12.4} rest={78} />
+      <BlVessel lane={BL_LANES.rtmNyc} tone="text" dur={6.5} delay={-1.2} rest={55} horizon />
+      <BlVessel lane={BL_LANES.sinCape} tone="text" dur={16} delay={-9} rest={56} horizon />
+      <BlVessel lane={BL_LANES.shaPac} tone="text" dur={5.5} delay={-3.4} rest={58} horizon />
+      <BlVessel lane={BL_LANES.khiRtm} tone="accent" dur={12} delay={-3} rest={40} hero />
+
+      {/* ports: the shipment's two are lit */}
+      {(['SHA', 'SIN', 'JEA'] as const).map((code) => <circle key={code} cx={BL_AT[code].x} cy={BL_AT[code].y} r="2.3" className="fill-text" />)}
+      {(['KHI', 'RTM'] as const).map((code, i) => (
+        <g key={code}>
+          <circle cx={BL_AT[code].x} cy={BL_AT[code].y} r="6.5" className={`stroke-accent pulse${i ? ' pulse--delay' : ''}`} strokeOpacity=".65" />
+          <circle cx={BL_AT[code].x} cy={BL_AT[code].y} r="2.8" className="fill-accent" />
+        </g>
+      ))}
+      <g className="art-mono fill-text stroke-ink" fontSize="8" letterSpacing=".6" strokeWidth="3" strokeLinejoin="round" paintOrder="stroke">
+        <text x={BL_AT.KHI.x + 9} y={BL_AT.KHI.y - 5}>KHI</text>
+        <text x={BL_AT.RTM.x + 9} y={BL_AT.RTM.y - 5}>RTM</text>
+        <g fillOpacity=".7" textAnchor="end">
+          <text x={BL_AT.JEA.x - 5} y={BL_AT.JEA.y - 5}>JEA</text>
+          <text x={BL_AT.SHA.x - 6} y={BL_AT.SHA.y - 6}>SHA</text>
+          <text x={BL_AT.SIN.x - 6} y={BL_AT.SIN.y + 12}>SIN</text>
+        </g>
+      </g>
+
+      {/* ---- the B/L engine: a stack of carrier templates, the bill on top ---- */}
+      <rect x={x + 16} y={y - 18} width={w - 32} height={h} rx="5" className="fill-surface stroke-text" strokeOpacity=".12" />
+      <rect x={x + 8} y={y - 9} width={w - 16} height={h} rx="5" className="fill-raised stroke-text" strokeOpacity=".16" />
+      <rect x={x} y={y} width={w} height={h} rx="5" className="fill-surface stroke-text" strokeOpacity=".3" />
+
+      {/* the form */}
+      <g className="stroke-text" strokeOpacity=".14">
+        {rows.map((ry) => <path key={ry} d={`M${x} ${ry}h${w}`} />)}
+        <path d={`M${mid} ${rows[0]}V${rows[4]}`} />
+      </g>
+      <text x={c1} y={y + 14} className="art-mono fill-text" fontSize="9" letterSpacing=".7">BILL OF LADING</text>
+      <g className="art-mono" fontSize="8" letterSpacing=".4">
+        {label(c1, y + 25.5, 'CARRIER')}
+        {label(c1, rows[0] + 10, 'SHIPPER')}
+        {label(c2, rows[0] + 10, 'B/L NO.')}
+        {label(c1, rows[1] + 10, 'CONSIGNEE')}
+        {label(c2, rows[1] + 10, 'VESSEL/VOY')}
+        {label(c1, rows[2] + 10, 'LOADING')}
+        {label(c2, rows[2] + 10, 'DISCHARGE')}
+        {label(c1, rows[3] + 10, 'CONTAINER')}
+        {label(c2, rows[3] + 10, 'GROSS WT')}
+      </g>
+      {/* any shipping line's template: one carrier per bill, A → B → C */}
+      <g className="art-mono" fontSize="7.5" textAnchor="middle">
+        {(['A', 'B', 'C'] as const).map((c, i) => (
+          <g key={c}>
+            <rect x={c1 + 40 + i * 19} y={y + 17.5} width="16" height="11" rx="5.5" className="stroke-text" strokeOpacity=".22" />
+            <text x={c1 + 48 + i * 19} y={y + 25.5} className="fill-text" fillOpacity=".5">{c}</text>
+          </g>
+        ))}
+        <g className="bl-doc">
+          {(['A', 'B', 'C'] as const).map((c, i) => (
+            <g key={c} className={`bl-carrier${i ? ` bl-carrier--${c.toLowerCase()}` : ''}`}>
+              <rect x={c1 + 40 + i * 19} y={y + 17.5} width="16" height="11" rx="5.5" className="fill-violet" />
+              <text x={c1 + 48 + i * 19} y={y + 25.5} className="fill-ink">{c}</text>
+            </g>
+          ))}
+        </g>
+      </g>
+
+      {/* the values, written on in order; the sheet clears at the end of each cycle */}
+      <g className="bl-doc">
+        {value(c1, rows[0] + 17, 40, 0.3)}
+        {value(c1, rows[0] + 22, 26, 0.5, true)}
+        {value(c2, rows[0] + 17, 30, 0.75)}
+        {value(c1, rows[1] + 17, 44, 0.95)}
+        {value(c1, rows[1] + 22, 30, 1.15, true)}
+        {value(c2, rows[1] + 17, 38, 1.35)}
+        <g className="bl-reveal">
+          <g className="art-mono fill-text" fontSize="10.5" letterSpacing=".9">
+            <text x={c1} y={rows[2] + 24}>KHI</text>
+            <text x={c2} y={rows[2] + 24}>RTM</text>
+          </g>
+          <path d={`M${c1 + 27} ${rows[2] + 20.5}h${mid - c1 - 31}m-3.5 -3l3.5 3l-3.5 3`} className="stroke-text" strokeOpacity=".55" strokeLinecap="round" strokeLinejoin="round" />
+        </g>
+        {value(c1, rows[3] + 17, 34, 2)}
+        {value(c2, rows[3] + 17, 26, 2.25)}
+        {/* progress down the margin */}
+        <path d={`M${x + 3} ${rows[0] + 4}V${rows[4] - 4}`} pathLength={800} className="bl-write stroke-text" strokeOpacity=".4" strokeWidth="1.4" strokeLinecap="round" strokeDasharray={blInk(0.15)} />
+      </g>
+
+      {/* output: a checksummed PDF, issued */}
+      <rect x={c1} y={rows[4] + 12} width="30" height="15" rx="7.5" className="stroke-text" strokeOpacity=".35" />
+      <g className="art-mono fill-text" fontSize="7.5">
+        <text x={c1 + 15} y={rows[4] + 22.5} textAnchor="middle" fillOpacity=".8" letterSpacing=".5">PDF</text>
+        <text x={c1} y={rows[4] + 41} fillOpacity=".38" letterSpacing=".3">SHA256 · V3</text>
+      </g>
+      {/* until it's issued: a draft, and an empty seal */}
+      <text x={x + w - 37} y={rows[4] + 22.5} textAnchor="end" className="bl-draft art-mono fill-text" fontSize="8.5" fillOpacity=".4" letterSpacing="1.2">DRAFT</text>
+      <circle cx={x + w - 18} cy={rows[4] + 19} r="11" className="stroke-text" strokeOpacity=".28" strokeDasharray="2 2.6" />
+      <g className="bl-doc">
+        <g className="bl-issue">
+          <text x={x + w - 37} y={rows[4] + 22.5} textAnchor="end" className="art-mono fill-accent" fontSize="8.5" letterSpacing="1.2">ISSUED</text>
+          <circle cx={x + w - 18} cy={rows[4] + 19} r="17" className="pulse fill-accent" fillOpacity=".15" />
+          <circle cx={x + w - 18} cy={rows[4] + 19} r="11" className="fill-accent" />
+          <path d={`M${x + w - 23} ${rows[4] + 19}l3.4 3.4l6.8 -6.8`} className="stroke-ink" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        </g>
+      </g>
+      {/* the pipeline under the sheet: invoice in → AI extraction → B/L out; the invoice's data
+          runs through the AI step and reaches the bill as its first field starts writing */}
+      <path d={`M${pipe.from} ${pipe.mid}H${pipe.tip2}`} className="stroke-text" strokeOpacity=".4" />
+      <path d={`${arrowHead(pipe.tip1, pipe.mid)}${arrowHead(pipe.tip2, pipe.mid)}`} className="stroke-text" strokeOpacity=".45" strokeLinecap="round" strokeLinejoin="round" />
+      <path d={`M${pipe.from} ${pipe.mid}H${pipe.tip2}`} pathLength={100} className="bl-feed stroke-violet" strokeWidth="2.6" strokeLinecap="round" strokeDasharray="5 300" />
+      <rect x={pipe.chipL} y={pipe.mid - 5.5} width={r1(pipe.chipR - pipe.chipL)} height="11" rx="5.5" className="fill-raised stroke-violet" strokeOpacity=".55" />
+      <path d={`M${pipe.star} ${r1(pipe.mid - 4.1)}c.5 2.5 1.6 3.6 4.1 4.1-2.5.5-3.6 1.6-4.1 4.1-.5-2.5-1.6-3.6-4.1-4.1 2.5-.5 3.6-1.6 4.1-4.1Z`} className="fill-violet" />
+      <g className="art-mono fill-text" fontSize="8" letterSpacing=".3" textAnchor="end">
+        <text x={x + w} y={pipe.y} fillOpacity=".6">B/L · ANY CARRIER</text>
+        <text x={pipe.ai} y={pipe.y} fillOpacity=".8">AI</text>
+        <text x={pipe.inv} y={pipe.y} fillOpacity=".4">INVOICE</text>
+      </g>
     </svg>
   );
 }
